@@ -4,7 +4,7 @@ const quickSort = (array) => {
   }
 
   const pivotIndex = Math.floor(array.length / 2)
-  const pivot =  array.splice(pivotIndex, 1)[0]
+  const pivot = array.splice(pivotIndex, 1)[0]
 
   let left = []
   let right = []
