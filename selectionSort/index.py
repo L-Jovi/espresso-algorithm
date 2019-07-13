@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 def select_sort(array):
-    print 'Before ... \n {arr}'.format(arr=array)
+    print('Before ... \n', array)
 
     n = len(array)
     # 选择的外层迭代最终影响的是内层迭代的初值
@@ -12,7 +12,7 @@ def select_sort(array):
             if array[j] < array[i]:
                 array[i], array[j] = array[j], array[i]
 
-    print '\nAfter ...\n {arr}'.format(arr=array)
+    print('\nAfter ...\n', array)
     return array
 
 if __name__ == '__main__':
