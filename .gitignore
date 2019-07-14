@@ -107,3 +107,4 @@ ENV/
 # vim
 *.swp
 *~
+Session.vim
