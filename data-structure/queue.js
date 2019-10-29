@@ -1,4 +1,8 @@
+//
+// queue.js
+//
 // implements [enqueue] [dequeue] [front] [isEmpty] [size]
+//
 
 function Queue() {
   const collection = []
@@ -26,4 +30,13 @@ function Queue() {
   this.size = function () {
     return collection.length;
   }
+}
+
+
+//
+// sq queue
+//
+
+class SqQueue {
+
 }
