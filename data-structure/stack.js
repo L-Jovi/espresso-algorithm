@@ -1,6 +1,10 @@
+//
+// stack.js
+//
 // implements [push] [pop] [peek] [length]
+//
 
-function Stack() {
+function Stack() {  // implements by Object {}
   this.count = 0
   this.storage = {}
 
@@ -27,6 +31,33 @@ function Stack() {
 
   this.size = function() {
     return this.count
+  }
+}
+
+
+class StackByArray { // implements by Array []
+  constructor() {
+    this.stack = []
+  }
+
+  push () {
+    this.stack.push()
+  }
+
+  pop() {
+    this.stack.pop()
+  }
+
+  peek() {
+    return this.stack[this.getCount() - 1]
+  }
+
+  getCount() {
+    return this.stack.length
+  }
+
+  isEmpty() {
+    return this.getCount() === 0
   }
 }
 
