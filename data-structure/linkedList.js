@@ -1,4 +1,8 @@
+//
+// linkedList.js
+//
 // implements [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
+//
 
 function Node(element) {
   this.element = element
