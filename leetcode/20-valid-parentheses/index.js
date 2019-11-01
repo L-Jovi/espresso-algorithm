@@ -19,12 +19,12 @@ const isValid = function(s) {
         return false
       }
     }
-
-    // [x] remain parentheses
-    if (stack.length > 0) {
-      return false
-    }
-
-    return true
   }
+
+  // [x] remain parentheses
+  if (stack.length > 0) {
+    return false
+  }
+
+  return true
 }
