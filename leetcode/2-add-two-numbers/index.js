@@ -22,7 +22,7 @@ const addTwoNumbers = function(l1, l2) {
     const y = l2 ? l2.val : 0
     const sum = x + y + carry
 
-    carry = parseInt(sum / 10) // reset carry
+    carry = sum >= 10 ? 1 : 0 // reset carry
     currentNode.val = sum % 10
 
     if (l1) {

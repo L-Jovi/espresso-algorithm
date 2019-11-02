@@ -17,7 +17,7 @@ function fib(n) {
 }
 
 
-// recursion
+// implements by recursion
 function fibonacci(n) {
   if (n == 0 || n == 1) {
     return n
