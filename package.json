@@ -1,0 +1,9 @@
+{
+  "name": "exer-algorithm",
+  "version": "0.1.0",
+  "description": "A private custom algorithmic practice project.",
+  "author": "Jovi",
+  "dependencies": {
+    "mkdirp": "^0.5.1"
+  }
+}
