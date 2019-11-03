@@ -1,4 +1,8 @@
-// implements [add] [findMin] [findMax] [find] [isPresent] [remove]
+/*
+ * @Description: binary tree
+ * @FileName: bst.js
+ * @API: [add] [findMin] [findMax] [find] [isPresent] [remove]
+ */
 
 class Node {
   constructor(data, left = null, right = null) {

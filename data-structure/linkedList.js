@@ -1,8 +1,8 @@
-//
-// linkedList.js
-//
-// implements [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
-//
+/*
+ * @Description: linked list
+ * @FileName: LinkedList.js
+ * @API: [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
+ */
 
 function Node(element) {
   this.element = element
