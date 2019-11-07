@@ -7,7 +7,7 @@ const threeSum = function(nums) {
   let ans = []
   const len = nums.length
 
-  if (nums == null || len < 3) {
+  if (!nums || len < 3) {
     return ans
   }
 
@@ -24,30 +24,31 @@ const threeSum = function(nums) {
       continue
     }
 
-    let L = i + 1
-    let R = len - 1
-    while (L < R) {
-      const sum = nums[i] + nums[L] + nums[R];
+    let l = i + 1
+    let r = len - 1
+    while (l < r) {
+      const sum = nums[i] + nums[l] + nums[r];
 
       // sum === 0
-      if (sum == 0) {
-        ans.push([nums[i], nums[L], nums[R]]);
+      if (sum === 0) {
+        ans.push([nums[i], nums[l], nums[r]]);
 
-        while (L < R && nums[L] == nums[L + 1]) {
-          L++
+        // skip double series number
+        while (l < r && nums[l] == nums[l + 1]) {
+          l++
         }
-        while (L < R && nums[R] == nums[R - 1]) {
-          R--
+        while (l < r && nums[r] == nums[r - 1]) {
+          r--
         }
 
-        L++
-        R--
+        l++
+        r--
 
       } else if (sum < 0) {
-        L++
+        l++
 
       } else if (sum > 0) {
-        R--
+        r--
       }
     }
   }
