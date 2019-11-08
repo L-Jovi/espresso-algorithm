@@ -1,6 +1,6 @@
 /*
  * @Description: linked list
- * @FileName: LinkedList.js
+ * @FileName: linked-list.js
  * @API: [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
  */
 
