@@ -31,10 +31,15 @@ const reverseKGroup = function(head, k) {
     const start = pre.next
     const next = end.next
     end.next = null
-    pre.next = reverse(start)
-    start.next = next   // concat start and end.next
-    pre = start         // concat pre and pre.next [k's first node]
+    pre.next = reverse(start) // [start] node is kth's last node now
+    start.next = next
+
+    // reset [pre] and [end] node direct to the node before [next] node
+    pre = start 
+    end = pre
   }
+
+  return dummy.next
 }
 
 
@@ -44,6 +49,7 @@ const reverse = (head) => {
 
   while (curr) {
     const next = curr.next
+    // curr.next = curr
     curr.next = pre
     pre = curr
     curr = next
