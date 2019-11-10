@@ -19,6 +19,7 @@ const Result = {
   TRUE: 1
 }
 
+
 function dp(memo, i, j, s, p) {
   if (memo[i][j] !== null) {
     return memo[i][j] === Result.TRUE
