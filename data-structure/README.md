@@ -2,7 +2,7 @@
 
 依赖 JavaScript 实现常用数据结构。
 
-[参考链接](https://zhuanlan.zhihu.com/p/77702278)
+[参考链接 - 实现基础数据结构](https://zhuanlan.zhihu.com/p/77702278)
 
 ## 实现结构
 
@@ -147,6 +147,8 @@
   查找一个键对应的值
 
 ### Tree（树）
+
+[参考链接 - 前序、中序、后序遍历的递归和非递归实现](https://segmentfault.com/a/1190000016226334)
 
 实现接口
 
