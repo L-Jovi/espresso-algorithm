@@ -1,3 +1,9 @@
+/*
+ * @Description: Merge sort implements by Javascript.
+ * @FileName: merge-sort/index.js
+ * O(nlog(n))
+ */
+
 const merge = (left, right) => {
   let result = []
 

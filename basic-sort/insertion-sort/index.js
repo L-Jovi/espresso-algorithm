@@ -1,3 +1,14 @@
+/*
+ * @Description: Insert sort implements by Javascript.
+ * @FileName: insertion-sort/index.js
+ * O(n^2)
+ */
+
+/**
+ * Insert sort.
+ *
+ * @returns {Array}
+ */
 const insertSort = (array) => {
   const n = array.length
 
@@ -9,6 +20,7 @@ const insertSort = (array) => {
       array[j+1] = array[j]
       j--
     }
+
     array[j+1] = tmp
   }
 }

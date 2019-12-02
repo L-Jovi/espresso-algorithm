@@ -1,4 +1,8 @@
-// implements [enqueue] [dequeue] [front] [isEmpty] [size]
+/*
+ * @Description: Priority queue implements by Javascript.
+ * @FileName: priority-queue.js
+ * @Implements [enqueue] [dequeue] [front] [isEmpty] [size]
+ */
 
 function PriorityQueue() {
   const collection = []
@@ -12,6 +16,7 @@ function PriorityQueue() {
       collection.push(element)
 
     } else {
+      // example: item => [ <value>, <priority> ]
       let added = false
       for (let i = 0; i < collection.length; i++) {
         if (element[1] < collection[i][1]) {
@@ -45,7 +50,7 @@ function PriorityQueue() {
 }
 
 
-// main
+// test
 
 let pQ = new PriorityQueue()
 

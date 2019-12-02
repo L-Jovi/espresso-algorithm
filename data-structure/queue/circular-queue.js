@@ -1,45 +1,11 @@
-//
-// queue.js
-//
-// implements [enqueue] [dequeue] [front] [isEmpty] [size]
-//
+/*
+ * @Description: Circular queue implements by Javascript.
+ * @FileName: circular-queue.js
+ * @Implements [enqueue] [dequeue] [front] [isEmpty] [size]
+ * @Refer [https://blog.csdn.net/fansongy/article/details/6784954]
+ */
 
-function Queue() {
-  const collection = []
-
-  this.print = function() {
-    console.log(collection)
-  }
-
-  this.enqueue = function(element) {
-    collection.push(element)
-  }
-
-  this.dequeue = function () {
-    return collection.shift();
-  }
-
-  this.front = function () {
-    return collection[0];
-  }
-
-  this.isEmpty = function () {
-    return collection.length === 0;
-  }
-
-  this.size = function () {
-    return collection.length;
-  }
-}
-
-
-//
-// sq queue
-//
-// refer [https://blog.csdn.net/fansongy/article/details/6784954]
-//
-
-class SqQueue {
+class CircularQueue {
   constructor(length) {
     this.queue = new Array(length + 1)
     this.first = 0  // head
