@@ -1,5 +1,16 @@
+/*
+ * @Description: Selection sort implements by Javascript.
+ * @FileName: selection-sort/index.js
+ */
+
+/**
+ * Select sort.
+ *
+ * @returns {Array}
+ */
 const selectSort = (array) => {
   const n = array.length
+
   for (let i = 0; i < n; i++) {
     for (let j = i + 1; j < n; j++) {
       if (array[j] < array[i]) {

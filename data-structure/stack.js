@@ -1,8 +1,8 @@
-//
-// stack.js
-//
-// implements [push] [pop] [peek] [length]
-//
+/*
+ * @Description: Stack implements by Javascript.
+ * @FileName: stack.js
+ * @Implements [push] [pop] [peek] [length]
+ */
 
 function Stack() {  // implements by Object {}
   this.count = 0
@@ -62,7 +62,7 @@ class StackByArray { // implements by Array []
 }
 
 
-// main
+// test
 
 const s = new Stack()
 
