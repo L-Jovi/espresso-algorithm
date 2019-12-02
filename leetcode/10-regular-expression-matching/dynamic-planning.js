@@ -20,6 +20,16 @@ const Result = {
 }
 
 
+/**
+ * dp
+ *
+ * @param memo
+ * @param i
+ * @param j
+ * @param s
+ * @param p
+ * @returns {undefined}
+ */
 function dp(memo, i, j, s, p) {
   if (memo[i][j] !== null) {
     return memo[i][j] === Result.TRUE

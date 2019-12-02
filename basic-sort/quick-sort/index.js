@@ -1,3 +1,9 @@
+/*
+ * @Description: Quick sort implements by Javascript.
+ * @FileName: quick-sort.js
+ * O(nlogn)
+ */
+
 const quickSort = (array) => {
   if (array.length <= 1) {
     return array
