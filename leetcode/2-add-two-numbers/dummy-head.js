@@ -15,7 +15,7 @@ function ListNode(val) {
  *
  * return head.next as first node
  */
-const addTwoNumbers_1 = function(l1, l2) {
+const addTwoNumbers = function(l1, l2) {
   let dummyHead = new ListNode(0)
   let p = l1
   let q = l2
