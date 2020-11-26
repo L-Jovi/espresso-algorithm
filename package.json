@@ -1,7 +1,7 @@
 {
-  "name": "exer-algorithm",
+  "name": "espresso-algorithm",
   "version": "0.1.0",
-  "description": "A private custom algorithmic practice project.",
+  "description": "Try different algorithm. (Pure concentration, what product is it)",
   "author": "Jovi",
   "dependencies": {
     "mkdirp": "^0.5.1"
