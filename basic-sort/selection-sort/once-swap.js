@@ -1,6 +1,6 @@
 /*
  * @Description: Selection sort implements by Javascript.
- * @FileName: selection-sort/index.js
+ * @FileName: selection-sort/once-swap.js
  */
 
 /**
@@ -11,14 +11,21 @@
 const selectSort = (array) => {
   const n = array.length
 
+  if (!n || n < 2) {
+    return
+  }
+
   for (let i = 0; i < n; i++) {
+
+    let indexMin = i;
     for (let j = i + 1; j < n; j++) {
-      if (array[j] < array[i]) {
-        const tmp = array[i]
-        array[i] = array[j]
-        array[j] = tmp
+      if (array[j] < array[indexMin]) {
+        indexMin = j
       }
     }
+    const tmp = array[i]
+    array[i] = array[indexMin]
+    array[indexMin] = tmp
   }
 }
 

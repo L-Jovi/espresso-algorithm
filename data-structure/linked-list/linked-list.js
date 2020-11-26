@@ -1,7 +1,7 @@
 /*
  * @Description: linked list
  * @FileName: linked-list.js
- * @API: [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
+ * @Implements: [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
  */
 
 function Node(element) {
@@ -40,21 +40,8 @@ function LinkedList() {
   }
 
   this.remove = function(element) {
-    let currentNode = head
-    let previousNode
-
-    if (currentNode.element === element) {
-      head = currentNode.next
-    } else {
-      while (currentNode.element !== element) {
-        previousNode = currentNode
-        currentNode = currentNode.next
-      }
-      // prune currentNode
-      previousNode.next = currentNode.next
-    }
-
-    length--
+    const index = this.indexOf(element)
+    this.removeAt(index)
   }
 
   this.isEmpty = function() {
@@ -92,9 +79,6 @@ function LinkedList() {
 
   this.addAt = function(index, element) {
     const node = new Node(element)
-    let currentIndex = 0
-    let currentNode = head
-    let previousNode
 
     // skip index > length condition
     if (index > length) {
@@ -103,13 +87,17 @@ function LinkedList() {
     } else {
       // insert at 1st position
       if (index === 0) {
-        node.next = currentNode
+        node.next = head
         head = node
 
       } else {
+        let currentIndex = 0
+        let currentNode = head
+        let previousNode
+
         // insert after 1st position
         // until currentIndex === index
-        while (index > currentIndex) {
+        while (currentIndex < index) {
           currentIndex++
           previousNode = currentNode
           currentNode = currentNode.next
@@ -119,17 +107,15 @@ function LinkedList() {
         node.next = currentNode
         previousNode.next = node
       }
-    }
 
-    length++
+      length++
+    }
   }
 
   this.removeAt = function(index) {
-    let currentIndex = 0
     let currentNode = head
-    let previousNode
 
-    if (idnex < 0 || index >= length) {
+    if (index < 0 || index >= length) {
       return null
 
     } else {
@@ -137,6 +123,9 @@ function LinkedList() {
         head = currentNode.next
 
       } else {
+        let currentIndex = 0
+        let previousNode
+
         while (currentIndex < index) {
           currentIndex++
           previousNode = currentNode
@@ -146,9 +135,10 @@ function LinkedList() {
         // remove currentNode
         previousNode.next = currentNode.next
       }
+
+      length--
     }
 
-    length--
     return currentNode.element
   }
 }

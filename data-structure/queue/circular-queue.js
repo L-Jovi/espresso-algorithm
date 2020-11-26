@@ -35,7 +35,8 @@ class CircularQueue {
       this.first = this.first + 1
       this.size--
 
-      if (this.size === this.getLength / 4 && this.getLength() / 2 !== 0) {
+      // If the number of elements after dequeuing is a quarter of the total length, reduce the total queue length.
+      if (this.size === this.getLength() / 4 && this.getLength() / 2 !== 0) {
         this.resize(this.getLength() / 2)
       }
 
