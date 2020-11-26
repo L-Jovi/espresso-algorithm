@@ -4,6 +4,9 @@
  * O(n^2)
  */
 
+const randomArray = require('../../libs/random-list')
+const timer = require('../../libs/timer')
+
 /**
  * Insert sort.
  *
@@ -11,6 +14,10 @@
  */
 const insertSort = (array) => {
   const n = array.length
+
+  if (!n || n < 2) {
+    return
+  }
 
   for (let i = 1; i < n; i++) {
     let tmp = array[i]
@@ -23,8 +30,9 @@ const insertSort = (array) => {
 
     array[j+1] = tmp
   }
+
+  return array
 }
 
-let array = [5, 4, 8, 1, 2]
-insertSort(array)
-console.log(array)
+const array = randomArray.list10000()
+timer(insertSort, array)
