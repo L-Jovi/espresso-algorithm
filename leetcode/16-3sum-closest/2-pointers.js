@@ -13,7 +13,7 @@ const threeSumClosest = function(nums, target) {
     let R = len - 1
 
     while (L < R) {
-      const sum = nums[i] + nums[L] + nums[R];
+      const sum = nums[i] + nums[L] + nums[R]
       if (Math.abs(target - ans) > Math.abs(target - sum)) {
         ans = sum
 
