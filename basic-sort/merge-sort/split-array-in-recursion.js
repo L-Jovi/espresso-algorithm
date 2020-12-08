@@ -1,8 +1,11 @@
 /*
- * @Description: Merge sort implements by Javascript.
- * @FileName: merge-sort/index.js
+ * @Description: Merge sort implements by Javascript rely on split array.
+ * @FileName: merge-sort/split-array-in-recursion.js
  * O(nlog(n))
  */
+
+const randomArray = require('../../libs/random-list')
+const timer = require('../../libs/timer')
 
 const merge = (left, right) => {
   let result = []
@@ -31,6 +34,5 @@ const mergeSort = (array) => {
   }
 }
 
-let array = [13, 14, 94, 33, 82, 25, 59, 94, 65, 23, 45, 27, 73, 25, 39]
-array = mergeSort(array)
-console.log(array)
+const array = randomArray.list100000()
+timer(mergeSort, array)
