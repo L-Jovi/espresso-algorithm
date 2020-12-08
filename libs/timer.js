@@ -1,6 +1,6 @@
-const timer = (fn, arg) => {
+const timer = (fn, ...args) => {
   const start = Date.now()
-  const result = fn(arg)
+  const result = fn(...args)
   const end = Date.now()
 
   console.log(`Wasting time: ${end - start}ms \n`)
