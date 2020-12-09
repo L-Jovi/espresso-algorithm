@@ -1,5 +1,6 @@
 /*
  * @Description: Search max value in array implements by Javascript.
+ * @Path: Evernote/application-fields/algorithm/problems/求数组中的最大值
  * @FileName: max-number-in-array/recursion.js
  */
 

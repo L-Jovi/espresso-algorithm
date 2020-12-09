@@ -15,12 +15,13 @@ const merge = (array, l, mid, r) => {
 
   while (p1 <= mid && p2 <= r) {
     if (array[p1] <= array[p2]) {
-      sortedArray[i++] = array[p1]
+      sortedArray[i] = array[p1]
       p1++
     } else {
-      sortedArray[i++] = array[p2]
+      sortedArray[i] = array[p2]
       p2++
     }
+    i++
   }
 
   // p1 or p2 oversize
@@ -39,6 +40,8 @@ const merge = (array, l, mid, r) => {
   for (let j = 0; j < sortedArray.length; j++) {
     array[l + j] = sortedArray[j]
   }
+
+  return sortedArray
 }
 
 const mergeSort = (array, l, r) => {
@@ -52,5 +55,5 @@ const mergeSort = (array, l, r) => {
   return merge(array, l, mid, r)
 }
 
-const array = randomArray.list100000()
+const array = randomArray.list10()
 timer(mergeSort, array, 0, array.length - 1)
