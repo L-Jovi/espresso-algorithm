@@ -4,6 +4,9 @@
  * O(nlogn)
  */
 
+const randomArray = require('../../libs/random-list')
+const timer = require('../../libs/timer')
+
 const quickSort = (array) => {
   if (array.length <= 1) {
     return array
@@ -26,5 +29,5 @@ const quickSort = (array) => {
   return quickSort(left).concat(pivot, quickSort(right))
 }
 
-let array = [5, 4, 8, 1, 2]
-console.log(quickSort(array))
+const array = randomArray.list100000()
+timer(quickSort, array)
