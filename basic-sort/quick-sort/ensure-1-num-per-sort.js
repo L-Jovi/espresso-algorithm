@@ -1,6 +1,6 @@
 /*
  * @Description: Quick sort implements by Javascript.
- * @FileName: quick-sort.js
+ * @FileName: ensure-1-num-per-sort.js
  * O(nlogn)
  */
 
