@@ -9,30 +9,26 @@ const timer = require('../../libs/timer')
 
 const merge = (array, l, mid, r) => {
   const sortedArray = []
-  let i = 0
   let p1 = l
   let p2 = mid + 1
 
   while (p1 <= mid && p2 <= r) {
     if (array[p1] <= array[p2]) {
-      sortedArray[i] = array[p1]
+      sortedArray.push(array[p1])
       p1++
     } else {
-      sortedArray[i] = array[p2]
+      sortedArray.push(array[p2])
       p2++
     }
-    i++
   }
 
   // p1 or p2 oversize
   while (p1 <= mid) {
-    sortedArray[i] = array[p1]
-    i++
+    sortedArray.push(array[p1])
     p1++
   }
   while (p2 <= r) {
-    sortedArray[i] = array[p2]
-    i++
+    sortedArray.push(array[p2])
     p2++
   }
 
@@ -40,8 +36,6 @@ const merge = (array, l, mid, r) => {
   for (let j = 0; j < sortedArray.length; j++) {
     array[l + j] = sortedArray[j]
   }
-
-  return sortedArray
 }
 
 const mergeSort = (array, l, r) => {
@@ -52,8 +46,10 @@ const mergeSort = (array, l, r) => {
   const mid = l + ((r - l) >> 1)        // reset mid
   mergeSort(array, l, mid)              // mergeSort => merge
   mergeSort(array, mid + 1, r)          // mergeSort => merge
-  return merge(array, l, mid, r)
+  merge(array, l, mid, r)
+
+  return array
 }
 
-const array = randomArray.list10()
+const array = randomArray.list100000()
 timer(mergeSort, array, 0, array.length - 1)

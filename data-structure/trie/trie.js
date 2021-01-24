@@ -74,5 +74,9 @@ function Trie() {
 
 const trie = new Trie()
 trie.add('saber')
+trie.add('sabre')
+trie.add('sbrea')
+trie.add('archer')
+trie.add('arcrec')
 const words = trie.print()
 console.log(words)
