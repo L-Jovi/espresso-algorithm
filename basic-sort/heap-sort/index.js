@@ -54,7 +54,7 @@ const adjustHeap = (array, length, i) => {
 
 /**
  * swap element
- * @param {Array} arry
+ * @param {Array} array
  * @param {Number} a
  * @param {Number} b
  */
