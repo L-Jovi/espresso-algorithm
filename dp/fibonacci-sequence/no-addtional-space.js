@@ -1,8 +1,11 @@
 /*
  * @Description: No additional space complexity required as solution (fibonacci sequence).
+ * @Example: 1 1 2 3 5 8 13
  * @FileName: no-addtional-space.js
  * O(n)
  */
+
+const timer = require('../../libs/timer')
 
 /**
  * Recursive implementation of dynamic programming.
@@ -14,10 +17,7 @@ function noAddtionalSpace(k) {
   if (k < 1) {
     return 0
 
-  } else if (k === 1) {
-    return 1
-
-  } else if (k === 2) {
+  } else if (k === 1 || k === 2) {
     return 1
 
   } else {
@@ -37,5 +37,4 @@ function noAddtionalSpace(k) {
 }
 
 
-// test
-console.log(noAddtionalSpace(45))
+timer(noAddtionalSpace, 1000)
