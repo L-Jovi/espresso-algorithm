@@ -4,7 +4,7 @@ const timer = (fn, ...args) => {
   const end = Date.now()
 
   console.log(`Wasting time: ${end - start}ms \n`)
-  console.log('Sorted array', result)
+  console.log('Result: ', result)
 }
 
 module.exports = timer
