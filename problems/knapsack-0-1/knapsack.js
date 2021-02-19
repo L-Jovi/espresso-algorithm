@@ -10,7 +10,6 @@
  * 3. 有当得到了子问题的结果之后的决策过程
  * 4. 不记录每一个子问题的解 */
 
-
 const getMaxValue1 = (weights, values, bag) => {
   return process(weights, values, 0, bag);
 }
@@ -52,8 +51,6 @@ console.log(ans1);
  * 确定好 DP 表的范围、返回的项（看暴力递归 process 的可变参数）
  * 递归函数怎么调用，动态规划就怎么填
  * 按照暴力递归的决策过程，来填写 dp 表里的每一个值 */
-
-
 const getMaxValueDp = (weights, values, bag) => {
   let dp = [];
   let N = weights.length;
@@ -62,16 +59,19 @@ const getMaxValueDp = (weights, values, bag) => {
     col.fill(0);
     dp[i] = col;
   }
+
   for (let i = N - 1; i >= 0; i--) {
     for (let j = 0; j <= bag; j++) {
       let p1 = dp[i + 1][j];
       let p2 = -Infinity;
+
       if (j >= weights[i]) {
         p2 = dp[i + 1][j - weights[i]] + values[i];
       }
       dp[i][j] = Math.max(p1, p2);
     }
   }
+
   return dp[0][bag];
 }
 
