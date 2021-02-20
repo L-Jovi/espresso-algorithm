@@ -10,17 +10,22 @@ const coinChange = function(coins, amount) {
   dp[0] = 0
 
   // bottom up
-  for (let remain = 0; remain < dp.length; remain++) {
+  for (let total = 0; total < dp.length; total++) {
     for (let coin of coins) {
-      if (remain - coin < 0) {
+      if (total - coin < 0) {
         continue
       }
 
-      dp[remain] = Math.min(dp[remain], dp[remain - coin] + 1)
+      // choice
+      dp[total] = Math.min(
+        dp[total],
+        dp[total - coin] + 1
+      )
     }
   }
 
-  return dp[amount] === Infinity ?  -1 : dp[amount]
+  console.log('dp: ', dp)
+  return dp[amount] === Infinity ? -1 : dp[amount]
 }
 
 

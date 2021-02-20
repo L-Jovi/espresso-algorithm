@@ -19,22 +19,43 @@ const knapsack_0_1 = (W, N, wt, val) => {
 
   for (let i = 1; i <= N; i++) {
     for (let w = 1; w <= W; w++) {
-      // not put in
       if (w - wt[i - 1] < 0) {
         dp[i][w] = dp[i - 1][w]
 
-      // put in
       } else {
         dp[i][w] = Math.max(
           dp[i - 1][w],
-          val[i - 1] + dp[i - 1][w - wt[i - 1]]
+          dp[i - 1][w - wt[i - 1]] + val[i - 1]
         )
       }
     }
   }
 
+  console.log('dp: ', dp)
   return dp[N][W]
 }
+
+
+// const knapsack_0_1 = (W, N, wt, val) => {
+//   const dp = Array.from(Array(W + 1).fill(0))
+//
+//   for (let w = 0; w < dp.length; w++) {
+//     for (let i = 0; i < N; i++) {
+//       if (w - wt[i] < 0) {
+//         continue
+//
+//       } else {
+//         dp[w] = Math.max(
+//           dp[w],
+//           dp[w - wt[i]] + val[i]
+//         )
+//       }
+//     }
+//   }
+//
+//   console.log('dp: ', dp)
+//   return dp[W]
+// }
 
 
 const W = 4
