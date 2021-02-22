@@ -5,22 +5,26 @@
  * O(n^k)
  */
 const coinChange = function(coins, amount) {
-  const poolRest = (remain) => {
+  const poolRest = (total) => {
     // base case
-    if (remain < 0) {
+    if (total < 0) {
       return -1
     }
-    if (remain === 0) {
+    if (total === 0) {
       return 0
     }
 
     let count = Infinity
     for (let coin of coins) {
-      const restCount = poolRest(remain - coin)
+      const restCount = poolRest(total - coin)
       if (restCount === -1) {
         continue
       }
-      count = Math.min(count, restCount + 1)
+
+      count = Math.min(
+        count,
+        restCount + 1
+      )
     }
 
     return count !== Infinity ? count : -1
