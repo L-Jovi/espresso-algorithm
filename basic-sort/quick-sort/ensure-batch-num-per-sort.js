@@ -13,7 +13,8 @@ const getEqualEdge = (array, l, r, pivot) => {
     return [-1, -1]
   }
 
-  if (l === r) { return [l, r]
+  if (l === r) {
+    return [l, r]
   }
 
   let indexSmallArea = l - 1
