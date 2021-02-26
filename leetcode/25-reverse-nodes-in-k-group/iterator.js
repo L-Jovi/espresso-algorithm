@@ -6,7 +6,6 @@
    this.next = null
  }
 
-
 /**
  * @param {ListNode} head
  * @param {number} k
@@ -35,13 +34,11 @@ const reverseKGroup = function(head, k) {
     start.next = next
 
     // reset [pre] and [end] node direct to the node before [next] node
-    pre = start 
-    end = pre
+    end = pre = start
   }
 
   return dummy.next
 }
-
 
 const reverse = (head) => {
   let pre = null
@@ -49,7 +46,6 @@ const reverse = (head) => {
 
   while (curr) {
     const next = curr.next
-    // curr.next = curr
     curr.next = pre
     pre = curr
     curr = next
