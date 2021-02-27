@@ -3,7 +3,7 @@
  * @param {string} needle
  * @return {number}
  */
-const strStr = function(haystack, needle) {
+const strStr = (haystack, needle) => {
   let end = 0
   let substr = ''
 
