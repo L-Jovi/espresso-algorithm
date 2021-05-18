@@ -25,12 +25,10 @@ const lowestCommonAncestor = function(root, p, q) {
 
   if (left && right) {
     return root
-
   }
 
   if (!left && !right) {
     return null
-
   }
 
   return !left ? right : left
