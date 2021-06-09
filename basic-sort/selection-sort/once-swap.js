@@ -3,32 +3,36 @@
  * @FileName: selection-sort/once-swap.js
  */
 
+const randomArray = require('../../libs/random-list')
+const timer = require('../../libs/timer')
+const swap = require('../../libs/swap')
+
 /**
  * Select sort.
  *
  * @returns {Array}
  */
 const selectSort = (array) => {
-  const n = array.length
-
-  if (!n || n < 2) {
-    return
+  if (!array || array.length <= 1) {
+    return array
   }
 
-  for (let i = 0; i < n; i++) {
+  let i = 0
+  while (i < array.length) {
+    let indexMin = i
 
-    let indexMin = i;
-    for (let j = i + 1; j < n; j++) {
-      if (array[j] < array[indexMin]) {
+    for (let j = i + 1; j < array.length; j++) {
+      if (array[indexMin] > array[j]) {
         indexMin = j
       }
     }
-    const tmp = array[i]
-    array[i] = array[indexMin]
-    array[indexMin] = tmp
+
+    swap(array, i, indexMin)
+    i++
   }
+
+  return array
 }
 
-let array = [5, 4, 8, 1, 2]
-selectSort(array)
-console.log(array)
+const array = randomArray.list100()
+timer(selectSort, array)
