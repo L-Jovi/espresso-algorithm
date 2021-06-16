@@ -36,6 +36,7 @@
   search 中的 word 由 '.' 或小写英文字母组成
   最多调用 50000 次 addWord 和 search
  *
+ *
  * Initialize your data structure here.
  *
  * https://leetcode-cn.com/problems/design-add-and-search-words-data-structure/solution/jian-dan-yi-dong-de-zi-dian-shu-by-dokom-4zlk/
@@ -53,7 +54,7 @@ WordDictionary.prototype.addWord = function(word) {
 
   for (const c of word) {
     if (!cur[c]) {
-      cur[c] = {}
+      cur[c] = { isEnd: false }
     }
     cur = cur[c]
   }
@@ -83,7 +84,7 @@ WordDictionary.prototype.search = function(word, cur = this.root) {
     cur = cur[c]
   }
 
-  return Boolean(cur.isEnd)
+  return cur.isEnd
 }
 
 /**
