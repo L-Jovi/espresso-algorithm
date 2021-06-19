@@ -5,10 +5,6 @@
  */
 const longestCommonSubsequence = function(text1, text2) {
   const bruteForce = (i, j) => {
-    if (i < 0 || j < 0) {
-      return 0
-    }
-
     if (text1[i] === text2[j]) {
       return bruteForce(i - 1, j - 1) + 1
     } else {
