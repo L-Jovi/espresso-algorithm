@@ -1,19 +1,14 @@
-// const nlp = require('compromise');
 const Recognizers = require('@microsoft/recognizers-text-suite');
 const NumberRecognizers = require('@microsoft/recognizers-text-number');
 const NumberWithUnitRecognizers = require('@microsoft/recognizers-text-number-with-unit');
 const DateTimeRecognizers = require('@microsoft/recognizers-text-date-time');
 const SequenceRecognizers = require('@microsoft/recognizers-text-sequence');
 const ChoiceRecognizers = require('@microsoft/recognizers-text-choice');
+
 const nodejieba = require('nodejieba');
 nodejieba.load({
-  userDict: './meal.utf8',
+  userDict: './meal.dict.utf8',
 });
-
-
-// let doc = nlp('3个明天过期的鸡蛋');
-// doc.nouns();
-// console.log(doc.text());
 
 
 // corpus resource (zh-hans)
