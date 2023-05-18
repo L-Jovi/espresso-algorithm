@@ -4,7 +4,7 @@
   "description": "Try different algorithm. (Pure concentration, what product is it)",
   "author": "Jovi",
   "dependencies": {
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^3.0.1",
     "mockjs": "^1.1.0"
   }
 }
