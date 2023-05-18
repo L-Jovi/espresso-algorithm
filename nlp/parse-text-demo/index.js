@@ -61,25 +61,3 @@ for (let sentence of sentences) {
   const result2 = nodejieba.cut(sentence);
   console.log('\n\n', result1, result2);
 }
-
-// specify model try
-// const recognizer = new SequenceRecognizers.BaseGUIDExtractor(Recognizers.Culture.Chinese);
-// console.log(recognizer.extract(sentences[0]));
-
-
-// regex way
-// const regex = /(\d+)\D+(.*?)过期的(.*)/;
-// const match = sentence.match(regex);
-//
-// if (match) {
-//   const quantity = match[1];
-//   const time = match[2];
-//   const item = match[3];
-//
-//   console.log("数量：" + quantity);
-//   console.log("时间：" + time);
-//   console.log("物品：" + item);
-//
-// } else {
-//   console.log("未找到匹配的内容");
-// }
