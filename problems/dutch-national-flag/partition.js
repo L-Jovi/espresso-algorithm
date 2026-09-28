@@ -1,66 +1,54 @@
-/*
- * @Description: select 3 groups like [<] [=] [>] implements by Javascript rely on quick sort.
- * @Path: Evernote/application-fields/algorithm/basic-sort/三色荷兰国旗问题
- * @FileName: netherlands-flag/quick-sort.js
+/**
+ * Dutch national flag problem: group an array into three parts in one pass.
+ *
+ * Rearrange the array so that every item smaller than `pivot` comes first,
+ * then every item equal to it, then every larger item, like the three stripes
+ * of the Dutch flag. Edsger Dijkstra posed it; it is the partition step of
+ * three-way quick sort (sorting/quick-sort/three-way-in-place.js).
+ *
+ * Three indexes split the array into four regions while i walks through it:
+ *
+ *   [ < pivot | = pivot | unseen | > pivot ]
+ *     ^ small  ^ ...      ^ i      ^ big
+ *
+ * An item smaller than the pivot is swapped to the end of the small region;
+ * a larger one is swapped to the front of the big region, and i stays because
+ * the item swapped in is still unseen. Each item is looked at once.
+ *
+ * Time: O(n). Space: O(1). The order inside each part is not kept.
  */
+import { swap } from '../../shared/swap.js'
 
-const randomArray = require('../../libs/random-list')
-const timer = require('../../libs/timer')
-const swap = require('../../libs/swap')
-
-const netherlandsFlag = (array, l, r, pivot) => {
-  if (l === r) {
-    return [l, r]
-  }
-
-  let indexSmallArea = l - 1
-  let indexBigArea = r + 1
-  let i = l
-
+/**
+ * @param {number[]} array rearranged in place
+ * @param {number} pivot
+ * @returns {[number, number]} the first and last index of the items equal to
+ *   `pivot` (first > last when there are none)
+ */
+export function partition(array, pivot) {
+  let indexSmallArea = -1
+  let indexBigArea = array.length
+  let i = 0
   while (i < indexBigArea) {
-    if (array[i] < pivot) {
-      swap(array, i++, ++indexSmallArea)
-    } else if (array[i] > pivot) {
-      // notice swaped number need to be compare in next iteration
-      swap(array, i, --indexBigArea)
-    } else {
-      i++
-    }
+    if (array[i] < pivot) swap(array, i++, ++indexSmallArea)
+    else if (array[i] > pivot) swap(array, i, --indexBigArea)
+    else i++
   }
-
-  // return edge of equalArea
-  // [ [start ... smallArea ... indexSmallArea] [start ... equalArea ... end] [indexBigArea ... bigArea ... end] ]
   return [indexSmallArea + 1, indexBigArea - 1]
 }
 
 /**
- * netherLandsFlag.
- *
- * @param {number|Array} array
- * @returns {(number|Array)}
+ * LeetCode 75, Sort Colors: sort an array of 0s, 1s and 2s in one pass.
+ * It is the flag problem with pivot 1.
  */
-const process = (array, l, r) => {
-  if (l >= r) {
-    return
-  }
-
-  const pivot = array[r]
-  console.log(`pivot: ${pivot}`)
-  const equalArea = netherlandsFlag(array, l, r, pivot)
-  console.log(`equalArea: ${equalArea}`)
-
-  process(array, l, equalArea[0] - 1)
-  process(array, equalArea[1] + 1, r)
-
-  return array
+export function sortColors(nums) {
+  partition(nums, 1)
+  return nums
 }
 
-const quickSort = (array) => {
-  if (!array || array.length < 2) {
-    return
-  }
-  return process(array, 0, array.length - 1)
+if (import.meta.main) {
+  const array = [5, 1, 8, 5, 2, 9, 5, 3]
+  const [first, last] = partition(array, 5)
+  console.log('partitioned around 5:', array.join(' '), ` (the 5s are at ${first}..${last})`)
+  console.log('sortColors:', sortColors([2, 0, 2, 1, 1, 0]).join(' '))
 }
-
-const array = randomArray.list100()
-timer(quickSort, array)

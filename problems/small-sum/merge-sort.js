@@ -1,70 +1,52 @@
-/*
- * @Description: Sum left smaller num in array implements by Javascript.
- * @Path: Evernote/application-fields/algorithm/problems/归并思路求解下面的求数组左侧小和问题
- * @FileName: sum-left-smaller-num-in-array/recursion.js
+/**
+ * Small sum, counted during merge sort.
+ *
+ * Every pair (earlier item a, later item b) with a < b adds a to the small sum.
+ * Merge sort meets every such pair exactly once: when a is in the left half and
+ * b in the right half of some merge. Both halves are sorted at that moment, so
+ * when the merge takes left[p1] because it is smaller than right[p2], it is
+ * also smaller than everything after right[p2]. That adds
+ * left[p1] × (number of items left in the right half) in one step.
+ *
+ * On equal items the merge takes the right one first, so an item is never
+ * counted against an equal one: the definition asks for strictly smaller.
+ *
+ * Time: O(n log n). Space: O(n). The input is copied, not changed.
+ * The same trick counts inversions (pairs that are out of order).
  */
 
-const randomArray = require('../../libs/random-list')
-const timer = require('../../libs/timer')
+export function smallSum(array) {
+  const items = [...array]
+  const buffer = new Array(items.length)
 
-const merge = (array, l, mid, r) => {
-  const sortedArray = []
-  let i = 0
-  let p1 = l
-  let p2 = mid + 1
-  // sum all right sub-array bigger than left
-  let sum = 0
+  const sortAndCount = (l, r) => {
+    if (l >= r) return 0
+    const mid = l + ((r - l) >> 1)
+    return sortAndCount(l, mid) + sortAndCount(mid + 1, r) + merge(l, mid, r)
+  }
 
-  while (p1 <= mid && p2 <= r) {
-    if (array[p1] < array[p2]) {
-      // compute how many right num bigger than left num
-      sum += (r - p2 + 1) * array[p1]
-      sortedArray[i] = array[p1]
-      p1++
-    } else {
-      sortedArray[i] = array[p2]
-      p2++
+  const merge = (l, mid, r) => {
+    let sum = 0
+    let p1 = l
+    let p2 = mid + 1
+    let k = l
+    while (p1 <= mid && p2 <= r) {
+      if (items[p1] < items[p2]) {
+        sum += items[p1] * (r - p2 + 1)
+        buffer[k++] = items[p1++]
+      } else {
+        buffer[k++] = items[p2++]
+      }
     }
-    i++
+    while (p1 <= mid) buffer[k++] = items[p1++]
+    while (p2 <= r) buffer[k++] = items[p2++]
+    for (k = l; k <= r; k++) items[k] = buffer[k]
+    return sum
   }
 
-  // p1 or p2 oversize
-  while (p1 <= mid) {
-    sortedArray[i] = array[p1]
-    i++
-    p1++
-  }
-  while (p2 <= r) {
-    sortedArray[i] = array[p2]
-    i++
-    p2++
-  }
-
-  // copy sortedArray to array (which refer origin array)
-  for (let j = 0; j < sortedArray.length; j++) {
-    array[l + j] = sortedArray[j]
-  }
-
-  return sum
+  return sortAndCount(0, items.length - 1)
 }
 
-const process = (array, l, r) => {
-  if (l === r) {
-    return 0
-  }
-  const mid = l + ((r - l) >> 1)
-  return process(array, l, mid) +
-    process(array, mid + 1, r) +
-    merge(array, l, mid, r)
+if (import.meta.main) {
+  console.log('smallSum([1, 3, 4, 2, 5]):', smallSum([1, 3, 4, 2, 5]))
 }
-
-const sumSmall = (array) => {
-  if (!array || array.length <= 1) {
-    return 0
-  }
-
-  return process(array, 0, array.length - 1)
-}
-
-const array = randomArray.list10()
-timer(sumSmall, array)
