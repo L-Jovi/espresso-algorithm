@@ -74,6 +74,23 @@
 | 新增 | [`searching/binary-search/binary-search.js`](../searching/binary-search/binary-search.js) | 新增，为本仓库编写，并附 lowerBound。 |
 | 新增 | [`searching/binary-search/BinarySearch.java`](../searching/binary-search/BinarySearch.java) | 新增：取代已从历史中移除的 GPL 教材拷贝。 |
 
+## 经典问题
+
+仍在 [`problems/`](../problems)，现在有测试和 README。
+
+| 以前 | 现在 | 原因 |
+| --- | --- | --- |
+| [`problems/adding-large-numbers/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/adding-large-numbers/index.js) | [`problems/adding-large-numbers/digit-by-digit.js`](../problems/adding-large-numbers/digit-by-digit.js) | 现在会校验输入（原来 "-5" + "3" 会得到 "NaN8"），并去掉前导零。 |
+| [`problems/array-deduplication/extra-array.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/extra-array.js) | [`problems/array-deduplication/extra-array.js`](../problems/array-deduplication/extra-array.js) | 已导出并有测试；indexOf 对 NaN 的行为现在写进了说明。 |
+| [`problems/array-deduplication/sort-first.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/sort-first.js) | [`problems/array-deduplication/sort-first.js`](../problems/array-deduplication/sort-first.js) | 修正：原来按字符串对调用方的数组排序，10 会排在 9 前面。 |
+| [`problems/array-deduplication/set.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/set.js) | [`problems/array-deduplication/set.js`](../problems/array-deduplication/set.js) | 已导出并有测试。 |
+| [`problems/knapsack-0-1/knapsack.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/knapsack-0-1/knapsack.js) | [`problems/knapsack-0-1/brute-force.js`](../problems/knapsack-0-1/brute-force.js) | 修正：背包装满后会忽略重量为 0 的物品。它的表格版本移到了 recursion-to-table.js。 |
+| [`problems/knapsack-0-1/dp.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/knapsack-0-1/dp.js) | [`problems/knapsack-0-1/tabulation.js`](../problems/knapsack-0-1/tabulation.js) | 修正了同样的重量为 0 的情况；注释掉的完全背包版本改为在 README 中说明。 |
+| [`problems/max-number-in-array/recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/max-number-in-array/recursion.js) | [`problems/max-number-in-array/divide-and-conquer.js`](../problems/max-number-in-array/divide-and-conquer.js) | 修正：空数组会无限递归；现在像 Math.max() 一样返回 -Infinity。 |
+| [`problems/netherlands-flag/quick-sort.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/netherlands-flag/quick-sort.js) | [`problems/dutch-national-flag/partition.js`](../problems/dutch-national-flag/partition.js) | 这里只保留划分；外层的快速排序在 sorting/quick-sort/three-way-in-place.js。 |
+| [`problems/sum-left-smaller-num-in-array/recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/sum-left-smaller-num-in-array/recursion.js) | [`problems/small-sum/merge-sort.js`](../problems/small-sum/merge-sort.js) | 不再对调用方的数组排序；新增暴力解作为参照。 |
+| [`problems/fibonacci-sequence/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/problems/fibonacci-sequence/) | 已退役 | 已退役：四个文件与 leetcode/509-fibonacci-number 里的完全相同。 |
+
 ## 从全部历史中移除
 
 以下内容已于 2026-09-28 从每一个提交中移除，因此没有可以链接的地方。
@@ -86,4 +103,4 @@
 
 ## 尚未转换
 
-`algorithm-canvas/`、`leetcode/` 和 `problems/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
+`algorithm-canvas/` 和 `leetcode/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
