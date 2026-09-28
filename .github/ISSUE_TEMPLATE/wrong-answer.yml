@@ -1,0 +1,37 @@
+name: Wrong answer or crash
+description: A solution returns the wrong result, crashes, or is much slower than its comment says.
+labels: [bug]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: File
+      description: Path of the solution, for example leetcode/0053-maximum-subarray/space-optimized.js
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Input
+      description: The smallest input that shows the problem.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result or error
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: runtime
+    attributes:
+      label: Runtime
+      description: Output of node --version, python3 --version or java --version
