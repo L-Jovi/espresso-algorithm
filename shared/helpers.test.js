@@ -4,6 +4,8 @@ import { swap } from './swap.js'
 import { measure } from './measure.js'
 import { createRandom, randomIntegers, randomFloats } from './random.js'
 import { showSort } from './demo.js'
+import { arrayToList, listToArray } from './linked-list.js'
+import { checkApproaches } from './check.js'
 
 describe('swap', () => {
   it('swaps two items in place and returns the same array', () => {
@@ -92,4 +94,22 @@ describe('showSort', () => {
     const numbers = line => line.split(/\s+/).slice(1).map(Number)
     assert.deepEqual(numbers(sorted), numbers(input).toSorted((a, b) => a - b))
   })
+})
+
+describe('linked-list helpers', () => {
+  it('round-trips arrays of every length from 0 to 5', () => {
+    for (let n = 0; n <= 5; n++) {
+      const array = Array.from({ length: n }, (_, i) => i * 10)
+      assert.deepEqual(listToArray(arrayToList(array)), array)
+    }
+    assert.equal(arrayToList([]), null)
+  })
+})
+
+describe('checkApproaches', () => {
+  // Two ways to add, run on the same cases; a copy of the input is passed each time.
+  checkApproaches(
+    { 'plus': (a, b) => a + b, 'minus the negative': (a, b) => a - -b },
+    [{ input: [1, 2], expected: 3 }, { input: [-1, 1], expected: 0, label: 'opposite numbers' }],
+  )
 })
