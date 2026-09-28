@@ -1,59 +1,33 @@
 /**
- * Definition for singly-linked list.
+ * LeetCode 2. Add Two Numbers — https://leetcode.com/problems/add-two-numbers/
+ * Two numbers are stored as linked lists of digits, least significant digit
+ * first. Return their sum as a list in the same form.
+ *
+ * Digit by digit, as on paper: add the two digits and the carry, keep
+ * sum % 10 and carry the rest. Because the lists start with the ones digit,
+ * walking them from the head is already the right order. This version writes
+ * into the current node and creates the next one only when more digits follow.
+ *
+ * Time: O(max(m, n)). Space: O(max(m, n)) for the result.
  */
-function ListNode(val) {
-  this.val = val
-  this.next = null
-}
+import { arrayToList, listNode, listToArray } from '../../shared/linked-list.js'
 
-
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-const addTwoNumbers = function(l1, l2) {
-  const head = new ListNode(0)
-  let currentNode = head
+export function addTwoNumbers(l1, l2) {
+  const head = listNode(0)
+  let current = head
   let carry = 0
-
   while (l1 || l2) {
-    const x = l1 ? l1.val : 0
-    const y = l2 ? l2.val : 0
-    const sum = x + y + carry
-
-    carry = sum >= 10 ? 1 : 0 // reset carry
-    currentNode.val = sum % 10
-
-    if (l1) {
-      l1 = l1.next
-    }
-    if (l2) {
-      l2 = l2.next
-    }
-    if (l1 || l2) {
-      currentNode.next = new ListNode(0)
-      currentNode = currentNode.next
-    }
+    const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry
+    carry = sum >= 10 ? 1 : 0
+    current.val = sum % 10
+    l1 = l1 && l1.next
+    l2 = l2 && l2.next
+    if (l1 || l2) current = current.next = listNode(0)
   }
-
-  // check the overflow
-  // eg: l1=[9, 9]，l2=[1, 1]
-  if (carry > 0) {
-    currentNode.next = new ListNode(carry)
-    currentNode = currentNode.next
-  }
-
+  if (carry > 0) current.next = listNode(carry)
   return head
 }
 
-
-let l1 = new ListNode(2)
-l1.next = new ListNode(4)
-l1.next.next = new ListNode(3)
-
-let l2 = new ListNode(9)
-l2.next = new ListNode(6)
-l2.next.next = new ListNode(4)
-
-console.log(addTwoNumbers(l1, l2))
+if (import.meta.main) {
+  console.log('342 + 465 =', listToArray(addTwoNumbers(arrayToList([2, 4, 3]), arrayToList([5, 6, 4]))).reverse().join(''))
+}

@@ -1,43 +1,27 @@
-/*
- * @lc app=leetcode id=5 lang=javascript
- *
- * [5] Longest Palindromic Substring
- */
 /**
- * @param {string} s
- * @return {string}
+ * LeetCode 5. Longest Palindromic Substring —
+ * https://leetcode.com/problems/longest-palindromic-substring/
+ * Return the longest substring that reads the same forwards and backwards.
+ *
+ * Tabulation: isPalindrome[i][j] says whether s[i..j] is a palindrome. A
+ * substring is one when its two ends match and the part between them is one
+ * (or is shorter than two characters). Filling i from the end of the string
+ * backwards guarantees that isPalindrome[i + 1][j − 1] is known in time.
+ *
+ * Time: O(n²). Space: O(n²). expand-around-center.js needs only O(1) space.
  */
-const longestPalindrome = function(s) {
-  // babad
-  // tag : dp
-  if (!s || s.length === 0) return "";
-  let res = s[0];
 
-  const dp = [];
-
+export function longestPalindrome(s) {
+  if (s.length === 0) return ''
+  const isPalindrome = Array.from({ length: s.length }, () => new Array(s.length).fill(false))
+  let best = s[0]
   for (let i = s.length - 1; i >= 0; i--) {
-    dp[i] = [];
-
     for (let j = i; j < s.length; j++) {
-      if (j - i === 0) dp[i][j] = true;
-      // specail case 1
-      else if (j - i === 1 && s[i] === s[j]) dp[i][j] = true;
-      // specail case 2
-      else if (s[i] === s[j] && dp[i + 1][j - 1]) {
-        // state transition
-        dp[i][j] = true;
-      }
-
-      if (dp[i][j] && j - i + 1 > res.length) {
-        // update res
-        res = s.slice(i, j + 1);
-      }
+      isPalindrome[i][j] = s[i] === s[j] && (j - i < 2 || isPalindrome[i + 1][j - 1])
+      if (isPalindrome[i][j] && j - i + 1 > best.length) best = s.slice(i, j + 1)
     }
   }
-
-  return res;
+  return best
 }
 
-
-const s = 'eabaf'
-console.log(longestPalindrome(s))
+if (import.meta.main) console.log(longestPalindrome('babad'))

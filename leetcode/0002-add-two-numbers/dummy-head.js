@@ -1,43 +1,31 @@
-
 /**
- * Definition for singly-linked list.
+ * LeetCode 2. Add Two Numbers — https://leetcode.com/problems/add-two-numbers/
+ * Two numbers are stored as linked lists of digits, least significant digit
+ * first. Return their sum as a list in the same form.
+ *
+ * The same digit-by-digit addition as digit-by-digit.js, built with a dummy
+ * head: a placeholder node in front of the result. Every digit is appended the
+ * same way, including the first, so there is no special case for an empty
+ * result; the answer is dummy.next.
+ *
+ * Time: O(max(m, n)). Space: O(max(m, n)) for the result.
  */
-function ListNode(val) {
-  this.val = val
-  this.next = null
+import { arrayToList, listNode, listToArray } from '../../shared/linked-list.js'
+
+export function addTwoNumbers(l1, l2) {
+  const dummy = listNode(0)
+  let tail = dummy
+  let carry = 0
+  while (l1 || l2 || carry) {
+    const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry
+    carry = Math.floor(sum / 10)
+    tail = tail.next = listNode(sum % 10)
+    l1 = l1 && l1.next
+    l2 = l2 && l2.next
+  }
+  return dummy.next
 }
 
-
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- *
- * return head.next as first node
- */
-const addTwoNumbers = function(l1, l2) {
-  let dummyHead = new ListNode(0)
-  let p = l1
-  let q = l2
-  let curr = dummyHead
-  let carry = 0
-
-  while (p || q) {
-    let x = p ? p.val : 0
-    let y = q ? q.val : 0
-    let sum = carry + x + y
-
-    carry = parseInt(sum / 10)
-    curr.next = new ListNode(sum % 10)
-    curr = curr.next
-
-    if (p) p = p.next
-    if (q) q = q.next
-  }
-
-  if (carry > 0) {
-    curr.next = new ListNode(carry)
-  }
-
-  return dummyHead.next
+if (import.meta.main) {
+  console.log('342 + 465 =', listToArray(addTwoNumbers(arrayToList([2, 4, 3]), arrayToList([5, 6, 4]))).reverse().join(''))
 }

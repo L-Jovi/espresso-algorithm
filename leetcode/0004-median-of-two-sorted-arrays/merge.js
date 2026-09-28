@@ -1,48 +1,26 @@
-const merge = (left, right) => {
-  let result = []
+/**
+ * LeetCode 4. Median of Two Sorted Arrays —
+ * https://leetcode.com/problems/median-of-two-sorted-arrays/
+ * Return the median of all numbers of two sorted arrays together.
+ *
+ * Merge: walk both arrays with two indexes, as the merge step of merge sort
+ * does, and take the middle one or two numbers of the merged order. It is
+ * easy to follow, but it reads about half of all the numbers; the problem asks
+ * for O(log(m + n)), which binary-search.js achieves.
+ *
+ * Time: O(m + n). Space: O(m + n). The inputs are not changed.
+ */
 
-  while (left.length && right.length) {
-    if (left[0] < right[0]) {
-      result.push(left.shift())
-    } else {
-      result.push(right.shift())
-    }
-  }
+export function findMedianSortedArrays(nums1, nums2) {
+  const merged = []
+  let i = 0
+  let j = 0
+  while (i < nums1.length && j < nums2.length) merged.push(nums1[i] <= nums2[j] ? nums1[i++] : nums2[j++])
+  while (i < nums1.length) merged.push(nums1[i++])
+  while (j < nums2.length) merged.push(nums2[j++])
 
-  return result.concat(left, right)
+  const middle = merged.length >> 1
+  return merged.length % 2 === 1 ? merged[middle] : (merged[middle - 1] + merged[middle]) / 2
 }
 
-
-const mergeSort = (array) => {
-  const n = array.length
-  if (n <= 1) {
-    return array
-
-  } else {
-    const pivotIndex = Math.floor(n / 2)
-    const left = array.slice(0, pivotIndex)
-    const right = array.slice(pivotIndex)
-    return merge(mergeSort(left), mergeSort(right))
-  }
-}
-
-
-const findMedianSortedArrays = (nums1, nums2) => {
-  const nums = merge(nums1, nums2)
-
-  const length = nums.length
-  if (length % 2 === 0) {
-    const pivot = length / 2
-    return (nums[pivot - 1] + nums[pivot]) / 2
-  } else {
-    const pivot = parseInt(length / 2)
-    return nums[pivot]
-  }
-}
-
-
-// test
-
-nums1 = [1, 2]
-nums2 = [3, 4]
-console.log(findMedianSortedArrays(nums1, nums2))
+if (import.meta.main) console.log(findMedianSortedArrays([1, 3], [2, 4]))
