@@ -1,10 +1,22 @@
 {
   "name": "espresso-algorithm",
-  "version": "0.1.0",
-  "description": "Try different algorithm. (Pure concentration, what product is it)",
-  "author": "Jovi",
-  "dependencies": {
-    "mkdirp": "^3.0.1",
-    "mockjs": "^1.1.0"
+  "private": true,
+  "description": "Try different algorithms for the same problem, from brute force to optimal. Pure concentration, like an espresso.",
+  "license": "MIT",
+  "author": "Jovi (https://github.com/L-Jovi)",
+  "homepage": "https://github.com/L-Jovi/espresso-algorithm#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L-Jovi/espresso-algorithm.git"
+  },
+  "bugs": "https://github.com/L-Jovi/espresso-algorithm/issues",
+  "type": "module",
+  "engines": {
+    "node": "^22.18.0 || >=24.2.0"
+  },
+  "scripts": {
+    "test": "node scripts/run-js-tests.mjs",
+    "check:repo": "node scripts/check-repo.mjs",
+    "check": "npm test && npm run check:repo"
   }
 }

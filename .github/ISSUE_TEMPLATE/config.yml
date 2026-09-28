@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security problem privately
+    url: https://github.com/L-Jovi/espresso-algorithm/security/advisories/new
+    about: For anything that could harm a person who runs the code. Please do not open a public issue.
