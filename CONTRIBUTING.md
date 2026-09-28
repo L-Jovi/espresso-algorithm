@@ -27,6 +27,6 @@ Each folder has an English `README.md` and a Simplified Chinese `README.zh-Hans.
 npm run check
 ```
 
-This runs every test and the repository checks (links, README pairs). Pull requests go to `main`, and the `verify` check must pass before they can be merged. Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `ci:`.
+This runs the JavaScript tests, the Python tests (`npm run test:python`, which needs Python 3.11 or newer) and the repository checks: links, README pairs, and that every module is imported by a test. Pull requests go to `main`, and the `verify` check must pass before they can be merged. Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `ci:`.
 
 By contributing you agree that your work is released under the [MIT license](LICENSE).

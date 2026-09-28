@@ -20,6 +20,34 @@
 | [`libs/random-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/random-list.js) | [`shared/random.js`](../shared/random.js) | 原来依赖一直没装上的 `mockjs`。新的生成器带种子，出错的输入可以原样重现。 |
 | [`nlp/parse-text-demo/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo) | 已退役；之后会补一个分词算法示例 | 它只是打印两个库的输出，没有实现算法；它的 lockfile 还带来了全部安全告警。 |
 
+## 排序
+
+现在位于 [`sorting/`](../sorting)，有测试和 README。
+
+| 以前 | 现在 | 原因 |
+| --- | --- | --- |
+| [`basic-sort/bubble-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/bubble-sort/index.js) | [`sorting/bubble-sort/bubble-sort.js`](../sorting/bubble-sort/bubble-sort.js) | 已导出并有测试；某一趟没有交换就提前结束。 |
+| [`basic-sort/bubble-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/bubble-sort/index.py) | [`sorting/bubble-sort/bubble_sort.py`](../sorting/bubble-sort/bubble_sort.py) | 改为 Python 3。 |
+| [`basic-sort/bidirectional-bubble-sort/another.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/bidirectional-bubble-sort/another.js) | [`sorting/bidirectional-bubble-sort/shrinking-bounds.js`](../sorting/bidirectional-bubble-sort/shrinking-bounds.js) | 每一趟停在最后一次交换位置的版本。 |
+| [`basic-sort/bidirectional-bubble-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/bidirectional-bubble-sort/index.js) | [`sorting/bidirectional-bubble-sort/fixed-bounds.js`](../sorting/bidirectional-bubble-sort/fixed-bounds.js) | 作为反例保留：它比普通冒泡还慢。 |
+| [`basic-sort/bidirectional-bubble-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/bidirectional-bubble-sort/index.py) | [`sorting/bidirectional-bubble-sort/fixed_bounds.py`](../sorting/bidirectional-bubble-sort/fixed_bounds.py) | 改为 Python 3。 |
+| [`basic-sort/selection-sort/once-swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/selection-sort/once-swap.js) | [`sorting/selection-sort/selection-sort.js`](../sorting/selection-sort/selection-sort.js) | 真正的选择排序：每一趟只交换一次。 |
+| [`basic-sort/selection-sort/multiple-swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/selection-sort/multiple-swap.js) | [`sorting/selection-sort/exchange-sort.js`](../sorting/selection-sort/exchange-sort.js) | 改名：每找到一个更小的项就交换，这是交换排序。 |
+| [`basic-sort/selection-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/selection-sort/index.py) | [`sorting/selection-sort/exchange_sort.py`](../sorting/selection-sort/exchange_sort.py) | 同样的原因改名。 |
+| [`basic-sort/insertion-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/insertion-sort/index.js) | [`sorting/insertion-sort/insertion-sort.js`](../sorting/insertion-sort/insertion-sort.js) | 已导出并有测试。 |
+| [`basic-sort/insertion-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/insertion-sort/index.py) | [`sorting/insertion-sort/insertion_sort.py`](../sorting/insertion-sort/insertion_sort.py) | 修正：最小的一项会落到下标 1，所以 [5, 4] 排不好。 |
+| [`basic-sort/shell-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/shell-sort/index.py) | [`sorting/shell-sort/shell_sort.py`](../sorting/shell-sort/shell_sort.py) | 改为 Python 3；新增 JavaScript 版 shell-sort.js。 |
+| [`basic-sort/merge-sort/split-array-in-recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/merge-sort/split-array-in-recursion.js) | [`sorting/merge-sort/top-down-copying.js`](../sorting/merge-sort/top-down-copying.js) | 不再使用会拖慢大输入的 shift()；现在是稳定排序。 |
+| [`basic-sort/merge-sort/use-cursor-in-recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/merge-sort/use-cursor-in-recursion.js) | [`sorting/merge-sort/top-down-indices.js`](../sorting/merge-sort/top-down-indices.js) | 修正：空数组会无限递归。 |
+| [`basic-sort/merge-sort/use-cursor-without-recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/merge-sort/use-cursor-without-recursion.js) | [`sorting/merge-sort/bottom-up.js`](../sorting/merge-sort/bottom-up.js) | 修正：长度为 5、9、11 等时会多出 undefined。 |
+| [`basic-sort/merge-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/merge-sort/index.py) | [`sorting/merge-sort/top_down_copying.py`](../sorting/merge-sort/top_down_copying.py) | 改为 Python 3；现在是稳定排序。 |
+| [`basic-sort/quick-sort/ensure-1-num-per-sort.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/quick-sort/ensure-1-num-per-sort.js) | [`sorting/quick-sort/two-way-copying.js`](../sorting/quick-sort/two-way-copying.js) | 不再从调用方的数组里删掉基准值。 |
+| [`basic-sort/quick-sort/ensure-batch-num-per-sort.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/quick-sort/ensure-batch-num-per-sort.js) | [`sorting/quick-sort/three-way-in-place.js`](../sorting/quick-sort/three-way-in-place.js) | 修正：递归从下标 0 而不是 l 开始，4,000 项要跑 22 秒。现在取中间项作基准值。 |
+| [`basic-sort/quick-sort/index.py`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/quick-sort/index.py) | [`sorting/quick-sort/two_way_copying.py`](../sorting/quick-sort/two_way_copying.py) | 改为 Python 3；不再改动调用方的列表。 |
+| [`basic-sort/heap-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/heap-sort/index.js) | [`sorting/heap-sort/heap-sort.js`](../sorting/heap-sort/heap-sort.js) | 修正：根节点从未下沉，[1, 2] 会排成 [2, 1]。 |
+| [`basic-sort/radix-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/radix-sort/index.js) | [`sorting/radix-sort/radix-sort.js`](../sorting/radix-sort/radix-sort.js) | 修正：每一趟都读原数组，而且遇到负数就抛错。 |
+| [`basic-sort/multiplication-table/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/multiplication-table/index.js) | 已退役 | 它只是打印九九乘法表：一个循环练习，不是排序。 |
+
 ## 从全部历史中移除
 
 以下内容已于 2026-09-28 从每一个提交中移除，因此没有可以链接的地方。
@@ -32,4 +60,4 @@
 
 ## 尚未转换
 
-`algorithm-canvas/`、`basic-sort/`、`data-structure/`、`leetcode/` 和 `problems/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
+`algorithm-canvas/`、`data-structure/`、`leetcode/` 和 `problems/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
