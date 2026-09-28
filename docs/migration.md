@@ -72,6 +72,23 @@ Now in [`data-structures/`](../data-structures) and [`searching/`](../searching)
 | new | [`searching/binary-search/binary-search.js`](../searching/binary-search/binary-search.js) | New, written for this repository, with lowerBound. |
 | new | [`searching/binary-search/BinarySearch.java`](../searching/binary-search/BinarySearch.java) | New: replaces the GPL textbook copy removed from history. |
 
+## Classic problems
+
+Still in [`problems/`](../problems), now with tests and a README.
+
+| Before | Now | Why |
+| --- | --- | --- |
+| [`problems/adding-large-numbers/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/adding-large-numbers/index.js) | [`problems/adding-large-numbers/digit-by-digit.js`](../problems/adding-large-numbers/digit-by-digit.js) | Now validates its input (it produced "NaN8" for "-5" + "3") and strips leading zeros. |
+| [`problems/array-deduplication/extra-array.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/extra-array.js) | [`problems/array-deduplication/extra-array.js`](../problems/array-deduplication/extra-array.js) | Exported and tested; the NaN behaviour of indexOf is now documented. |
+| [`problems/array-deduplication/sort-first.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/sort-first.js) | [`problems/array-deduplication/sort-first.js`](../problems/array-deduplication/sort-first.js) | Fixed: it sorted the caller's array as strings, so 10 came before 9. |
+| [`problems/array-deduplication/set.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/array-deduplication/set.js) | [`problems/array-deduplication/set.js`](../problems/array-deduplication/set.js) | Exported and tested. |
+| [`problems/knapsack-0-1/knapsack.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/knapsack-0-1/knapsack.js) | [`problems/knapsack-0-1/brute-force.js`](../problems/knapsack-0-1/brute-force.js) | Fixed: items of weight 0 were ignored once the bag was full. Its table version moved to recursion-to-table.js. |
+| [`problems/knapsack-0-1/dp.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/knapsack-0-1/dp.js) | [`problems/knapsack-0-1/tabulation.js`](../problems/knapsack-0-1/tabulation.js) | Fixed the same weight-0 case; the commented-out unbounded version is described in the README instead. |
+| [`problems/max-number-in-array/recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/max-number-in-array/recursion.js) | [`problems/max-number-in-array/divide-and-conquer.js`](../problems/max-number-in-array/divide-and-conquer.js) | Fixed: an empty array recursed forever; it now returns -Infinity like Math.max(). |
+| [`problems/netherlands-flag/quick-sort.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/netherlands-flag/quick-sort.js) | [`problems/dutch-national-flag/partition.js`](../problems/dutch-national-flag/partition.js) | Only the partition stays here; the quick sort around it is sorting/quick-sort/three-way-in-place.js. |
+| [`problems/sum-left-smaller-num-in-array/recursion.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/problems/sum-left-smaller-num-in-array/recursion.js) | [`problems/small-sum/merge-sort.js`](../problems/small-sum/merge-sort.js) | No longer sorts the caller's array; a brute-force version is added as the reference. |
+| [`problems/fibonacci-sequence/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/problems/fibonacci-sequence/) | retired | Retired: the four files were identical to the ones in leetcode/509-fibonacci-number. |
+
 ## Removed from the whole history
 
 These were removed from every commit on 2026-09-28, so there is nothing to link to.
@@ -84,4 +101,4 @@ These were removed from every commit on 2026-09-28, so there is nothing to link 
 
 ## Not converted yet
 
-`algorithm-canvas/`, `leetcode/` and `problems/` still have their old layout. Their rows appear here as each one is converted.
+`algorithm-canvas/` and `leetcode/` still have their old layout. Their rows appear here as each one is converted.
