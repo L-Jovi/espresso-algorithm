@@ -1,0 +1,8 @@
+# Everything here is text; store it with LF line endings.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Keep prose out of GitHub's language statistics.
+docs/** linguist-documentation
