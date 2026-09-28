@@ -9,9 +9,11 @@ Small, tested implementations of classic algorithms, data structures and LeetCod
 There is no install step and there are no dependencies. Use Node `^22.18.0 || >=24.2.0` (see `.nvmrc`).
 
 ```sh
-npm test            # every *.test.js file; fails if no test ran
-npm run check:repo  # Markdown links, README language pairs, legacy folders
-npm run check       # both
+npm test             # every *.test.js file; fails if no test ran
+npm run test:python  # every test_*.py file (Python 3.11+); fails if no test ran
+npm run check:repo   # links, README language pairs, every module reached by a test
+npm run check        # all three
+npm run bench        # race the sorts (not part of the checks)
 ```
 
 ## Conventions
@@ -21,7 +23,8 @@ npm run check       # both
 - **Comments:** English, explaining why. A file header gives the idea and the time and space complexity.
 - **Problem statements:** never copy one. Link to the problem and summarize it in your own words.
 - **Docs:** `README.md` is the source; update `README.zh-Hans.md` in the same change and bump its sync date. Follow `docs/writing.md`.
-- **Legacy folders:** `scripts/check-repo.mjs` lists folders still in the pre-2026 layout (`LEGACY`). Remove a folder from that list in the change that converts it.
+- **Legacy folders:** `scripts/lib/layout.mjs` lists folders still in the pre-2026 layout (`LEGACY`) and converted ones (`SECTIONS`). Move a folder from the first list to the second in the change that converts it.
+- **Python:** standard library only, loaded by path with `shared/load_module.py`; tests are `test_*.py` next to the code.
 - **Commits and PRs:** Conventional Commits. Branch from `main` and open a PR; the `verify` check must pass, and only merge commits are allowed.
 
 ## Safety

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { swap } from './swap.js'
 import { measure } from './measure.js'
 import { createRandom, randomIntegers, randomFloats } from './random.js'
+import { showSort } from './demo.js'
 
 describe('swap', () => {
   it('swaps two items in place and returns the same array', () => {
@@ -80,5 +81,15 @@ describe('randomFloats', () => {
     // Compare through toFixed: 0.29 * 100 is 28.999999999999996 in binary floating point.
     assert.ok(values.every(value => Number(value.toFixed(2)) === value))
     assert.ok(values.some(value => !Number.isInteger(value)))
+  })
+})
+
+describe('showSort', () => {
+  it('prints the input and the sorted output', t => {
+    const log = t.mock.method(console, 'log', () => {})
+    showSort(array => array.sort((a, b) => a - b), { length: 5, seed: 1 })
+    const [input, sorted] = log.mock.calls.map(call => call.arguments[0])
+    const numbers = line => line.split(/\s+/).slice(1).map(Number)
+    assert.deepEqual(numbers(sorted), numbers(input).toSorted((a, b) => a - b))
   })
 })
