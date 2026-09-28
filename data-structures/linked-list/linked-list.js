@@ -1,153 +1,119 @@
-/*
- * @Description: linked list
- * @FileName: linked-list.js
- * @Implements: [size] [head] [add] [remove] [indexOf] [elementAt] [addAt] [removeAt]
+/**
+ * Singly linked list.
+ *
+ * Each node holds an element and a pointer to the next node. The list keeps
+ * only the head, so reaching position i means following i pointers, and
+ * adding at the end walks the whole list. In exchange, inserting or removing
+ * next to a node you already hold never moves other items, unlike an array.
+ *
+ * add, indexOf, elementAt, addAt, removeAt, remove: O(n).
+ * size, head, isEmpty: O(1).
  */
 
-function Node(element) {
-  this.element = element
-  this.next = null
+export class Node {
+  constructor(element) {
+    this.element = element
+    this.next = null
+  }
 }
 
+export class LinkedList {
+  #head = null
+  #length = 0
 
-function LinkedList() {
-  let length = 0
-  let head = null
-
-  this.size = function() {
-    return length
+  size() {
+    return this.#length
   }
 
-  this.head = function() {
-    return head
+  /** The first node (not its element), or null. */
+  head() {
+    return this.#head
   }
 
-  this.add = function(element) {
+  isEmpty() {
+    return this.#length === 0
+  }
+
+  /** Append an element at the end. */
+  add(element) {
     const node = new Node(element)
-
-    if (head === null) {
-      head = node
-
+    if (this.#head === null) {
+      this.#head = node
     } else {
-      let currentNode = head
-      while (currentNode.next) {
-        currentNode = currentNode.next
-      }
-      currentNode.next = node
+      let current = this.#head
+      while (current.next) current = current.next
+      current.next = node
     }
-
-    length++
+    this.#length++
   }
 
-  this.remove = function(element) {
-    const index = this.indexOf(element)
-    this.removeAt(index)
+  /** Remove the first occurrence of `element`; return it, or null if absent. */
+  remove(element) {
+    return this.removeAt(this.indexOf(element))
   }
 
-  this.isEmpty = function() {
-    return length === 0
-  }
-
-  this.indexOf = function(element) {
-    let index = -1
-    let currentNode = head
-
-    while (currentNode) {
-      index++
-      if (currentNode.element == element) {
-        return index
-      } else {
-        currentNode = currentNode.next
-      }
+  /** Position of the first node whose element is `element` (===), or -1. */
+  indexOf(element) {
+    let index = 0
+    for (let current = this.#head; current; current = current.next, index++) {
+      if (current.element === element) return index
     }
-
     return -1
   }
 
-  this.elementAt = function(index) {
-    let currentIndex = 0
-    let currentNode = head
-
-    // return first element if index = 0
-    while (currentIndex < index) {
-      currentIndex++
-      currentNode = currentNode.next
-    }
-
-    return currentNode.element
+  /** The element at `index`, or undefined when the index is out of range. */
+  elementAt(index) {
+    if (!(index >= 0 && index < this.#length)) return undefined
+    let current = this.#head
+    for (let i = 0; i < index; i++) current = current.next
+    return current.element
   }
 
-  this.addAt = function(index, element) {
+  /** Insert `element` so that it ends up at `index`; false if index is out of range. */
+  addAt(index, element) {
+    if (!(index >= 0 && index <= this.#length)) return false
     const node = new Node(element)
-
-    // skip index > length condition
-    if (index > length) {
-      return false
-
+    if (index === 0) {
+      node.next = this.#head
+      this.#head = node
     } else {
-      // insert at 1st position
-      if (index === 0) {
-        node.next = head
-        head = node
-
-      } else {
-        let currentIndex = 0
-        let currentNode = head
-        let previousNode
-
-        // insert after 1st position
-        // until currentIndex === index
-        while (currentIndex < index) {
-          currentIndex++
-          previousNode = currentNode
-          currentNode = currentNode.next
-        }
-
-        // connect previousNode, node(inserting node), currentNode
-        node.next = currentNode
-        previousNode.next = node
-      }
-
-      length++
+      let previous = this.#head
+      for (let i = 1; i < index; i++) previous = previous.next
+      node.next = previous.next
+      previous.next = node
     }
+    this.#length++
+    return true
   }
 
-  this.removeAt = function(index) {
-    let currentNode = head
-
-    if (index < 0 || index >= length) {
-      return null
-
+  /** Remove and return the element at `index`, or null when it is out of range. */
+  removeAt(index) {
+    if (!(index >= 0 && index < this.#length)) return null
+    let removed = this.#head
+    if (index === 0) {
+      this.#head = removed.next
     } else {
-      if (index === 0) {
-        head = currentNode.next
-
-      } else {
-        let currentIndex = 0
-        let previousNode
-
-        while (currentIndex < index) {
-          currentIndex++
-          previousNode = currentNode
-          currentNode = currentNode.next
-        }
-
-        // remove currentNode
-        previousNode.next = currentNode.next
-      }
-
-      length--
+      let previous = this.#head
+      for (let i = 1; i < index; i++) previous = previous.next
+      removed = previous.next
+      previous.next = removed.next
     }
+    this.#length--
+    return removed.element
+  }
 
-    return currentNode.element
+  toArray() {
+    const elements = []
+    for (let current = this.#head; current; current = current.next) elements.push(current.element)
+    return elements
   }
 }
 
-
-// main
-
-const list = new LinkedList()
-list.add(5)
-list.add(3)
-const index = list.indexOf(3)
-console.log('indexOf: ', index)
+if (import.meta.main) {
+  const list = new LinkedList()
+  list.add(5)
+  list.add(3)
+  list.addAt(1, 4)
+  console.log('list:      ', list.toArray().join(' → '))
+  console.log('indexOf(3):', list.indexOf(3))
+}

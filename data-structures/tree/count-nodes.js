@@ -1,42 +1,22 @@
 /**
- * getTotalNodes
+ * Count the nodes of a binary tree.
  *
- * @param {Node} root
- * @returns {Number}
+ * The count of a tree is the count of its left subtree, plus the count of its
+ * right subtree, plus one for the root; an empty tree counts zero. Many tree
+ * questions have this shape: answer for both subtrees, then combine.
+ *
+ * Time: O(n). Space: O(h) for the recursion, where h is the height. For a
+ * complete binary tree, LeetCode 222 shows an O(log² n) method that measures
+ * the heights of the left and right edges instead.
  */
-const getTotalNodes = (root) => {
-  const count = (node) => {
-    if (!node) {
-      return 0
-    }
+import { array2BinaryTree } from './binary-tree-array.js'
 
-    const leftCount = count(node.left)
-    const rightCount = count(node.right)
-    return leftCount + rightCount + 1
-  }
-
-  return count(root)
+export function countNodes(root) {
+  if (!root) return 0
+  return countNodes(root.left) + countNodes(root.right) + 1
 }
 
-
-const root = {
-  left: {
-    left: {
-      left: {},
-      right: {
-        left: {
-          right: {}
-        }
-      }
-    }
-  },
-  right: {
-    left: {},
-    right: {
-      left: {
-        right: {}
-      }
-    }
-  }
+if (import.meta.main) {
+  const tree = array2BinaryTree([1, 2, 3, 4, null, 6, 7, null, 8])
+  console.log('nodes:', countNodes(tree))
 }
-console.log(getTotalNodes(root))

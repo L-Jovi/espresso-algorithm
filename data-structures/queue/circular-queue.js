@@ -1,75 +1,83 @@
-/*
- * @Description: Circular queue implements by Javascript.
- * @FileName: circular-queue.js
- * @Implements [enqueue] [dequeue] [front] [isEmpty] [size]
- * @Refer [https://blog.csdn.net/fansongy/article/details/6784954]
+/**
+ * Circular queue: a queue in a fixed array whose ends wrap around.
+ *
+ * Instead of moving items when one leaves, keep two indexes, `head` (the
+ * front item) and `tail` (where the next item goes), and let both wrap to the
+ * start of the array with `% length`. One slot always stays empty, so that
+ * "full" (tail is just behind head) and "empty" (tail equals head) look
+ * different.
+ *
+ * When the array is full it doubles; when only a quarter is used it halves.
+ * Resizing costs O(n), but it happens rarely enough that each operation is
+ * O(1) on average ("amortized").
+ *
+ * enqueue, dequeue: O(1) amortized. front, size, isEmpty: O(1).
+ * Learning source: https://blog.csdn.net/fansongy/article/details/6784954
  */
 
-class CircularQueue {
-  constructor(length) {
-    this.queue = new Array(length + 1)
-    this.first = 0  // head
-    this.last = 0 // tail
-    this.size = 0
+export class CircularQueue {
+  #slots
+  #head = 0
+  #tail = 0
+  #size = 0
+
+  constructor(capacity = 4) {
+    this.#slots = new Array(capacity + 1)
   }
 
-  enQueue(item) {
-    // test last whether it is looped
-    if (this.first === (this.last + 1) % this.queue.length) {
-      this.resize(this.getLength() * 2 + 1)
+  enqueue(item) {
+    if ((this.#tail + 1) % this.#slots.length === this.#head) {
+      this.#resize(this.capacity() * 2)
     }
-
-    this.queue[this.last] = item
-    this.size++
-    this.last = this.last + 1
+    this.#slots[this.#tail] = item
+    this.#tail = (this.#tail + 1) % this.#slots.length
+    this.#size++
   }
 
-  deQueue() {
-    if (this.isEmpty()) {
-      throw Error('Queue is Empty.')
-
-    } else {
-      // dequeue at first node
-      let r = this.queue[this.first]
-      this.queue[this.first] = null
-      this.first = this.first + 1
-      this.size--
-
-      // If the number of elements after dequeuing is a quarter of the total length, reduce the total queue length.
-      if (this.size === this.getLength() / 4 && this.getLength() / 2 !== 0) {
-        this.resize(this.getLength() / 2)
-      }
-
-      return r
+  dequeue() {
+    if (this.isEmpty()) throw new Error('The queue is empty.')
+    const item = this.#slots[this.#head]
+    this.#slots[this.#head] = undefined
+    this.#head = (this.#head + 1) % this.#slots.length
+    this.#size--
+    if (this.#size > 0 && this.#size === Math.floor(this.capacity() / 4)) {
+      this.#resize(Math.floor(this.capacity() / 2))
     }
+    return item
   }
 
-  getHeader() {
-    if (this.isEmpty()) {
-      throw Error('Queue is Empty.')
-
-    } else {
-      return this.queue[this.first]
-    }
+  front() {
+    if (this.isEmpty()) throw new Error('The queue is empty.')
+    return this.#slots[this.#head]
   }
 
-  getLength() {
-    return this.queue.length - 1
-  }
-
-  resize(length) {
-    let q = new Array(length)
-
-    for (let i = 0; i < length; i++) {
-      q[i] = this.queue[(i + this.first) % this.queue.length]
-    }
-
-    this.queue = q
-    this.first = 0
-    this.last = this.size
+  size() {
+    return this.#size
   }
 
   isEmpty() {
-    return this.first === this.last
+    return this.#size === 0
   }
+
+  /** How many items fit before the next resize. */
+  capacity() {
+    return this.#slots.length - 1
+  }
+
+  #resize(capacity) {
+    const slots = new Array(capacity + 1)
+    for (let i = 0; i < this.#size; i++) {
+      slots[i] = this.#slots[(this.#head + i) % this.#slots.length]
+    }
+    this.#slots = slots
+    this.#head = 0
+    this.#tail = this.#size
+  }
+}
+
+if (import.meta.main) {
+  const queue = new CircularQueue(2)
+  for (const n of [1, 2, 3, 4, 5]) queue.enqueue(n)
+  console.log('capacity after 5 items:', queue.capacity())
+  console.log('dequeue order:', [1, 2, 3, 4, 5].map(() => queue.dequeue()).join(' '))
 }

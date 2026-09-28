@@ -1,62 +1,46 @@
-/*
- * @Description: Priority queue implements by Javascript.
- * @FileName: priority-queue.js
- * @Implements [enqueue] [dequeue] [front] [isEmpty] [size]
+/**
+ * Priority queue kept in a sorted array.
+ *
+ * Every item has a priority; the smallest number leaves first. `enqueue`
+ * walks the array to the first item with a larger priority and inserts the new
+ * item before it, so items with equal priority leave in the order they came.
+ * `dequeue` takes the front. binary-heap-priority-queue.js offers the same
+ * interface with O(log n) operations.
+ *
+ * enqueue: O(n). dequeue: O(n) (shift). front, size, isEmpty: O(1).
  */
 
-function PriorityQueue() {
-  const collection = []
+export class PriorityQueue {
+  #items = [] // [value, priority], sorted by priority
 
-  this.print = function() {
-    console.log(collection)
+  enqueue(value, priority) {
+    const index = this.#items.findIndex(([, other]) => priority < other)
+    if (index === -1) this.#items.push([value, priority])
+    else this.#items.splice(index, 0, [value, priority])
   }
 
-  this.enqueue = function(element) {
-    if (this.isEmpty()) {
-      collection.push(element)
-
-    } else {
-      // example: item => [ <value>, <priority> ]
-      let added = false
-      for (let i = 0; i < collection.length; i++) {
-        if (element[1] < collection[i][1]) {
-          collection.splice(i, 0, element)
-          added = true
-          break
-        }
-      }
-
-      if (!added) {
-        collection.push(element)
-      }
-    }
+  dequeue() {
+    return this.#items.shift()?.[0]
   }
 
-  this.dequeue = function () {
-    return collection.shift()
+  front() {
+    return this.#items[0]?.[0]
   }
 
-  this.front = function () {
-    return collection[0]
+  isEmpty() {
+    return this.#items.length === 0
   }
 
-  this.isEmpty = function () {
-    return collection.length === 0
-  }
-
-  this.size = function () {
-    return collection.length
+  size() {
+    return this.#items.length
   }
 }
 
-
-// test
-
-let pQ = new PriorityQueue()
-
-pQ.enqueue(['gannicus', 3])
-pQ.enqueue(['spartacus', 1])
-pQ.enqueue(['crixus', 2])
-pQ.enqueue(['oenomaus', 4])
-
-pQ.print()
+if (import.meta.main) {
+  const queue = new PriorityQueue()
+  queue.enqueue('gannicus', 3)
+  queue.enqueue('spartacus', 1)
+  queue.enqueue('crixus', 2)
+  queue.enqueue('oenomaus', 4)
+  console.log(Array.from({ length: 4 }, () => queue.dequeue()).join(' → '))
+}

@@ -1,33 +1,46 @@
-/*
- * @Description: Queue implements by Javascript.
- * @FileName: queue.js
- * @Implements [enqueue] [dequeue] [front] [isEmpty] [size]
+/**
+ * Queue: first in, first out, stored in an array.
+ *
+ * Items join at the end and leave from the front. Leaving uses shift(), which
+ * in the worst case moves every remaining item one position: O(n) per
+ * dequeue. circular-queue.js avoids that by moving the front index instead of
+ * the items.
+ *
+ * enqueue, front, size, isEmpty: O(1). dequeue: O(n) in the worst case.
  */
 
-function Queue() {
-  const collection = []
+export class Queue {
+  #items = []
 
-  this.print = function() {
-    console.log(collection)
+  enqueue(element) {
+    this.#items.push(element)
   }
 
-  this.enqueue = function(element) {
-    collection.push(element)
+  dequeue() {
+    return this.#items.shift()
   }
 
-  this.dequeue = function () {
-    return collection.shift();
+  front() {
+    return this.#items[0]
   }
 
-  this.front = function () {
-    return collection[0];
+  isEmpty() {
+    return this.#items.length === 0
   }
 
-  this.isEmpty = function () {
-    return collection.length === 0;
+  size() {
+    return this.#items.length
   }
 
-  this.size = function () {
-    return collection.length;
+  toArray() {
+    return [...this.#items]
   }
+}
+
+if (import.meta.main) {
+  const queue = new Queue()
+  for (const name of ['ann', 'bob', 'cai']) queue.enqueue(name)
+  console.log('dequeue:', queue.dequeue())
+  console.log('front:  ', queue.front())
+  console.log('left:   ', queue.toArray().join(', '))
 }

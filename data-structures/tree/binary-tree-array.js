@@ -1,117 +1,62 @@
-const getTreeNode = (value, left = null, right = null) => {
-  return {
-    value,
-    left,
-    right,
-  }
-}
+/**
+ * Convert between a binary tree and LeetCode's level-order array.
+ *
+ * LeetCode writes a tree as its nodes level by level, left to right, with
+ * `null` for a missing child and without trailing nulls: [3, 1, 4, 3, null, 1, 5].
+ * Children are only listed for nodes that exist, so the array is not the
+ * "index i has children 2i + 1 and 2i + 2" layout of a heap; a queue of
+ * parents, filled level by level, decides whose child each value is.
+ *
+ * Nodes use `val`, `left` and `right`, the shape LeetCode passes to solutions,
+ * and the LeetCode tests in this repository build their trees with these
+ * functions. Both functions are O(n).
+ */
+
+export const treeNode = (val, left = null, right = null) => ({ val, left, right })
 
 /**
- * array2BinaryTree
- *
- * @param {Number} array
- * @description Only fit full binary tree
- * @returns {Node}
+ * @param {(number | null)[]} array level order with nulls
+ * @returns the root, or null for an empty tree
  */
-// const array2BinaryTree = (array) => {
-//   const traverse = (index) => {
-//     if (index > array.length) {
-//       return null
-//     }
-//
-//     const node = {}
-//     const value = array[index - 1]
-//     node.value = value
-//     node.left = traverse(index * 2)
-//     node.right = traverse(index * 2 + 1)
-//
-//     return node
-//   }
-//
-//   return traverse(1)
-// }
-
-
-/**
- * array2BinaryTree
- *
- * @param {Number} array
- * @description Fit common binary tree
- * @returns {Node}
- */
-const array2BinaryTree = (array) => {
-  if (array.length === 0) {
-    return null
+export function array2BinaryTree(array) {
+  if (array.length === 0 || array[0] === null) return null
+  const root = treeNode(array[0])
+  const parents = [root]
+  let head = 0
+  let i = 1
+  // Stop when no parent is left: values after that have nowhere to go.
+  while (i < array.length && head < parents.length) {
+    const parent = parents[head++]
+    if (array[i] !== null) parents.push((parent.left = treeNode(array[i])))
+    i++
+    if (i < array.length && array[i] !== null) parents.push((parent.right = treeNode(array[i])))
+    i++
   }
-
-  const root = getTreeNode(array[0])
-  const queue = []
-  queue.push(root)
-
-  let isLeft = true
-
-  for (let i = 1; i < array.length; i++) {
-    const node = queue[0]
-    if (isLeft) {
-      if (array[i] !== null) {
-        node.left = getTreeNode(array[i])
-        queue.push(node.left)
-      }
-      isLeft = false
-
-    } else {
-      if (array[i] !== null) {
-        node.right = getTreeNode(array[i])
-        queue.push(node.right)
-      }
-      queue.shift()
-      isLeft = true
-    }
-  }
-
   return root
 }
 
-
 /**
- * binaryTree2Array (BFS)
- *
- * @param {Node} root
- * @returns {Number[]}
+ * @param root the root node, or null
+ * @returns {(number | null)[]} level order with nulls, trailing nulls removed
  */
-const binaryTree2Array = (root) => {
+export function binaryTree2Array(root) {
   const array = []
-  const queue = []
-  queue.push(root)
-
-  while (queue.length) {
-    const size = queue.length
-
-    for (let i = 0; i < size; i++) {
-      const node = queue.shift()
-      array.push(node.value)
-
-      if (node.left) {
-        queue.push(node.left)
-      }
-
-      if (node.right) {
-        queue.push(node.right)
-      }
+  const queue = [root]
+  for (let head = 0; head < queue.length; head++) {
+    const node = queue[head]
+    if (node === null) {
+      array.push(null)
+    } else {
+      array.push(node.val)
+      queue.push(node.left, node.right)
     }
   }
-
+  while (array.at(-1) === null) array.pop()
   return array
 }
 
-
-const array1 = [1, 2, 3, 4, 5, 6, 7]
-const array2 = [3, 1, 4, 3, null, 1, 5]
-
-const tree1 = array2BinaryTree(array1)
-const tree2 = array2BinaryTree(array2)
-console.log('tree1: ', tree1)
-console.log('tree2: ', tree2)
-
-console.log('array1: ', binaryTree2Array(tree1))
-console.log('array2: ', binaryTree2Array(tree2))
+if (import.meta.main) {
+  const tree = array2BinaryTree([3, 1, 4, 3, null, 1, 5])
+  console.log('root:', tree.val, ' left:', tree.left.val, ' right:', tree.right.val)
+  console.log('back to an array:', JSON.stringify(binaryTree2Array(tree)))
+}

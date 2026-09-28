@@ -1,82 +1,71 @@
-// implements [add] [isWord] [print]
+/**
+ * Trie (prefix tree): words stored letter by letter.
+ *
+ * Every node maps a letter to a child node and marks whether a word ends
+ * there. Words that share a prefix share the nodes of that prefix, so looking
+ * up a word or a prefix takes one step per letter, however many words the trie
+ * holds. Autocomplete and spell checkers use this shape.
+ *
+ * add, isWord, startsWith: O(L) for a word of length L. words: O(total letters).
+ */
 
-function Node() {
-  this.keys = new Map()
-  this.end = false
-  this.setEnd = function() {
-    this.end = true
-  }
-  this.isEnd = function() {
-    return this.end;
-  }
-}
-
-
-function Trie() {
-  this.root = new Node()
-
-  this.add = function(input, node = this.root) {
-    if (input.length === 0) {
-      node.setEnd()
-      return
-
-    } else if (!node.keys.has(input[0])) {
-      node.keys.set(input[0], new Node())
-      return this.add(input.substr(1), node.keys.get(input[0]))
-
-    } else {
-      return this.add(input.substr(1), node.keys.get(input[0]))
-    }
-  }
-
-  this.isWord = function(word) {
-    let node = this.root;
-
-    while (word.length > 1) {
-      if (!node.keys.has(word[0])) {
-        return false
-
-      } else {
-        node = ndoe.keys.get(word[0])
-        word = word.substr(1)
-      }
-    }
-
-    return (node.keys.has(word) && node.keys.get(word).isEnd()) ? true : false
-  }
-
-  this.print = function() {
-    let words = new Array()
-
-    let search = function(node = this.root, string) {
-      if (node.size !== 0) {
-        for (let letter of node.keys.keys()) {
-          search(node.keys.get(letter), string.concat(letter))
-        }
-
-        if (node.isEnd()) {
-          words.push(string)
-        }
-
-      } else {
-        string.length > 0 ? words.push(string) : undefined
-        return
-      }
-    }
-
-    search(this.root, new String())
-    return words.length > 0 ? words : null
+class Node {
+  constructor() {
+    this.keys = new Map()
+    this.end = false
   }
 }
 
+export class Trie {
+  constructor() {
+    this.root = new Node()
+  }
 
-// main
+  add(word) {
+    let node = this.root
+    for (const letter of word) {
+      if (!node.keys.has(letter)) node.keys.set(letter, new Node())
+      node = node.keys.get(letter)
+    }
+    node.end = true
+  }
 
-const trie = new Trie()
-trie.add('saber')
-trie.add('sabre')
-trie.add('sbrea')
-trie.add('archer')
-trie.add('arcrec')
-const words = trie.print()
-console.log(words)
+  /** True when `word` was added (not just a prefix of an added word). */
+  isWord(word) {
+    return this.#nodeAt(word)?.end === true
+  }
+
+  /** True when some added word starts with `prefix`. */
+  startsWith(prefix) {
+    return this.#nodeAt(prefix) !== undefined
+  }
+
+  /** Every added word, in the order its letters were first inserted. */
+  words() {
+    const found = []
+    const search = (node, prefix) => {
+      if (node.end) found.push(prefix)
+      for (const [letter, child] of node.keys) search(child, prefix + letter)
+    }
+    search(this.root, '')
+    return found
+  }
+
+  #nodeAt(text) {
+    let node = this.root
+    for (const letter of text) {
+      node = node.keys.get(letter)
+      if (node === undefined) return undefined
+    }
+    return node
+  }
+}
+
+if (import.meta.main) {
+  const trie = new Trie()
+  for (const word of ['saber', 'sabre', 'sbrea', 'archer', 'arcrec']) trie.add(word)
+  console.log('words:            ', trie.words().join(', '))
+  console.log('isWord("sabre"):  ', trie.isWord('sabre'))
+  console.log('isWord("sab"):    ', trie.isWord('sab'))
+  console.log('startsWith("arc"):', trie.startsWith('arc'))
+}

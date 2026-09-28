@@ -1,83 +1,73 @@
-/*
- * @Description: Stack implements by Javascript.
- * @FileName: stack.js
- * @Implements [push] [pop] [peek] [length]
+/**
+ * Stack: last in, first out.
+ *
+ * Two versions of the same interface. `Stack` keeps its items in a plain
+ * object keyed by position and counts them itself, which shows what an array
+ * does for you. `ArrayStack` lets an array do that work: pushing and popping
+ * at the end of an array never moves the other items.
+ *
+ * Every operation is O(1).
  */
 
-function Stack() {  // implements by Object {}
-  this.count = 0
-  this.storage = {}
+export class Stack {
+  #count = 0
+  #storage = {}
 
-  this.push = function(value) {
-    this.storage[this.count] = value
-    this.count++
-  }
-
-  this.pop = function() {
-    if (this.count === 0) {
-      return undefined
-
-    } else {
-      this.count--
-      const top = this.storage[this.count]
-      delete this.storage[this.count]
-      return top
-    }
-  }
-
-  this.peek = function() {
-    return this.storage[this.count - 1]
-  }
-
-  this.size = function() {
-    return this.count
-  }
-}
-
-
-class StackByArray { // implements by Array []
-  constructor() {
-    this.stack = []
-  }
-
-  push () {
-    this.stack.push()
+  push(value) {
+    this.#storage[this.#count] = value
+    this.#count++
   }
 
   pop() {
-    this.stack.pop()
+    if (this.#count === 0) return undefined
+    this.#count--
+    const top = this.#storage[this.#count]
+    delete this.#storage[this.#count]
+    return top
   }
 
   peek() {
-    return this.stack[this.getCount() - 1]
+    return this.#storage[this.#count - 1]
   }
 
-  getCount() {
-    return this.stack.length
+  size() {
+    return this.#count
   }
 
   isEmpty() {
-    return this.getCount() === 0
+    return this.#count === 0
   }
 }
 
+export class ArrayStack {
+  #items = []
 
-// test
+  push(value) {
+    this.#items.push(value)
+  }
 
-const s = new Stack()
+  pop() {
+    return this.#items.pop()
+  }
 
-s.push('foo')
-s.push('bar')
+  peek() {
+    return this.#items.at(-1)
+  }
 
-const topPeek = s.peek()
-console.log('peek: ', topPeek)
+  size() {
+    return this.#items.length
+  }
 
-const topPop = s.pop()
-console.log('pop: ', topPop)
+  isEmpty() {
+    return this.#items.length === 0
+  }
+}
 
-let size = s.size()
-console.log('size: ', size)
-
-s.push('baz')
-size = s.size()
-console.log('size: ', size)
+if (import.meta.main) {
+  const stack = new Stack()
+  stack.push('foo')
+  stack.push('bar')
+  console.log('peek:', stack.peek())
+  console.log('pop: ', stack.pop())
+  console.log('size:', stack.size())
+}
