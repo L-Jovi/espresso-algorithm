@@ -1,24 +1,30 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""Shell sort, the same algorithm as shell-sort.js.
 
-def shell_sort(array):
-    print 'Before ... \n {arr}'.format(arr=array)
+Run insertion sort on items that are `gap` apart, then halve the gap. The last
+pass, with gap 1, is plain insertion sort on a list that is nearly sorted.
+The gaps are Shell's original n/2, n/4, …, 1.
 
+Time: O(n²) in the worst case with these gaps. Space: O(1). Not stable.
+Sorts in place.
+"""
+
+
+def shell_sort(array: list) -> list:
+    """Sort `array` in place and return it."""
     n = len(array)
-    gap = int(n / 2)
+    gap = n // 2
     while gap > 0:
         for i in range(gap, n):
-            tmp = array[i]
+            item = array[i]
             j = i
-            while (j >= gap and array[j-gap] > tmp):
-                array[j] = array[j-gap]
-                j = j - gap
-            array[j] = tmp
-        gap = int(gap / 2)
-
-    print '\nAfter ...\n {arr}'.format(arr=array)
+            while j >= gap and array[j - gap] > item:
+                array[j] = array[j - gap]
+                j -= gap
+            array[j] = item
+        gap //= 2
     return array
 
-if __name__ == '__main__':
-    array = [13, 14, 94, 33, 82, 25, 59, 94, 65, 23, 45, 27, 73, 25, 39, 10]
-    shell_sort(array)
+
+if __name__ == "__main__":
+    print(shell_sort([13, 14, 94, 33, 82, 25, 59, 94, 65, 23, 45, 27, 73, 25, 39, 10]))

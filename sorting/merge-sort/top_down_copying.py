@@ -1,32 +1,36 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""Merge sort, top down, copying the halves, like top-down-copying.js.
 
-def merge(left, right):
-    l = r = 0
-    res = []
-    while l < len(left) and r < len(right):
-        if left[l] < right[r]:
-            res.append(left[l])
-            l += 1
+Split the list in half with slicing, sort each half recursively and merge the
+two sorted halves into a new list.
+
+Time: O(n log n) on every input. Space: O(n) extra at any moment.
+Stable: on equal items the left one is taken first (`<=`).
+Returns a new list; the input is not changed.
+"""
+
+
+def merge(left: list, right: list) -> list:
+    """Merge two sorted lists into one new sorted list."""
+    i = j = 0
+    result = []
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
         else:
-            res.append(right[r])
-            r += 1
-    res += left[l:]
-    res += right[r:]
-    return res
+            result.append(right[j])
+            j += 1
+    return result + left[i:] + right[j:]
 
-def merge_sort(array):
-    n = len(array)
-    if n <= 1:
-        return array
-    else:
-        division = int(n / 2)
-        left = merge_sort(array[:division])
-        right = merge_sort(array[division:])
-        return merge(left, right)
 
-if __name__ == '__main__':
-    array = [13, 14, 94, 33, 82, 25, 59, 94, 65, 23, 45, 27, 73, 25, 39]
-    print 'Before ... \n {arr}'.format(arr=array)
-    array = merge_sort(array)
-    print '\nAfter ...\n {arr}'.format(arr=array)
+def merge_sort(array: list) -> list:
+    """Return a new sorted list with the items of `array`."""
+    if len(array) <= 1:
+        return list(array)
+    middle = len(array) // 2
+    return merge(merge_sort(array[:middle]), merge_sort(array[middle:]))
+
+
+if __name__ == "__main__":
+    print(merge_sort([13, 14, 94, 33, 82, 25, 59, 94, 65, 23, 45, 27, 73, 25, 39]))

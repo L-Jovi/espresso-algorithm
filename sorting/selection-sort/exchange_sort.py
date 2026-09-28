@@ -1,20 +1,24 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""Exchange sort, the same algorithm as exchange-sort.js.
 
-def select_sort(array):
-    print('Before ... \n', array)
+For each position i, compare it with every later item and swap as soon as a
+later item is smaller. When the inner loop ends, position i holds the minimum
+of the rest, and the next outer step starts the inner loop one position later.
+Selection sort (selection-sort.js) gets the same result with one swap per pass.
 
+Time: O(n²) on every input. Space: O(1). Not stable. Sorts in place.
+"""
+
+
+def exchange_sort(array: list) -> list:
+    """Sort `array` in place and return it."""
     n = len(array)
-    # 选择的外层迭代最终影响的是内层迭代的初值
-    # 也就是内层下一次迭代的起点
-    for i in range(n):
-        for j in range(i+1, n):
+    for i in range(n - 1):
+        for j in range(i + 1, n):
             if array[j] < array[i]:
                 array[i], array[j] = array[j], array[i]
-
-    print('\nAfter ...\n', array)
     return array
 
-if __name__ == '__main__':
-    array = [5, 4, 8, 1, 2]
-    select_sort(array)
+
+if __name__ == "__main__":
+    print(exchange_sort([5, 4, 8, 1, 2]))
