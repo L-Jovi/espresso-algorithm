@@ -1,79 +1,41 @@
-/*
- * @Description: Merge sort implements by Javascript without recursion.
- * @FileName: merge-sort/without-recursion.js
- * O(nlog(n))
+/**
+ * Merge sort, bottom up, without recursion
+ *
+ * Treat every item as a sorted run of length 1. Merge neighbouring runs into
+ * runs of 2, then 4, 8 and so on, until one run covers the whole array. The
+ * loop replaces the recursion of the top-down versions, so there is no call
+ * stack to overflow.
+ *
+ * When the number of items is not a power of two, the last run of a pass can
+ * be shorter, or have no partner at all. A run without a partner is already
+ * sorted and is simply left for the next pass.
+ *
+ * Time: O(n log n) on every input. Space: O(n) for the buffer. Stable.
+ * Sorts in place (the given array is rearranged).
  */
-const randomArray = require('../../libs/random-list')
-const timer = require('../../libs/timer')
+import { showSort } from '../../shared/demo.js'
+import { merge } from './merge.js'
 
-const merge = (array, l, mid, r) => {
-  const sortedArray = []
-  let i = 0
-  let p1 = l
-  let p2 = mid + 1
+const ascending = (a, b) => a - b
 
-  while (p1 <= mid && p2 <= r) {
-    if (array[p1] <= array[p2]) {
-      sortedArray[i] = array[p1]
-      p1++
-    } else {
-      sortedArray[i] = array[p2]
-      p2++
-    }
-    i++
-  }
-
-  // p1 or p2 oversize
-  while (p1 <= mid) {
-    sortedArray[i] = array[p1]
-    i++
-    p1++
-  }
-  while (p2 <= r) {
-    sortedArray[i] = array[p2]
-    i++
-    p2++
-  }
-
-  // copy sortedArray to array (which refer origin array)
-  for (let j = 0; j < sortedArray.length; j++) {
-    array[l + j] = sortedArray[j]
-  }
-
-  return sortedArray
-}
-
-const mergeSort = (array) => {
-  if (!array || array.length <= 1) {
-    return array
-  }
-
+/**
+ * @template T
+ * @param {T[]} array sorted in place
+ * @param {(a: T, b: T) => number} [compare]
+ * @returns {T[]} the same array
+ */
+export function mergeSort(array, compare = ascending) {
   const n = array.length
-  let mergeSize = 1           // half group size
-
-  while (mergeSize < n) {
-    let l = 0                 // cursor start at index 0
-
-    while (l < n) {
-      const mid = l + mergeSize -1
-
-      // check l + mergeSize reach or overflow array
-      if (mid > n) {
-        break
-      }
-
-      // check mid + mergeSize reach or overflow array
+  const buffer = new Array(n)
+  for (let mergeSize = 1; mergeSize < n; mergeSize *= 2) {
+    // A pair exists only while the left run ends before the last index.
+    for (let l = 0; l + mergeSize < n; l += 2 * mergeSize) {
+      const mid = l + mergeSize - 1
       const r = Math.min(mid + mergeSize, n - 1)
-      merge(array, l, mid, r)
-
-      l = r + 1
+      merge(array, buffer, l, mid, r, compare)
     }
-
-    mergeSize <<= 1
   }
-
   return array
 }
 
-const array = randomArray.list10()
-timer(mergeSort, array)
+if (import.meta.main) showSort(mergeSort)

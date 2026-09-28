@@ -1,55 +1,37 @@
-/*
- * @Description: Merge sort implements by Javascript rely on control cursor instead of split array.
- * @FileName: merge-sort/use-cursor-in-recursion.js
- * O(nlog(n))
+/**
+ * Merge sort, top down, with indexes instead of copies
+ *
+ * The same recursion as top-down-copying.js, but each call receives the range
+ * array[l..r] instead of a new array, and the merged result is written back
+ * into that range. Only one scratch buffer is allocated, for the whole sort.
+ *
+ * Time: O(n log n) on every input. Space: O(n) for the buffer plus O(log n)
+ * for the recursion. Stable. Sorts in place (the given array is rearranged).
  */
+import { showSort } from '../../shared/demo.js'
+import { merge } from './merge.js'
 
-const randomArray = require('../../libs/random-list')
-const timer = require('../../libs/timer')
+const ascending = (a, b) => a - b
 
-const merge = (array, l, mid, r) => {
-  const sortedArray = []
-  let p1 = l
-  let p2 = mid + 1
-
-  while (p1 <= mid && p2 <= r) {
-    if (array[p1] <= array[p2]) {
-      sortedArray.push(array[p1])
-      p1++
-    } else {
-      sortedArray.push(array[p2])
-      p2++
-    }
-  }
-
-  // p1 or p2 oversize
-  while (p1 <= mid) {
-    sortedArray.push(array[p1])
-    p1++
-  }
-  while (p2 <= r) {
-    sortedArray.push(array[p2])
-    p2++
-  }
-
-  // copy sortedArray to array (which refer origin array)
-  for (let j = 0; j < sortedArray.length; j++) {
-    array[l + j] = sortedArray[j]
-  }
-}
-
-const mergeSort = (array, l, r) => {
-  if (l === r) {
-    return
-  }
-
-  const mid = l + ((r - l) >> 1)        // reset mid
-  mergeSort(array, l, mid)              // mergeSort => merge
-  mergeSort(array, mid + 1, r)          // mergeSort => merge
-  merge(array, l, mid, r)
-
+/**
+ * @template T
+ * @param {T[]} array sorted in place
+ * @param {(a: T, b: T) => number} [compare]
+ * @returns {T[]} the same array
+ */
+export function mergeSort(array, compare = ascending) {
+  sortRange(array, new Array(array.length), 0, array.length - 1, compare)
   return array
 }
 
-const array = randomArray.list100000()
-timer(mergeSort, array, 0, array.length - 1)
+function sortRange(array, buffer, l, r, compare) {
+  // A range of zero or one item is sorted. `>=` also covers the empty array,
+  // where r is -1.
+  if (l >= r) return
+  const mid = l + ((r - l) >> 1)
+  sortRange(array, buffer, l, mid, compare)
+  sortRange(array, buffer, mid + 1, r, compare)
+  merge(array, buffer, l, mid, r, compare)
+}
+
+if (import.meta.main) showSort(mergeSort)

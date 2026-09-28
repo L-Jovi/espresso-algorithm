@@ -1,38 +1,35 @@
-/*
- * @Description: Selection sort implements by Javascript.
- * @FileName: selection-sort/once-swap.js
+/**
+ * Selection sort
+ *
+ * Find the smallest item of the unsorted part and swap it to the front of that
+ * part; repeat. Each pass swaps at most once, so the whole sort writes to the
+ * array only O(n) times. That matters when writing is expensive, for example
+ * on flash memory. exchange-sort.js reaches the same result with O(n²) swaps.
+ *
+ * Time: O(n²) on every input, because each pass scans the rest of the array.
+ * Space: O(1). Not stable: the long-distance swap can move an item past an
+ * equal one. Sorts in place.
  */
+import { showSort } from '../../shared/demo.js'
+import { swap } from '../../shared/swap.js'
 
-const randomArray = require('../../libs/random-list')
-const timer = require('../../libs/timer')
-const swap = require('../../libs/swap')
+const ascending = (a, b) => a - b
 
 /**
- * Select sort.
- *
- * @returns {Array}
+ * @template T
+ * @param {T[]} array sorted in place
+ * @param {(a: T, b: T) => number} [compare]
+ * @returns {T[]} the same array
  */
-const selectSort = (array) => {
-  if (!array || array.length <= 1) {
-    return array
-  }
-
-  let i = 0
-  while (i < array.length) {
+export function selectionSort(array, compare = ascending) {
+  for (let i = 0; i < array.length - 1; i++) {
     let indexMin = i
-
     for (let j = i + 1; j < array.length; j++) {
-      if (array[indexMin] > array[j]) {
-        indexMin = j
-      }
+      if (compare(array[indexMin], array[j]) > 0) indexMin = j
     }
-
-    swap(array, i, indexMin)
-    i++
+    if (indexMin !== i) swap(array, i, indexMin)
   }
-
   return array
 }
 
-const array = randomArray.list100()
-timer(selectSort, array)
+if (import.meta.main) showSort(selectionSort)
