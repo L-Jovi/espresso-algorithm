@@ -26,6 +26,22 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm test
 
+  python:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.14']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python scripts/run_python_tests.py
+
   repo:
     name: Repository checks
     runs-on: ubuntu-24.04
@@ -42,7 +58,7 @@ jobs:
   # skipped, and passes only if every one of them succeeded.
   verify:
     if: always()
-    needs: [javascript, repo]
+    needs: [javascript, python, repo]
     runs-on: ubuntu-24.04
     steps:
       - name: Require every job to succeed
