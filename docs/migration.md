@@ -46,6 +46,32 @@ Now in [`sorting/`](../sorting), with tests and a README.
 | [`basic-sort/radix-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/radix-sort/index.js) | [`sorting/radix-sort/radix-sort.js`](../sorting/radix-sort/radix-sort.js) | Fixed: every pass read the original array, and negative numbers threw. |
 | [`basic-sort/multiplication-table/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/multiplication-table/index.js) | retired | It printed the 9 × 9 multiplication table: a loop exercise, not a sort. |
 
+## Data structures and searching
+
+Now in [`data-structures/`](../data-structures) and [`searching/`](../searching), with tests and READMEs. The old Chinese README became [the Chinese mirror](../data-structures/README.zh-Hans.md) of the new one.
+
+| Before | Now | Why |
+| --- | --- | --- |
+| [`data-structure/stack.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/stack.js) | [`data-structures/stack/stack.js`](../data-structures/stack/stack.js) | Fixed: ArrayStack ignored the pushed value and pop returned nothing. |
+| [`data-structure/queue/queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/queue.js) | [`data-structures/queue/queue.js`](../data-structures/queue/queue.js) | A class with a private array; unchanged behaviour. |
+| [`data-structure/queue/circular-queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/circular-queue.js) | [`data-structures/queue/circular-queue.js`](../data-structures/queue/circular-queue.js) | Fixed: the indexes never wrapped, so the array grew with every item. Methods renamed to match Queue (enqueue, dequeue, front). |
+| [`data-structure/queue/priority-queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/priority-queue.js) | [`data-structures/queue/priority-queue.js`](../data-structures/queue/priority-queue.js) | Same sorted-array design; enqueue(value, priority) now matches the new heap version. |
+| new | [`data-structures/queue/binary-heap-priority-queue.js`](../data-structures/queue/binary-heap-priority-queue.js) | New: the same interface on a binary heap, O(log n). |
+| [`data-structure/linked-list/linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/linked-list.js) | [`data-structures/linked-list/linked-list.js`](../data-structures/linked-list/linked-list.js) | Fixed: out-of-range indexes crashed, and indexOf("3") found 3. |
+| [`data-structure/linked-list/doubly-linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/doubly-linked-list.js) | [`data-structures/linked-list/doubly-linked-list.js`](../data-structures/linked-list/doubly-linked-list.js) | Completed: only addAt existed, and it threw on first use. |
+| [`data-structure/linked-list/reverse-linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/reverse-linked-list.js) | [`data-structures/linked-list/reverse-linked-list.js`](../data-structures/linked-list/reverse-linked-list.js) | Exported and tested. |
+| [`data-structure/set.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/set.js) | [`data-structures/set/set.js`](../data-structures/set/set.js) | Fixed: union always threw; NaN could be added twice; values() exposed the internal array. |
+| [`data-structure/hash-table/hash-table.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/hash-table/hash-table.js) | [`data-structures/hash-table/hash-table.js`](../data-structures/hash-table/hash-table.js) | Fixed: keys sharing a bucket could not be removed. The original sum hash stays as sumHash next to a polynomial hash. |
+| [`data-structure/tree/bst.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/bst.js) | [`data-structures/tree/binary-search-tree.js`](../data-structures/tree/binary-search-tree.js) | Fixed: removing the root did nothing. add is a loop now; inOrder is new. |
+| [`data-structure/tree/trie.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/trie.js) | [`data-structures/tree/trie.js`](../data-structures/tree/trie.js) | Fixed: a typo made isWord throw. print became words(); startsWith is new. |
+| [`data-structure/tree/binary-tree-array.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/binary-tree-array.js) | [`data-structures/tree/binary-tree-array.js`](../data-structures/tree/binary-tree-array.js) | Fixed: tree to array dropped the nulls, so it was not the inverse. Nodes use val, as on LeetCode. |
+| [`data-structure/tree/total-nodes.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/total-nodes.js) | [`data-structures/tree/count-nodes.js`](../data-structures/tree/count-nodes.js) | Renamed; exported and tested. |
+| [`data-structure/graph.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/graph.js) | [`data-structures/graph/bfs.js`](../data-structures/graph/bfs.js) | Returns an array of distances; the queue no longer uses shift(). |
+| [`data-structure/fib.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/fib.js) | retired | Retired: it repeated two approaches of leetcode/509-fibonacci-number. |
+| [`leetcode/kmp.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/leetcode/kmp.js) | [`searching/kmp/kmp.js`](../searching/kmp/kmp.js) | Completed: the function body was empty. |
+| new | [`searching/binary-search/binary-search.js`](../searching/binary-search/binary-search.js) | New, written for this repository, with lowerBound. |
+| new | [`searching/binary-search/BinarySearch.java`](../searching/binary-search/BinarySearch.java) | New: replaces the GPL textbook copy removed from history. |
+
 ## Removed from the whole history
 
 These were removed from every commit on 2026-09-28, so there is nothing to link to.
@@ -58,4 +84,4 @@ These were removed from every commit on 2026-09-28, so there is nothing to link 
 
 ## Not converted yet
 
-`algorithm-canvas/`, `data-structure/`, `leetcode/` and `problems/` still have their old layout. Their rows appear here as each one is converted.
+`algorithm-canvas/`, `leetcode/` and `problems/` still have their old layout. Their rows appear here as each one is converted.

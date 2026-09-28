@@ -48,6 +48,32 @@
 | [`basic-sort/radix-sort/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/radix-sort/index.js) | [`sorting/radix-sort/radix-sort.js`](../sorting/radix-sort/radix-sort.js) | 修正：每一趟都读原数组，而且遇到负数就抛错。 |
 | [`basic-sort/multiplication-table/index.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/basic-sort/multiplication-table/index.js) | 已退役 | 它只是打印九九乘法表：一个循环练习，不是排序。 |
 
+## 数据结构与查找
+
+现在位于 [`data-structures/`](../data-structures) 和 [`searching/`](../searching)，有测试和 README。原来的中文 README 成为新 README 的[中文镜像](../data-structures/README.zh-Hans.md)。
+
+| 以前 | 现在 | 原因 |
+| --- | --- | --- |
+| [`data-structure/stack.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/stack.js) | [`data-structures/stack/stack.js`](../data-structures/stack/stack.js) | 修正：ArrayStack 不保存 push 的值，pop 也不返回任何东西。 |
+| [`data-structure/queue/queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/queue.js) | [`data-structures/queue/queue.js`](../data-structures/queue/queue.js) | 改为带私有数组的类；行为不变。 |
+| [`data-structure/queue/circular-queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/circular-queue.js) | [`data-structures/queue/circular-queue.js`](../data-structures/queue/circular-queue.js) | 修正：下标从不绕回，数组随每一项增长。方法改名，与 Queue 一致（enqueue、dequeue、front）。 |
+| [`data-structure/queue/priority-queue.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/queue/priority-queue.js) | [`data-structures/queue/priority-queue.js`](../data-structures/queue/priority-queue.js) | 同样的有序数组设计；enqueue(value, priority) 与新的堆版本接口一致。 |
+| 新增 | [`data-structures/queue/binary-heap-priority-queue.js`](../data-structures/queue/binary-heap-priority-queue.js) | 新增：同一接口建在二叉堆上，O(log n)。 |
+| [`data-structure/linked-list/linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/linked-list.js) | [`data-structures/linked-list/linked-list.js`](../data-structures/linked-list/linked-list.js) | 修正：越界下标会崩溃，indexOf("3") 会找到 3。 |
+| [`data-structure/linked-list/doubly-linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/doubly-linked-list.js) | [`data-structures/linked-list/doubly-linked-list.js`](../data-structures/linked-list/doubly-linked-list.js) | 补全：原来只有 addAt，而且第一次调用就抛错。 |
+| [`data-structure/linked-list/reverse-linked-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/linked-list/reverse-linked-list.js) | [`data-structures/linked-list/reverse-linked-list.js`](../data-structures/linked-list/reverse-linked-list.js) | 已导出并有测试。 |
+| [`data-structure/set.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/set.js) | [`data-structures/set/set.js`](../data-structures/set/set.js) | 修正：union 必然抛错；NaN 能被加入两次；values() 暴露了内部数组。 |
+| [`data-structure/hash-table/hash-table.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/hash-table/hash-table.js) | [`data-structures/hash-table/hash-table.js`](../data-structures/hash-table/hash-table.js) | 修正：共用一个桶的键删不掉。原来的求和哈希保留为 sumHash，与多项式哈希并列。 |
+| [`data-structure/tree/bst.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/bst.js) | [`data-structures/tree/binary-search-tree.js`](../data-structures/tree/binary-search-tree.js) | 修正：删除根节点没有效果。add 改为循环；新增 inOrder。 |
+| [`data-structure/tree/trie.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/trie.js) | [`data-structures/tree/trie.js`](../data-structures/tree/trie.js) | 修正：一处拼写错误让 isWord 抛错。print 改为 words()；新增 startsWith。 |
+| [`data-structure/tree/binary-tree-array.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/binary-tree-array.js) | [`data-structures/tree/binary-tree-array.js`](../data-structures/tree/binary-tree-array.js) | 修正：树转数组时丢掉了 null，不是原操作的逆操作。节点改用与 LeetCode 一致的 val。 |
+| [`data-structure/tree/total-nodes.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/tree/total-nodes.js) | [`data-structures/tree/count-nodes.js`](../data-structures/tree/count-nodes.js) | 改名；已导出并有测试。 |
+| [`data-structure/graph.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/graph.js) | [`data-structures/graph/bfs.js`](../data-structures/graph/bfs.js) | 改为返回距离数组；队列不再使用 shift()。 |
+| [`data-structure/fib.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/data-structure/fib.js) | 已退役 | 已退役：它重复了 leetcode/509-fibonacci-number 里的两种写法。 |
+| [`leetcode/kmp.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/leetcode/kmp.js) | [`searching/kmp/kmp.js`](../searching/kmp/kmp.js) | 补全：原来的函数体是空的。 |
+| 新增 | [`searching/binary-search/binary-search.js`](../searching/binary-search/binary-search.js) | 新增，为本仓库编写，并附 lowerBound。 |
+| 新增 | [`searching/binary-search/BinarySearch.java`](../searching/binary-search/BinarySearch.java) | 新增：取代已从历史中移除的 GPL 教材拷贝。 |
+
 ## 从全部历史中移除
 
 以下内容已于 2026-09-28 从每一个提交中移除，因此没有可以链接的地方。
@@ -60,4 +86,4 @@
 
 ## 尚未转换
 
-`algorithm-canvas/`、`data-structure/`、`leetcode/` 和 `problems/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
+`algorithm-canvas/`、`leetcode/` 和 `problems/` 仍是旧的结构。每转换完一个，就会在这里补上对应的行。
