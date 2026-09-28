@@ -1,13 +1,11 @@
 // Repository checks that tests cannot express: documentation links, the
-// English/Chinese README pairs, and the one-line description shared by the
-// README and package.json. It only reports drift; it never rewrites files.
+// English/Chinese README pairs, the one-line description shared by the
+// README and package.json, and that every module is reached by a test.
+// It only reports drift; it never rewrites files.
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, join, normalize } from 'node:path'
 import { listFiles } from './lib/files.mjs'
-
-// Folders that still use the pre-2026 layout. The change that converts a
-// folder removes it from this list; the migration is done when it is empty.
-export const LEGACY = ['algorithm-canvas/', 'basic-sort/', 'data-structure/', 'leetcode/', 'problems/']
+import { LEGACY, PROGRAMS, SECTIONS } from './lib/layout.mjs'
 
 // English documents with a Simplified Chinese mirror next to them.
 const MIRRORED = file => basename(file) === 'README.md' || (file.startsWith('docs/') && file !== 'docs/verification.md')
@@ -61,6 +59,26 @@ const { description } = JSON.parse(readFileSync('package.json', 'utf8'))
 const intro = readFileSync('README.md', 'utf8').split('\n\n').map(part => part.trim())
   .find(part => part && !part.startsWith('#') && !part.startsWith('English |'))
 if (intro !== description) report('README.md', 'first paragraph must equal the description in package.json')
+
+// Every module in a converted section is imported by a test, directly or
+// through another module, so no solution can silently go untested.
+const relativeImports = file => [...readFileSync(file, 'utf8').matchAll(/^\s*import\s+(?:[^'"]*?\s+from\s+)?['"](\.{1,2}\/[^'"]+)['"]/gm)]
+  .map(([, specifier]) => normalize(join(dirname(file), specifier)))
+const reached = new Set()
+const pending = files.filter(file => file.endsWith('.test.js'))
+while (pending.length > 0) {
+  const file = pending.pop()
+  for (const target of relativeImports(file)) {
+    if (!reached.has(target) && existsSync(target)) {
+      reached.add(target)
+      pending.push(target)
+    }
+  }
+}
+for (const file of files.filter(file => SECTIONS.some(section => file.startsWith(section)))) {
+  if (!/\.m?js$/.test(file) || file.endsWith('.test.js') || PROGRAMS.includes(file)) continue
+  if (!reached.has(file)) report(file, 'is not imported by any test')
+}
 
 // Absolute home paths leak a machine layout into a public repository.
 for (const file of files.filter(file => TEXT.test(basename(file)) || TEXT.test(file))) {
