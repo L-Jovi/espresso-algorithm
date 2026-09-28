@@ -7,8 +7,9 @@
  *
  * Items equal to the pivot all go to `right`. An array of identical values is
  * therefore split into 0 and n - 1 items at every level: O(n²) time and n
- * levels of recursion, which overflows the call stack at around 10,000 equal
- * items. three-way-in-place.js fixes this by placing all equal items at once.
+ * levels of recursion, which overflows the call stack after a few thousand
+ * equal items. three-way-in-place.js fixes this by placing all equal items at
+ * once.
  *
  * Time: O(n log n) on average, O(n²) in the worst case. Space: O(n) for the
  * new arrays plus the recursion. Not stable. Returns a new array; the input
