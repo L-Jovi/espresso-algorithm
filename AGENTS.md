@@ -11,8 +11,9 @@ There is no install step and there are no dependencies. Use Node `^22.18.0 || >=
 ```sh
 npm test             # every *.test.js file; fails if no test ran
 npm run test:python  # every test_*.py file (Python 3.11+); fails if no test ran
+npm run test:java    # every .java file via `java File.java` (JDK 21+); main() checks itself
 npm run check:repo   # links, README language pairs, every module reached by a test
-npm run check        # all three
+npm run check        # all four
 npm run bench        # race the sorts (not part of the checks)
 ```
 
@@ -25,6 +26,7 @@ npm run bench        # race the sorts (not part of the checks)
 - **Docs:** `README.md` is the source; update `README.zh-Hans.md` in the same change and bump its sync date. Follow `docs/writing.md`.
 - **Legacy folders:** `scripts/lib/layout.mjs` lists folders still in the pre-2026 layout (`LEGACY`) and converted ones (`SECTIONS`). Move a folder from the first list to the second in the change that converts it.
 - **Python:** standard library only, loaded by path with `shared/load_module.py`; tests are `test_*.py` next to the code.
+- **Java:** single-file programs with a classic `public static void main`, no `package` line and no preview features; main() checks its answers and calls `System.exit(1)` on a wrong one.
 - **Commits and PRs:** Conventional Commits. Branch from `main` and open a PR; the `verify` check must pass, and only merge commits are allowed.
 
 ## Safety
