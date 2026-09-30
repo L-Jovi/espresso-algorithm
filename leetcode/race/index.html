@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Race brute force against the optimal solution of fifteen LeetCode problems, live in your browser, with the same code the tests of espresso-algorithm check.">
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+<title>Race the solutions · Espresso Algorithm</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+.picker{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:end;margin:1.25rem 0}
+.picker label{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem;color:var(--esp-muted)}
+.race h2{margin-top:0}
+.check{margin:.25rem 0 1rem;font-size:.95rem}
+.input{margin:1.25rem 0 .5rem;font-size:1rem}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:.45rem .5rem;text-align:left;vertical-align:middle;border-top:1px solid var(--esp-line)}
+th{font-weight:600;color:var(--esp-muted);font-size:.85rem}
+td.name{width:11rem}
+td.time{width:7rem;text-align:right;font-family:var(--esp-mono);font-size:.85rem}
+td.ratio{width:9rem;color:var(--esp-muted);font-size:.85rem}
+.bar{height:.9rem;border-radius:.2rem;background:var(--esp-bar);min-width:2px;transition:width .3s ease}
+.bar.best{background:var(--esp-done)}
+.left-out{color:var(--esp-muted);font-size:.85rem}
+.note{font-size:.9rem;color:var(--esp-muted)}
+@media (prefers-reduced-motion:reduce){.bar{transition:none}}
+@media (max-width:40rem){td.ratio{display:none}td.name{width:auto}}
+</style>
+</head>
+<body>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb">Race the solutions</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">LeetCode README</a><a href="https://github.com/L-Jovi/espresso-algorithm/blob/main/leetcode/races.js">Source</a></span></nav>
+<main>
+<h1>Race the solutions</h1>
+<p class="lead">Fifteen LeetCode problems, each solved several ways. Pick one and race its approaches on the same input, in your browser, with the code the tests check.</p>
+<p class="lead zh" lang="zh-Hans">十五道 LeetCode 题，每道都有几种解法。选一道，让它的各种解法在你的浏览器里、用同一份输入、以测试检查过的同一份代码比赛。</p>
+<div class="picker">
+<label>Problem
+<select id="problem"></select></label>
+<button type="button" id="run">Run the race</button>
+</div>
+<section class="race panel" id="race" aria-live="polite"></section>
+<p class="note">Each time is per call, measured in a background thread of this page: the fastest of three runs for slow approaches, and the average of repeated calls for fast ones, because browsers round their clock. A dash means the approach sits this input out: it would take minutes or overflow the call stack. Your numbers depend on your device; the gaps between the rows much less. <code>npm run bench:leetcode</code> runs the same races in Node.</p>
+</main>
+<footer>
+<p>Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+</footer>
+<script type="module" src="race.js"></script>
+</body>
+</html>
