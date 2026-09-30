@@ -1,73 +1,31 @@
 /**
+ * LeetCode 1221. Split a String in Balanced Strings —
+ * https://leetcode.com/problems/split-a-string-in-balanced-strings/
+ * A string of L and R is balanced when it has as many L as R. Cut a
+ * balanced string into as many balanced pieces as possible, and return
+ * how many there are.
  *
-  1221. 分割平衡字符串
-
-  在一个 平衡字符串 中，'L' 和 'R' 字符的数量是相同的。
-  给你一个平衡字符串 s，请你将它分割成尽可能多的平衡字符串。
-
-  注意：分割得到的每个字符串都必须是平衡字符串。
-  返回可以通过分割得到的平衡字符串的 最大数量 。
-
-
-  示例 1：
-
-  输入：s = "RLRRLLRLRL"
-  输出：4
-  解释：s 可以分割为 "RL"、"RRLL"、"RL"、"RL" ，每个子字符串中都包含相同数量的 'L' 和 'R' 。
-
-  示例 2：
-
-  输入：s = "RLLLLRRRLR"
-  输出：3
-  解释：s 可以分割为 "RL"、"LLLRRR"、"LR" ，每个子字符串中都包含相同数量的 'L' 和 'R' 。
-
-  示例 3：
-
-  输入：s = "LLLLRRRR"
-  输出：1
-  解释：s 只能保持原样 "LLLLRRRR".
-
-  示例 4：
-
-  输入：s = "RLRRRLLRLL"
-  输出：2
-  解释：s 可以分割为 "RL"、"RRRLLRLL" ，每个子字符串中都包含相同数量的 'L' 和 'R' 。
-
-  提示：
-
-  1 <= s.length <= 1000
-  s[i] = 'L' 或 'R'
-  s 是一个 平衡 字符串
+ * A growing window and a regex: grow the current piece two characters at a
+ * time (a balanced piece has an even length), count its L with a regular
+ * expression, and cut as soon as the piece is balanced. Cutting at the
+ * first chance never loses anything, because what is left of the string is
+ * then balanced as well. Counting from scratch at every step costs O(n²);
+ * balance-counter.js keeps a running count instead.
  *
- *
- * @param {string} s
- * @return {number}
+ * Time: O(n²). Space: O(n) for the current piece.
  */
-var balancedStringSplit = function(s) {
-  let count = 0
-  let tmp = ''
+
+export function balancedStringSplit(s) {
+  let pieces = 0
   let start = 0
-  let end = 2
-
-  if (s.length < 2) {
-    return s
-  }
-
-  while (end <= s.length) {
-    tmp = s.slice(start, end)
-    const results = tmp.match(/L/g)
-    if (results && results.length === tmp.length / 2) {
-      count += 1
-      tmp = ''
+  for (let end = 2; end <= s.length; end += 2) {
+    const piece = s.slice(start, end)
+    if ((piece.match(/L/g)?.length ?? 0) * 2 === piece.length) {
+      pieces++
       start = end
     }
-
-    end += 2
   }
-
-  return count
+  return pieces
 }
 
-
-const s = 'RLRRLLRLRL'
-console.log(balancedStringSplit(s))
+if (import.meta.main) console.log(balancedStringSplit('RLRRLLRLRL'))
