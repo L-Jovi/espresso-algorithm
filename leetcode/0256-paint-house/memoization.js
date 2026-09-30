@@ -1,56 +1,32 @@
 /**
- * @param {number[][]} costs
- * @return {number}
- * https://leetcode-cn.com/problems/paint-house/solution/fen-shua-fang-zi-by-leetcode/
+ * LeetCode 256. Paint House (Premium) — https://leetcode.com/problems/paint-house/
+ * Paint a row of houses red, blue or green, where costs[i][c] is the price
+ * of painting house i with color c and neighbors must differ in color.
+ * Return the lowest total price.
+ *
+ * Memoization: the same recursion as brute-force.js, but cost(i, color)
+ * depends on nothing else, so there are only 3n different questions.
+ * Remember each answer the first time, and every later call returns at
+ * once.
+ *
+ * Time: O(n). Space: O(n) for the memo and the recursion.
+ * Learning source: https://leetcode.cn/problems/paint-house/solutions/245193/fen-shua-fang-zi-by-leetcode/
  */
-const minCost = (costs) => {
-  const map = {}
-  return Math.min(
-    paintPay(costs, map, 0, 0),
-    paintPay(costs, map, 0, 1),
-    paintPay(costs, map, 0, 2)
-  )
+
+const COLORS = [0, 1, 2]
+
+export function minCost(costs) {
+  if (costs.length === 0) return 0
+  const memo = costs.map(() => new Array(COLORS.length))
+
+  function cost(i, color) {
+    if (memo[i][color] !== undefined) return memo[i][color]
+    const rest = i === costs.length - 1 ? 0 : Math.min(...COLORS.filter(c => c !== color).map(c => cost(i + 1, c)))
+    memo[i][color] = costs[i][color] + rest
+    return memo[i][color]
+  }
+
+  return Math.min(...COLORS.map(color => cost(0, color)))
 }
 
-const paintPay = (costs, map, i, color) => {
-  const key = i + '_' + color
-  if (key in map) {
-    return map[key]
-  }
-
-  let pay = costs[i][color]
-
-  // backtrack
-  if (i === costs.length - 1) {
-    return pay
-  }
-
-  if (color === 0) {
-    pay += Math.min(
-      paintPay(costs, map, i + 1, 1),
-      paintPay(costs, map, i + 1, 2)
-    )
-  } else if (color === 1) {
-    pay += Math.min(
-      paintPay(costs, map, i + 1, 0),
-      paintPay(costs, map, i + 1, 2)
-    )
-  } else if (color === 2) {
-    pay += Math.min(
-      paintPay(costs, map, i + 1, 0),
-      paintPay(costs, map, i + 1, 1)
-    )
-  }
-
-  map[key] = pay
-
-  return pay
-}
-
-
-const costs = [
-  [17, 2, 17],
-  [16, 16, 5],
-  [14, 3, 19]
-]
-console.log(minCost(costs))
+if (import.meta.main) console.log(minCost([[17, 2, 17], [16, 16, 5], [14, 3, 19]]))

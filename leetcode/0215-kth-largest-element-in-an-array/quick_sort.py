@@ -1,32 +1,37 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""LeetCode 215. Kth Largest Element in an Array: sort, then index.
+
+https://leetcode.com/problems/kth-largest-element-in-an-array/
+Return the k-th largest number in an array; copies count separately, so in
+[3, 3, 1] the first and second largest are both 3.
+
+Sort a copy with quick sort and read the k-th number from the end. The
+partition is three-way: smaller than the pivot, equal to it, and larger.
+With only two groups, every copy of the pivot lands in the same group, so
+1,000 equal numbers already recursed deep enough to raise RecursionError
+(measured on Python 3.11); three groups finish them in one step. The
+input list is left as it is.
+
+Time: O(n log n) on average. Space: O(n) for the copies.
+quickselect.py skips the sorting: O(n) on average.
+"""
+
 
 class Solution:
-    def findKthLargest(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        return quick_sort(nums)[-k]
 
-        def quick_sort(array):
-            if len(array) <= 1:
-                return array
 
-            pivotIndex = len(array) // 2
-            pivot = array[pivotIndex]
-            array.remove(pivot)
+def quick_sort(array: list[int]) -> list[int]:
+    """Return a sorted copy of `array`."""
+    if len(array) <= 1:
+        return list(array)
+    pivot = array[len(array) // 2]
+    smaller = [x for x in array if x < pivot]
+    equal = [x for x in array if x == pivot]
+    larger = [x for x in array if x > pivot]
+    return quick_sort(smaller) + equal + quick_sort(larger)
 
-            left = []
-            right = []
 
-            for index, value in enumerate(array):
-                if value < pivot:
-                    left.append(value)
-                else:
-                    right.append(value)
-
-            return quick_sort(left) + [ pivot ] + quick_sort(right)
-
-        sorted_nums = quick_sort(nums)
-        return sorted_nums[len(sorted_nums) - k]
+if __name__ == "__main__":
+    print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2))

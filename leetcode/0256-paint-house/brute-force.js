@@ -1,40 +1,30 @@
 /**
- * @param {number[][]} costs
- * @return {number}
- * https://leetcode-cn.com/problems/paint-house/solution/fen-shua-fang-zi-by-leetcode/
+ * LeetCode 256. Paint House (Premium) — https://leetcode.com/problems/paint-house/
+ * Paint a row of houses red, blue or green, where costs[i][c] is the price
+ * of painting house i with color c and neighbors must differ in color.
+ * Return the lowest total price.
  *
+ * Brute force: cost(i, color) is the cheapest way to paint houses i and
+ * after, when house i gets `color`. It is that house's price plus the
+ * cheaper of cost(i + 1, other color) for the two other colors. Trying all
+ * three colors for house 0 gives the answer. Every house doubles the number
+ * of calls, because nothing is remembered.
+ *
+ * Time: O(2ⁿ). Space: O(n) for the recursion.
+ * Learning source: https://leetcode.cn/problems/paint-house/solutions/245193/fen-shua-fang-zi-by-leetcode/
  */
-const minCost = (costs) => {
-  return Math.min(
-    paintPay(costs, 0, 0),
-    paintPay(costs, 0, 1),
-    paintPay(costs, 0, 2)
-  )
-}
 
-const paintPay = (costs, i, color) => {
-  let pay = costs[i][color]
+const COLORS = [0, 1, 2]
 
-  // backtrack
-  if (i === costs.length - 1) {
-    return pay
+export function minCost(costs) {
+  if (costs.length === 0) return 0
+
+  function cost(i, color) {
+    if (i === costs.length - 1) return costs[i][color]
+    return costs[i][color] + Math.min(...COLORS.filter(c => c !== color).map(c => cost(i + 1, c)))
   }
 
-  if (color === 0) {
-    pay += Math.min(paintPay(costs, i + 1, 1), paintPay(costs, i + 1, 2))
-  } else if (color === 1) {
-    pay += Math.min(paintPay(costs, i + 1, 0), paintPay(costs, i + 1, 2))
-  } else if (color === 2) {
-    pay += Math.min(paintPay(costs, i + 1, 0), paintPay(costs, i + 1, 1))
-  }
-
-  return pay
+  return Math.min(...COLORS.map(color => cost(0, color)))
 }
 
-
-const costs = [
-  [17, 2, 17],
-  [16, 16, 5],
-  [14, 3, 19]
-]
-console.log(minCost(costs))
+if (import.meta.main) console.log(minCost([[17, 2, 17], [16, 16, 5], [14, 3, 19]]))
