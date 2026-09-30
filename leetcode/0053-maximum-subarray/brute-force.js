@@ -1,67 +1,29 @@
 /**
+ * LeetCode 53. Maximum Subarray — https://leetcode.com/problems/maximum-subarray/
+ * Return the largest sum of a non-empty run of neighboring numbers in the
+ * array.
  *
-  53. 最大子序和
-  给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-
-
-
-  示例 1：
-
-  输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
-  输出：6
-  解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
-  示例 2：
-
-  输入：nums = [1]
-  输出：1
-  示例 3：
-
-  输入：nums = [0]
-  输出：0
-  示例 4：
-
-  输入：nums = [-1]
-  输出：-1
-  示例 5：
-
-  输入：nums = [-100000]
-  输出：-100000
-
-
-  提示：
-
-  1 <= nums.length <= 3 * 104
-  -105 <= nums[i] <= 105
-
-
-  进阶：如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的 分治法 求解。
+ * Brute force: try every subarray nums[i..j]. Its sum is the sum of
+ * nums[i..j − 1] plus nums[j], so one running sum per start position gives
+ * every sum without adding the same numbers again.
  *
- * @param {number[]} nums
- * @return {number}
+ * The first version stored all n² sums in a table: it ran out of memory at
+ * 50,000 items (measured), while LeetCode allows 100,000. It also started
+ * from 0, and so returned 0 when every number is negative.
+ *
+ * Time: O(n²). Space: O(1).
  */
-var maxSubArray = function(nums) {
-  const n = nums.length
 
-  const records = Array.from(Array(n), () => Array(n))
-
-  let maxSum = 0
-  for (let i = n - 1; i >= 0; i--) {
-    for (let j = i; j < n; j++) {
-      if (i === j) {
-        records[i][j] = nums[i]
-
-      } else {
-        // i < j
-        records[i][j] = records[i][j - 1] + records[j][j]
-      }
-
-      maxSum = Math.max(maxSum, records[i][j])
+export function maxSubArray(nums) {
+  let best = -Infinity
+  for (let i = 0; i < nums.length; i++) {
+    let sum = 0
+    for (let j = i; j < nums.length; j++) {
+      sum += nums[j]
+      best = Math.max(best, sum)
     }
   }
-
-  return maxSum
+  return best
 }
 
-
-const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-console.log(maxSubArray(nums))
+if (import.meta.main) console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))

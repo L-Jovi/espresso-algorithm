@@ -1,49 +1,44 @@
 /**
- * @param {number} n
- * @return {string[][]}
+ * LeetCode 51. N-Queens — https://leetcode.com/problems/n-queens/
+ * List every way to place n chess queens on an n × n board so that no two
+ * attack each other: no two share a row, a column or a diagonal.
+ *
+ * Backtracking, one row at a time: every row needs exactly one queen, so
+ * `queens[row]` is the column of the queen in that row. For each column of
+ * the current row, check it against the queens above; if it is safe, place
+ * the queen and continue with the next row. When all n rows are filled,
+ * draw the board. Keeping sets of the used columns and diagonals would
+ * make the check O(1) instead of O(n).
+ *
+ * Two queens share a diagonal when their row distance equals their column
+ * distance.
+ *
+ * Time: O(n!) placements at most, each checked in O(n). Space: O(n), besides
+ * the answers.
  */
-const solveNQueens = function(n) {
-  const results = []
-  const chess = Array.from(Array(n), () => Array(n).fill('.'))
-  console.log('init chess: ', chess)
 
-  const backtrack = (row) => {
+export function solveNQueens(n) {
+  const boards = []
+  const queens = []
+
+  const isSafe = (row, column) =>
+    queens.every((c, r) => c !== column && Math.abs(c - column) !== row - r)
+
+  function place(row) {
     if (row === n) {
-      const res = chess.map(row => row.join(''))
-      results.push(res)
+      boards.push(queens.map(c => '.'.repeat(c) + 'Q' + '.'.repeat(n - c - 1)))
       return
     }
-
     for (let column = 0; column < n; column++) {
-      if (isValid(row, column)) {
-        chess[row][column] = 'Q'
-        backtrack(row + 1)
-        chess[row][column] = '.'
-      }
+      if (!isSafe(row, column)) continue
+      queens.push(column)
+      place(row + 1)
+      queens.pop()
     }
   }
 
-  const isValid = (row, column) => {
-    for (let i = 0; i < row; i++) {
-      for (let j = 0; j < n; j++) {
-        if (chess[i][j] === 'Q') {
-          if (j === column ||
-            i + j === row + column ||
-            i - j === row - column
-          ) {
-            return false
-          }
-        }
-      }
-    }
-
-    return true
-  }
-
-  backtrack(0)
-  return results
+  place(0)
+  return boards
 }
 
-
-console.log(solveNQueens(4))
-// [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+if (import.meta.main) console.log(solveNQueens(4))

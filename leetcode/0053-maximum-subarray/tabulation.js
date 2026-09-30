@@ -1,61 +1,26 @@
 /**
+ * LeetCode 53. Maximum Subarray — https://leetcode.com/problems/maximum-subarray/
+ * Return the largest sum of a non-empty run of neighboring numbers in the
+ * array.
  *
-  53. 最大子序和
-  给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-
-
-
-  示例 1：
-
-  输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
-  输出：6
-  解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
-  示例 2：
-
-  输入：nums = [1]
-  输出：1
-  示例 3：
-
-  输入：nums = [0]
-  输出：0
-  示例 4：
-
-  输入：nums = [-1]
-  输出：-1
-  示例 5：
-
-  输入：nums = [-100000]
-  输出：-100000
-
-
-  提示：
-
-  1 <= nums.length <= 3 * 104
-  -105 <= nums[i] <= 105
-
-
-  进阶：如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的 分治法 求解。
+ * Tabulation: let dp[i] be the largest sum of a subarray that ends exactly
+ * at i. That subarray either is nums[i] alone, or extends the best one
+ * ending at i − 1; so dp[i] = max(nums[i], dp[i − 1] + nums[i]). A negative
+ * dp[i − 1] can only hurt, and is dropped. The answer is the largest dp[i].
  *
- * https://leetcode-cn.com/problems/maximum-subarray/solution/zui-da-zi-xu-he-cshi-xian-si-chong-jie-fa-bao-li-f/
- *
- * @param {number[]} nums
- * @return {number}
+ * Time: O(n). Space: O(n) for the table; space-optimized.js needs only O(1).
+ * Learning source: https://leetcode.cn/problems/maximum-subarray/solutions/42428/zui-da-zi-xu-he-cshi-xian-si-chong-jie-fa-bao-li-f/
  */
-var maxSubArray = function(nums) {
-  const dp = Array(nums.length)
 
-  // base case
-  let maxSum = nums[0]
+export function maxSubArray(nums) {
+  const dp = new Array(nums.length)
   dp[0] = nums[0]
-
+  let best = dp[0]
   for (let i = 1; i < nums.length; i++) {
-    dp[i] = Math.max(dp[i - 1] + nums[i], nums[i])
-    maxSum = Math.max(maxSum, dp[i])
+    dp[i] = Math.max(nums[i], dp[i - 1] + nums[i])
+    best = Math.max(best, dp[i])
   }
-
-  return maxSum
+  return best
 }
 
-
-const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-console.log(maxSubArray(nums))
+if (import.meta.main) console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
