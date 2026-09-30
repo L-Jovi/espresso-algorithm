@@ -1,11 +1,10 @@
 # Notices
 
-The [MIT license](LICENSE) covers the code and documentation written for this repository. The items below come from other people and keep their own terms.
+The [MIT license](LICENSE) covers the code and documentation written for this repository.
 
-| Path | Where it comes from | License |
-| --- | --- | --- |
-| [`algorithm-canvas/`](algorithm-canvas) | A copy of norahiko's [sort-visualize](https://github.com/norahiko/sort-visualize) (2014), added here in 2018 without its notice. A new visualizer replaces it. | MIT, Copyright (c) 2014 norahiko ([full text](algorithm-canvas/LICENSE)) |
-| [`algorithm-canvas/knockout-3.0.0.js`](algorithm-canvas/knockout-3.0.0.js) | [Knockout](https://knockoutjs.com/) 3.0.0, bundled by sort-visualize | MIT, (c) Steven Sanderson, see the header of the file |
+No file in the repository comes from elsewhere at the moment.
+
+[`visualizer/`](visualizer/) is a new, independent program. It replaces a copy of norahiko's [sort-visualize](https://github.com/norahiko/sort-visualize) (MIT, Copyright (c) 2014 norahiko), which was added to this repository in 2018 without its notice and lived in `algorithm-canvas/` until 2026-09, together with [Knockout](https://knockoutjs.com/) 3.0.0 (MIT). Thanks to norahiko for the idea of watching sorts on a canvas.
 
 Articles and courses that shaped a solution are credited next to the code that uses them. They are references, not copied code.
 
