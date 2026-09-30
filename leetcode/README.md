@@ -12,7 +12,7 @@ node --test leetcode/0509-fibonacci-number/solution.test.js     # 36 checks on f
 npm run bench:leetcode                                          # race the approaches, about 12 s
 ```
 
-The race prints one table per problem, slowest approach first. For problem 509:
+The same races run in your browser on the [race page](https://l-jovi.github.io/espresso-algorithm/leetcode/race/). In Node, the race prints one table per problem, slowest approach first. For problem 509:
 
 ```text
 509. Fibonacci Number

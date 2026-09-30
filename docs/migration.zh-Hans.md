@@ -169,6 +169,10 @@
 | `libs/algs4.jar` | 教材《Algorithms, 4th Edition》的 GPL-3.0 配套库。仓库里没有任何代码运行它，它却占了仓库全部文件字节数的 83%。需要的话可以从 [algs4.cs.princeton.edu](https://algs4.cs.princeton.edu/code/) 下载。 |
 | `data-structure/binary-search/BinarySearch.java` | 同一本教材 GPL-3.0 源码的原样拷贝。会由本仓库自己写的二分查找取代。 |
 
-## 尚未转换
+## 排序可视化
 
-`algorithm-canvas/` 仍是旧的结构。转换完成后，会在这里补上对应的行。
+| 之前 | 现在 | 原因 |
+| --- | --- | --- |
+| [`algorithm-canvas/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/algorithm-canvas) | [`visualizer/`](../visualizer/)，发布在 [l-jovi.github.io/espresso-algorithm/visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/) | 它是 norahiko 的 sort-visualize 的拷贝，没有附上许可声明，动画演示的是它自带的排序代码，而不是本仓库里的实现。它的“Restart”控件是一个 `<span>`，键盘无法操作；固定为 450 × 380 的画布在高分屏上会发虚。新的可视化通过 `Proxy` 回放真正的 `sorting/` 模块；[NOTICE.md](../NOTICE.md) 致谢了原作。 |
+
+所有目录都已换成新的结构。

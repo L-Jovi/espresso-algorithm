@@ -1,0 +1,263 @@
+/* Espresso Algorithm house style, shared by every page of the site.
+ *
+ * The coffee series shares one look: latte-web uses the same structure with
+ * lighter colours. Base element styles live in the `espresso-site` cascade
+ * layer, so any style a page writes itself wins whatever its specificity.
+ * Colours are custom properties with a light and a dark set; the canvas
+ * pages read them at draw time, so bars follow the theme too.
+ */
+
+@layer espresso-site {
+  :root {
+    color-scheme: light dark;
+    --esp-bg: #faf6f1;
+    --esp-fg: #2a1a10;
+    --esp-muted: #6b5344;
+    --esp-accent: #7a3e1d;
+    --esp-accent-fg: #fff8f0;
+    --esp-card: #ffffff;
+    --esp-line: #e6d9ca;
+    --esp-code: #f2e9df;
+    --esp-focus: #c26a35;
+    /* Bars and graphs: the resting bar, a read, a write, and finished. */
+    --esp-bar: #9a6a4b;
+    --esp-read: #d49a4e;
+    --esp-write: #b3321c;
+    --esp-done: #4f7a45;
+    --esp-font:
+      system-ui, -apple-system, 'Segoe UI', Roboto, 'PingFang SC',
+      'Noto Sans SC', sans-serif;
+    --esp-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --esp-bg: #16100c;
+      --esp-fg: #f2e7dc;
+      --esp-muted: #bca796;
+      --esp-accent: #e3a56d;
+      --esp-accent-fg: #1a110b;
+      --esp-card: #201712;
+      --esp-line: #3b2c21;
+      --esp-code: #2a1f18;
+      --esp-focus: #f0b27a;
+      --esp-bar: #a9805f;
+      --esp-read: #f0c27e;
+      --esp-write: #ff7b5c;
+      --esp-done: #9ccd88;
+    }
+  }
+
+  html {
+    background: var(--esp-bg);
+  }
+
+  body {
+    font: 17px/1.6 var(--esp-font);
+    color: var(--esp-fg);
+    background: var(--esp-bg);
+  }
+
+  h1 {
+    margin: 1.25rem 0 0.75rem;
+    font-size: 2rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h2 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+
+  p {
+    margin: 0.5rem 0 1rem;
+  }
+
+  a {
+    color: var(--esp-accent);
+    text-underline-offset: 0.15em;
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--esp-mono);
+    font-size: 0.9em;
+  }
+
+  code {
+    padding: 0.1em 0.35em;
+    border-radius: 0.3em;
+    background: var(--esp-code);
+  }
+
+  pre {
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    background: var(--esp-code);
+  }
+
+  pre code {
+    padding: 0;
+    background: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button {
+    padding: 0.4rem 0.95rem;
+    border: 1px solid var(--esp-accent);
+    border-radius: 0.5rem;
+    background: var(--esp-accent);
+    color: var(--esp-accent-fg);
+    cursor: pointer;
+  }
+
+  button.ghost {
+    background: transparent;
+    color: var(--esp-accent);
+  }
+
+  button:hover {
+    filter: brightness(1.08);
+  }
+
+  button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  select,
+  textarea,
+  input:not([type='range']) {
+    padding: 0.35rem 0.55rem;
+    border: 1px solid var(--esp-line);
+    border-radius: 0.4rem;
+    background: var(--esp-card);
+    color: var(--esp-fg);
+  }
+
+  input[type='range'] {
+    accent-color: var(--esp-accent);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--esp-focus);
+    outline-offset: 2px;
+  }
+
+  .zh {
+    color: var(--esp-muted);
+  }
+
+  .lead {
+    margin-top: -0.25rem;
+    font-size: 1.05rem;
+  }
+
+  .muted {
+    color: var(--esp-muted);
+  }
+
+  /* Read by screen readers, not shown. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: var(--esp-code);
+    color: var(--esp-muted);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+  .chip.live {
+    background: var(--esp-accent);
+    color: var(--esp-accent-fg);
+    font-weight: 600;
+  }
+
+  .panel {
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--esp-line);
+    border-radius: 0.8rem;
+    background: var(--esp-card);
+  }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--esp-line);
+    color: var(--esp-muted);
+    font-size: 0.9rem;
+  }
+}
+
+/* The page frame and the top bar are unlayered, so no page reset can move
+ * them; a page's own body rules still win, because they come later. */
+body {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
+}
+
+.esp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  margin: 0 0 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--esp-line);
+  font: 600 0.9rem/1.4 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.esp-bar a {
+  color: var(--esp-accent);
+  text-decoration: none;
+}
+
+.esp-bar a:hover {
+  text-decoration: underline;
+}
+
+/* A small espresso cup: crema on top of the shot. */
+.esp-bar .esp-home::before {
+  content: '';
+  display: inline-block;
+  width: 0.95em;
+  height: 0.8em;
+  margin-right: 0.45em;
+  vertical-align: -0.05em;
+  border-radius: 0.15em 0.15em 0.45em 0.45em;
+  background: linear-gradient(#d49a4e 0 30%, #3b2416 30% 100%);
+  box-shadow: inset 0 0 0 1.5px var(--esp-fg);
+}
+
+.esp-bar .esp-crumb {
+  color: var(--esp-muted);
+  font-weight: 500;
+}
+
+.esp-bar .esp-links {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}

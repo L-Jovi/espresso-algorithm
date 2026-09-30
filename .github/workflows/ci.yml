@@ -74,14 +74,83 @@ jobs:
           node-version: '24'
       - run: npm run check:repo
 
+  # Build the Pages site and test the exact files that will be published in
+  # Chrome and Firefox, which the runner image already has, driven over
+  # WebDriver without installing anything. On main, the site becomes the
+  # artifact that the deploy job publishes.
+  site:
+    name: Site in Chrome and Firefox
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - run: node scripts/build-pages.mjs _site
+      - name: Serve the site and start the browser drivers
+        run: |
+          node scripts/serve.mjs _site 8080 &
+          "$CHROMEWEBDRIVER/chromedriver" --port=9515 &
+          "$GECKOWEBDRIVER/geckodriver" --port=4444 &
+          sleep 3
+      - run: node scripts/test-pages.mjs http://127.0.0.1:8080/ chrome=http://127.0.0.1:9515 firefox=http://127.0.0.1:4444
+      # The card for the repository's social preview, uploaded by hand in the repository settings.
+      - name: Render the social preview card
+        run: google-chrome --headless=new --hide-scrollbars --window-size=1280,640 --screenshot="$PWD/_site/social-preview.png" http://127.0.0.1:8080/assets/social-preview.html
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          path: _site
+
+  # The same pages in Safari, on the one runner that has WebKit.
+  site-safari:
+    name: Site in Safari
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - run: node scripts/build-pages.mjs _site
+      - name: Serve the site and start SafariDriver
+        run: |
+          node scripts/serve.mjs _site 8080 &
+          sudo safaridriver --enable
+          safaridriver --port 4445 &
+          sleep 3
+      - run: node scripts/test-pages.mjs http://127.0.0.1:8080/ safari=http://127.0.0.1:4445
+
   # The only required status check. It runs even when a job above fails or is
   # skipped, and passes only if every one of them succeeded.
   verify:
     if: always()
-    needs: [javascript, python, java, repo]
+    needs: [javascript, python, java, repo, site, site-safari]
     runs-on: ubuntu-24.04
     steps:
       - name: Require every job to succeed
         env:
           RESULTS: ${{ toJSON(needs) }}
         run: echo "$RESULTS" | jq -e 'all(.[]; .result == "success")'
+
+  # Publish the site that the site job built and tested, once everything
+  # passed on main. Only this job may write to Pages.
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

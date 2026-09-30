@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Type a Chinese sentence and watch two hand-written segmenters and your browser's Intl.Segmenter decide where the words are.">
+<link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
+<title>Find the words · Espresso Algorithm</title>
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+textarea{display:block;width:100%;box-sizing:border-box;min-height:4.5rem;font-size:1.3rem;line-height:1.5}
+.examples{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0 1.25rem}
+.examples button{padding:.2rem .7rem;font-size:.9rem}
+.rows{display:grid;gap:.9rem}
+.row h2{margin:0 0 .35rem;font-size:1rem}
+.row h2 .muted{font-weight:500;font-size:.9rem}
+.words{display:flex;flex-wrap:wrap;gap:.35rem;margin:0;padding:0;list-style:none}
+.words li{padding:.2rem .55rem;border:1px solid var(--esp-line);border-radius:.45rem;background:var(--esp-bg);font-size:1.15rem}
+.words li.differs{border-color:var(--esp-write);box-shadow:inset 0 -3px 0 var(--esp-write)}
+.graph{margin-top:1.25rem;overflow-x:auto}
+.graph svg{display:block;min-width:100%}
+.graph text{font:24px var(--esp-font);fill:var(--esp-fg)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:.5rem 0 0;font-size:.9rem;color:var(--esp-muted)}
+.swatch{display:inline-block;width:1.4rem;height:0;margin-right:.35rem;border-top:3px solid;vertical-align:.2rem}
+</style>
+</head>
+<body>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb">Find the words</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">Segmentation README</a><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp/word-segmentation">Source</a></span></nav>
+<main>
+<h1>Find the words</h1>
+<p class="lead">Chinese is written without spaces. Type a sentence and watch two hand-written segmenters, and the one built into your browser, decide where each word begins and ends.</p>
+<p class="lead zh" lang="zh-Hans">中文书写时词与词之间没有空格。输入一句话，看两个手写的分词器，以及你的浏览器内置的分词器，如何判断每个词从哪里开始、到哪里结束。</p>
+<label for="text" class="muted">Sentence</label>
+<textarea id="text" lang="zh-Hans" spellcheck="false"></textarea>
+<div class="examples" id="examples" aria-label="Example sentences"></div>
+<section class="panel">
+<div class="rows" id="rows" aria-live="polite"></div>
+<div class="graph" id="graph"></div>
+<p class="legend" aria-hidden="true"><span><span class="swatch" style="border-color:var(--esp-line)"></span>a word in the list</span><span><span class="swatch" style="border-color:var(--esp-done)"></span>the most likely path (graph + DP)</span><span><span class="swatch" style="border-color:var(--esp-write);border-top-style:dashed"></span>forward maximum matching</span></p>
+</section>
+<h2>How it works</h2>
+<p><strong>Forward maximum matching</strong> reads from the left and always takes the longest word it knows, so in 结婚的和尚未结婚的 it takes 和尚 (monk) and misreads the rest. <strong>The graph</strong> above shows every word of the list that could start at each character; dynamic programming picks the path whose words are most likely together, the method of the <a href="https://github.com/fxsjy/jieba">jieba</a> segmenter. The word list is small, with made-up frequencies, so the hand-written segmenters know only the words of the examples and a few more. <strong>Your browser's</strong> <code>Intl.Segmenter</code> uses the dictionary of its ICU library, which knows far more words but cannot be taught new ones.</p>
+</main>
+<footer>
+<p>Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+</footer>
+<script type="module" src="page.js"></script>
+</body>
+</html>

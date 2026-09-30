@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Watch twelve sorting algorithms from espresso-algorithm rearrange the same numbers, replayed step by step from the real code.">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<title>Watch the sorts · Espresso Algorithm</title>
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.75rem 1.25rem;align-items:end;margin:1.25rem 0 1rem}
+.controls label{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem;color:var(--esp-muted)}
+.controls select,.controls input{width:100%;box-sizing:border-box}
+.range{display:flex;align-items:center;gap:.6rem}
+.range output{min-width:3.5rem;color:var(--esp-fg);font-family:var(--esp-mono);font-size:.85rem}
+.buttons{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}
+.stage{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
+.sorter{margin:0}
+.sorter figcaption{display:flex;flex-wrap:wrap;gap:.25rem .75rem;align-items:baseline;margin-bottom:.5rem}
+.sorter canvas{display:block;width:100%;height:15rem;border-radius:.4rem;background:var(--esp-code)}
+.counts{margin:.5rem 0 0;font-family:var(--esp-mono);font-size:.85rem;color:var(--esp-muted)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:1rem 0;font-size:.9rem;color:var(--esp-muted)}
+.swatch{display:inline-block;width:.8rem;height:.8rem;margin-right:.35rem;border-radius:.15rem;vertical-align:-.05rem}
+</style>
+</head>
+<body>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../">Espresso Algorithm</a><span class="esp-crumb">Watch the sorts</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">Source</a><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/sorting">Sorting README</a></span></nav>
+<main>
+<h1>Watch the sorts</h1>
+<p class="lead">Twelve sorts from <code>sorting/</code> rearrange the same numbers, replayed one step at a time. Every bar that moves is a write the real code made.</p>
+<p class="lead zh" lang="zh-Hans"><code>sorting/</code> 里的十二种排序处理同一组数，一步一步回放。每一次柱子的变化，都是真实代码做的一次写入。</p>
+
+<form class="controls" id="controls" onsubmit="return false">
+<label>Sort
+<select id="sort"></select></label>
+<label>Race against
+<select id="rival"><option value="">nothing</option></select></label>
+<label>Start from
+<select id="shape">
+<option value="random">random order</option>
+<option value="nearly">nearly sorted</option>
+<option value="reversed">reversed</option>
+<option value="few">only four different values</option>
+</select></label>
+<label>Numbers
+<span class="range"><input id="size" type="range" min="8" max="128" step="8" value="48"><output id="size-out" for="size">48</output></span></label>
+<label>Speed, steps per second
+<span class="range"><input id="speed" type="range" min="0" max="100" value="55"><output id="speed-out" for="speed"></output></span></label>
+</form>
+<div class="buttons">
+<button type="button" id="play" aria-pressed="false">Play</button>
+<button type="button" id="step" class="ghost">Step</button>
+<button type="button" id="restart" class="ghost">Restart</button>
+<button type="button" id="shuffle" class="ghost">New numbers</button>
+</div>
+
+<div class="stage" id="stage"></div>
+<p class="legend" aria-hidden="true"><span><span class="swatch" style="background:var(--esp-read)"></span>read</span><span><span class="swatch" style="background:var(--esp-write)"></span>write</span><span><span class="swatch" style="background:var(--esp-done)"></span>sorted</span></p>
+<p class="sr-only" id="status" aria-live="polite"></p>
+
+<h2>How it works</h2>
+<p>Each sort is the same function that the tests check, imported from <code>sorting/</code>. Before you press Play, the page runs it once on a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a> of the numbers, which records every read, write and comparison without changing what the sort does, and then replays that record. Racing two sorts gives both the same number of steps per second, so the one that needs fewer operations finishes first.</p>
+<p>The copying merge sort and the copying quick sort are not here: they build new arrays instead of rearranging the one they are given, so there are no writes to replay. The <a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">visualizer README</a> explains the rest.</p>
+</main>
+<footer>
+<p>Part of <a href="../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+</footer>
+<script type="module" src="visualizer.js"></script>
+</body>
+</html>

@@ -24,6 +24,15 @@ npm run new -- 322 "Coin Change" [technique]   # start leetcode/0322-coin-change
 npm run bench:leetcode                         # race the approaches of each problem, about 12 s
 ```
 
+For the site (published to GitHub Pages from `main`):
+
+```sh
+npm run serve         # serve the repository at http://127.0.0.1:8080/
+npm run build:pages   # copy the published files into _site/
+```
+
+CI tests the built site in Chrome, Firefox and Safari with `scripts/test-pages.mjs`.
+
 ## Conventions
 
 - **Files:** one folder per algorithm or problem, and one file per approach, named after the technique. One test file per folder runs every approach on the same table of cases, then compares them on seeded random inputs with a slow but plainly correct reference.
@@ -31,6 +40,7 @@ npm run bench:leetcode                         # race the approaches of each pro
 - **Comments:** English, explaining why. A file header gives the idea and the time and space complexity.
 - **Problem statements:** never copy one. Link to the problem and summarize it in your own words.
 - **Docs:** `README.md` is the source; update `README.zh-Hans.md` in the same change and bump its sync date. Follow `docs/writing.md`.
+- **Site pages:** a page sits next to the code it imports (`visualizer/`, `leetcode/race/`, `nlp/word-segmentation/`), imports only relative modules, and lists its script in `PAGE_SCRIPTS` in `scripts/lib/layout.mjs`. Opened with `?selftest`, it checks itself and writes `pass` or its first failure into `<html data-selftest>`.
 - **Legacy folders:** `scripts/lib/layout.mjs` lists folders still in the pre-2026 layout (`LEGACY`) and converted ones (`SECTIONS`). Move a folder from the first list to the second in the change that converts it.
 - **Python:** standard library only, loaded by path with `shared/load_module.py`; tests are `test_*.py` next to the code.
 - **Java:** single-file programs with a classic `public static void main`, no `package` line and no preview features; main() checks its answers and calls `System.exit(1)` on a wrong one.

@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, join, normalize } from 'node:path'
 import { listFiles } from './lib/files.mjs'
-import { LEGACY, PROGRAMS, SECTIONS } from './lib/layout.mjs'
+import { LEGACY, PAGE_SCRIPTS, PROGRAMS, SECTIONS } from './lib/layout.mjs'
 
 // English documents with a Simplified Chinese mirror next to them.
 const MIRRORED = file => basename(file) === 'README.md' || (file.startsWith('docs/') && file !== 'docs/verification.md')
@@ -76,8 +76,38 @@ while (pending.length > 0) {
   }
 }
 for (const file of files.filter(file => SECTIONS.some(section => file.startsWith(section)))) {
-  if (!/\.m?js$/.test(file) || file.endsWith('.test.js') || PROGRAMS.includes(file)) continue
+  if (!/\.m?js$/.test(file) || file.endsWith('.test.js') || PROGRAMS.includes(file) || PAGE_SCRIPTS.includes(file)) continue
   if (!reached.has(file)) report(file, 'is not imported by any test')
+}
+
+// The site's scripts, and every module they import, must load in a browser:
+// relative imports only, spelled with the exact case of the file (the web
+// server is case-sensitive even where a disk is not), and no node: modules.
+const tracked = new Set(files)
+const pageModules = new Set()
+const toLoad = [...PAGE_SCRIPTS]
+while (toLoad.length > 0) {
+  const file = toLoad.pop()
+  if (pageModules.has(file)) continue
+  pageModules.add(file)
+  for (const [, specifier] of readFileSync(file, 'utf8').matchAll(/^\s*import\s+(?:[^'"]*?\s+from\s+)?['"]([^'"]+)['"]/gm)) {
+    if (!/^\.{1,2}\//.test(specifier)) {
+      report(file, `imports ${specifier}, which a browser page cannot load`)
+      continue
+    }
+    const target = normalize(join(dirname(file), specifier))
+    if (tracked.has(target)) toLoad.push(target)
+    else report(file, `imports ${specifier}, which matches no file's exact name`)
+  }
+}
+
+// The local links and assets of the site's pages point at files that exist.
+for (const file of files.filter(file => file.endsWith('.html') && !isLegacy(file))) {
+  for (const [, target] of readFileSync(file, 'utf8').matchAll(/\b(?:href|src)="([^"#?]+)/g)) {
+    if (/^[a-z]+:/i.test(target)) continue
+    const path = normalize(join(dirname(file), target))
+    if (!tracked.has(target.endsWith('/') ? join(path, 'index.html') : path)) report(file, `links to ${target}, which does not exist`)
+  }
 }
 
 // Absolute home paths leak a machine layout into a public repository.
