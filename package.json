@@ -20,6 +20,8 @@
     "test:java": "node scripts/run-java-tests.mjs",
     "check:repo": "node scripts/check-repo.mjs",
     "check": "npm test && npm run test:python && npm run test:java && npm run check:repo",
-    "bench": "node sorting/bench.js"
+    "bench": "node sorting/bench.js",
+    "bench:leetcode": "node leetcode/bench.js",
+    "new": "node scripts/new-problem.mjs"
   }
 }

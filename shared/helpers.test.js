@@ -4,6 +4,10 @@ import { swap } from './swap.js'
 import { measure } from './measure.js'
 import { createRandom, randomIntegers, randomFloats } from './random.js'
 import { showSort } from './demo.js'
+import { arrayToList, listToArray } from './linked-list.js'
+import { checkApproaches, runOperations } from './check.js'
+import { randomTree } from './random-tree.js'
+import { binaryTree2Array } from '../data-structures/tree/binary-tree-array.js'
 
 describe('swap', () => {
   it('swaps two items in place and returns the same array', () => {
@@ -91,5 +95,51 @@ describe('showSort', () => {
     const [input, sorted] = log.mock.calls.map(call => call.arguments[0])
     const numbers = line => line.split(/\s+/).slice(1).map(Number)
     assert.deepEqual(numbers(sorted), numbers(input).toSorted((a, b) => a - b))
+  })
+})
+
+describe('linked-list helpers', () => {
+  it('round-trips arrays of every length from 0 to 5', () => {
+    for (let n = 0; n <= 5; n++) {
+      const array = Array.from({ length: n }, (_, i) => i * 10)
+      assert.deepEqual(listToArray(arrayToList(array)), array)
+    }
+    assert.equal(arrayToList([]), null)
+  })
+})
+
+describe('checkApproaches', () => {
+  // Two ways to add, run on the same cases; a copy of the input is passed each time.
+  checkApproaches(
+    { 'plus': (a, b) => a + b, 'minus the negative': (a, b) => a - -b },
+    [{ input: [1, 2], expected: 3 }, { input: [-1, 1], expected: 0, label: 'opposite numbers' }],
+  )
+})
+
+describe('randomTree', () => {
+  it('builds trees of every size up to 30 with the values 1 … size, each once', () => {
+    const next = createRandom(7)
+    for (let size = 0; size <= 30; size++) {
+      const values = binaryTree2Array(randomTree(size, next)).filter(value => value !== null)
+      assert.deepEqual(values.toSorted((a, b) => a - b), Array.from({ length: size }, (_, i) => i + 1))
+    }
+  })
+
+  it('makes different shapes', () => {
+    const next = createRandom(8)
+    const shapes = new Set(Array.from({ length: 50 }, () => String(binaryTree2Array(randomTree(6, next)).map(v => v === null ? 0 : 1))))
+    assert.ok(shapes.size > 20, `${shapes.size} shapes`)
+  })
+})
+
+describe('runOperations', () => {
+  it('replays a LeetCode design example, with null for the constructor and for void methods', () => {
+    class Counter {
+      #count
+      constructor(start) { this.#count = start }
+      add(amount) { this.#count += amount }
+      get() { return this.#count }
+    }
+    assert.deepEqual(runOperations(Counter, ['Counter', 'add', 'get', 'add', 'get'], [[5], [2], [], [-7], []]), [null, null, 7, null, 0])
   })
 })

@@ -17,6 +17,14 @@ Thank you for helping. This repository is a collection of small algorithm implem
 - **Comments in English** explain why the code works, not what each line does. Every file header states the idea and the time and space complexity.
 - **Never copy a problem statement.** Link to the problem and summarize it in one sentence of your own.
 
+## Adding a LeetCode problem
+
+```sh
+npm run new -- 322 "Coin Change" brute-force
+```
+
+This creates `leetcode/0322-coin-change/` with `brute-force.js` and a `solution.test.js` whose placeholder case fails until you replace it. Check that the folder name matches the problem's URL. Then write the header (the problem in one sentence of your own, the idea, the time and space complexity) and put LeetCode's examples and the edge cases into the test. When a single approach cannot be checked against another, add a slow but plainly correct reference to the test and compare the two on seeded random inputs, as the existing folders do. Another approach goes into its own file in the same folder and into the same test; if the difference between approaches is worth showing, add the problem to [`leetcode/bench.js`](leetcode/bench.js) and run `npm run bench:leetcode`.
+
 ## Documentation
 
 Each folder has an English `README.md` and a Simplified Chinese `README.zh-Hans.md`. Change both in the same pull request and update the date on the mirror's sync line. The [writing guide](docs/writing.md) describes the structure and the words to avoid.
