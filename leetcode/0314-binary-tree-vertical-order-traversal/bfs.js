@@ -1,68 +1,39 @@
 /**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
+ * LeetCode 314. Binary Tree Vertical Order Traversal (Premium) —
+ * https://leetcode.com/problems/binary-tree-vertical-order-traversal/
+ * List a binary tree's values column by column, from left to right. The
+ * root is in column 0; a left child is one column to the left of its
+ * parent, a right child one column to the right. Inside a column, list the
+ * values from top to bottom, and values in the same row from left to right.
+ *
+ * Breadth-first search: visiting the nodes level by level, left to right,
+ * produces exactly the order wanted inside each column, so each value is
+ * simply appended to its column's list. The columns in use form one
+ * unbroken range (every step moves one column), so knowing the leftmost
+ * and rightmost column is enough to put the lists in order; no sorting.
+ *
+ * Time: O(n). Space: O(n).
+ * Learning source: https://leetcode.cn/problems/binary-tree-vertical-order-traversal/solutions/630901/c-python3-dai-ma-jian-ji-ceng-xu-bian-li-lf5n/
  */
 
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- * https://leetcode-cn.com/problems/binary-tree-vertical-order-traversal/solution/c-python3-dai-ma-jian-ji-ceng-xu-bian-li-lf5n/
- */
-const verticalOrder = (root) => {
-  // base case
-  if (!root) {
-    return []
+import { array2BinaryTree } from '../../data-structures/tree/binary-tree-array.js'
+
+export function verticalOrder(root) {
+  if (root === null) return []
+  const columns = new Map()
+  let [leftmost, rightmost] = [0, 0]
+  const queue = [[root, 0]]
+  // A read position instead of queue.shift(), which moves every item.
+  for (let head = 0; head < queue.length; head++) {
+    const [node, column] = queue[head]
+    if (!columns.has(column)) columns.set(column, [])
+    columns.get(column).push(node.val)
+    leftmost = Math.min(leftmost, column)
+    rightmost = Math.max(rightmost, column)
+    if (node.left !== null) queue.push([node.left, column - 1])
+    if (node.right !== null) queue.push([node.right, column + 1])
   }
-
-  // record axis info
-  // eg: { '-1': [9], '0': [3, 15], '1': [20] }
-  const axisMap = {}
-  const queue = [ [root, 0] ]
-
-  while (queue.length > 0) {
-    const [ node, index ] = queue.shift()
-
-    if (axisMap[index]) {
-      axisMap[index].push(node.val)
-    } else {
-      axisMap[index] = [node.val]
-    }
-
-    if (node.left) {
-      queue.push([node.left, index - 1])
-    }
-    if (node.right) {
-      queue.push([node.right, index + 1])
-    }
-  }
-
-  console.log(axisMap)
-
-  // transform map to array
-  const keys = Object.keys(axisMap).map(k => k * 1)
-  keys.sort((a, b) => a - b)
-  return keys.map(k => axisMap[k])
+  return Array.from({ length: rightmost - leftmost + 1 }, (_, i) => columns.get(leftmost + i))
 }
 
-
-// const root = [3, 9, 20, null, null, 15, 7]
-const root = {
-  val: 3,
-  left: {
-    val: 9
-  },
-  right: {
-    val: 20,
-    left: {
-      val: 15,
-    },
-    right: {
-      val: 7
-    }
-  },
-}
-console.log(verticalOrder(root))
+if (import.meta.main) console.log(verticalOrder(array2BinaryTree([3, 9, 20, null, null, 15, 7])))

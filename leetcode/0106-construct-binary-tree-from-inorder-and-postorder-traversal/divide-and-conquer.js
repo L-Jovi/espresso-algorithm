@@ -1,56 +1,38 @@
-function TreeNode(val, left, right) {
-  this.val = (val === undefined ? 0 : val)
-  this.left = (left === undefined ? null : left)
-  this.right = (right === undefined ? null : right)
-}
-
 /**
- * @param {number[]} inorder
- * @param {number[]} postorder
- * @return {TreeNode}
- * https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247487270&idx=1&sn=2f7ad74aabc88b53d94012ceccbe51be&chksm=9bd7f12eaca078384733168971147866c140496cb257946f8170f05e46d16099f3eef98d39d9&scene=21#wechat_redirect
+ * LeetCode 106. Construct Binary Tree from Inorder and Postorder Traversal —
+ * https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+ * Rebuild a binary tree with distinct values from its inorder and postorder
+ * traversals.
+ *
+ * Divide and conquer, the mirror image of LeetCode 105: postorder lists the
+ * left subtree, then the right one, then the root, so its last value is the
+ * root. Finding the root in inorder tells how large the right subtree is,
+ * which splits both lists into the two subtrees; each is rebuilt the same
+ * way. A map from value to inorder position finds the root in O(1).
+ *
+ * Time: O(n). Space: O(n) for the map and the recursion.
+ * Learning source: https://labuladong.online/zh/algo/data-structure/binary-tree-part2/
  */
-const buildTree = function(inorder, postorder) {
-  return buildNode(
-    inorder, 0, inorder.length - 1,
-    postorder, 0, postorder.length - 1
-  )
-}
 
-const buildNode = (inorder, inStart, inEnd, postorder, postStart, postEnd) => {
-  // base case
-  if (postStart > postEnd) {
-    return null
+import { binaryTree2Array, treeNode } from '../../data-structures/tree/binary-tree-array.js'
+
+export function buildTree(inorder, postorder) {
+  const inorderIndex = new Map(inorder.map((value, i) => [value, i]))
+
+  // The subtree whose postorder ends at postEnd and whose inorder is inorder[inStart..inEnd].
+  function build(postEnd, inStart, inEnd) {
+    if (inStart > inEnd) return null
+    const rootValue = postorder[postEnd]
+    const rootIndex = inorderIndex.get(rootValue)
+    const rightSize = inEnd - rootIndex
+    return treeNode(
+      rootValue,
+      build(postEnd - 1 - rightSize, inStart, rootIndex - 1),
+      build(postEnd - 1, rootIndex + 1, inEnd),
+    )
   }
 
-  const rootValue = postorder[postEnd]
-  const root = new TreeNode(rootValue)
-
-  // find indexRoot in inorder
-  let index = 0
-  for (let i = inStart; i <= inEnd; i++) {
-    if (inorder[i] === rootValue) {
-      index = i
-      break
-    }
-  }
-
-  // get left children size
-  const leftSize = index - inStart
-
-  root.left = buildNode(
-    inorder, inStart, index - 1,
-    postorder, postStart, postStart + leftSize - 1
-  )
-  root.right = buildNode(
-    inorder, index + 1, inEnd,
-    postorder, postStart + leftSize, postEnd - 1
-  )
-
-  return root
+  return build(postorder.length - 1, 0, inorder.length - 1)
 }
 
-const inorder = [9, 3, 15, 20, 7]
-const postorder = [9, 15, 7, 20, 3]
-const tree = buildTree(inorder, postorder)
-console.log(tree)
+if (import.meta.main) console.log(binaryTree2Array(buildTree([9, 3, 15, 20, 7], [9, 15, 7, 20, 3])))
