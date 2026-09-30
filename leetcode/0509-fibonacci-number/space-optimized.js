@@ -1,40 +1,18 @@
-/*
- * @Description: No additional space complexity required as solution (fibonacci sequence).
- * @Example: 1 1 2 3 5 8 13
- * @FileName: no-addtional-space.js
- * O(n)
- */
-
-const timer = require('../../libs/timer')
-
 /**
- * Recursive implementation of dynamic programming.
+ * LeetCode 509. Fibonacci Number — https://leetcode.com/problems/fibonacci-number/
+ * Return F(n), where F(0) = 0, F(1) = 1 and F(n) = F(n − 1) + F(n − 2).
  *
- * @param {number} k
- * @returns {number}
+ * Space-optimized: every entry of the table in tabulation.js needs only
+ * the two entries before it, so two variables can replace the table.
+ *
+ * Time: O(n). Space: O(1).
  */
-function noAddtionalSpace(k) {
-  if (k < 1) {
-    return 0
 
-  } else if (k === 1 || k === 2) {
-    return 1
-
-  } else {
-    // Use variables a, b to save the results of the last iteration and the last iteration.
-    let a = 1
-    let b = 1
-    let tmp = 0
-
-    for (let i = 3; i <= k; i++) {
-      tmp = a + b
-      a = b
-      b = tmp
-    }
-
-    return tmp
-  }
+export function fib(n) {
+  let previous = 0 // F(i)
+  let current = 1 // F(i + 1)
+  for (let i = 0; i < n; i++) [previous, current] = [current, previous + current]
+  return previous
 }
 
-
-timer(noAddtionalSpace, 1000)
+if (import.meta.main) console.log(fib(30))

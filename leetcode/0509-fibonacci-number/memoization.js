@@ -1,37 +1,22 @@
-/*
- * @Description: Using a memory-based data structure as solution (fibonacci sequence).
- * @Example: 1 1 2 3 5 8 13
- * @FileName: memory.js
- * O(n)
- */
-
-const timer = require('../../libs/timer')
-
 /**
- * Although the time complexity is reduced, a set needs to be maintained to store the calculation results, resulting in increased space complexity.
+ * LeetCode 509. Fibonacci Number — https://leetcode.com/problems/fibonacci-number/
+ * Return F(n), where F(0) = 0, F(1) = 1 and F(n) = F(n − 1) + F(n − 2).
  *
- * @param {number} k
- * @returns {number}
+ * Memoization: the recursion of recursion.js, but every F(k) is remembered
+ * the first time it is computed, so each is computed once: fib(35) makes
+ * 69 calls instead of 29,860,703 (measured).
+ *
+ * Time: O(n). Space: O(n) for the memo and the recursion.
  */
-function memory(k, map = {}) {
-  if (k < 1) {
-    return 0
 
-  } else if (k === 1 || k === 2) {
-    return 1
-
-  } else {
-    // Determines whether the result of the current k has been calculated. If k exists in the map, the result has been calculated.
-    if (k in map) {
-      return map[k]
-
-    } else {
-      const value = memory(k - 1, map) + memory(k - 2, map)
-      map[k] = value
-      return value
-    }
+export function fib(n) {
+  const memo = new Map()
+  const f = k => {
+    if (k < 2) return k
+    if (!memo.has(k)) memo.set(k, f(k - 1) + f(k - 2))
+    return memo.get(k)
   }
+  return f(n)
 }
 
-
-timer(memory, 1000)
+if (import.meta.main) console.log(fib(30))

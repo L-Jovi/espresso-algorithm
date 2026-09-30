@@ -1,29 +1,17 @@
-/*
- * @Description: Recursion solution (fibonacci sequence).
- * @Example: 1 1 2 3 5 8 13
- * @FileName: recursion.js
- * O(2^n)
- */
-
-const timer = require('../../libs/timer')
-
 /**
- * Recursively recalculates a large number of subproblems.
+ * LeetCode 509. Fibonacci Number — https://leetcode.com/problems/fibonacci-number/
+ * Return F(n), where F(0) = 0, F(1) = 1 and F(n) = F(n − 1) + F(n − 2).
  *
- * @param {number} k
- * @returns {number}
+ * Recursion, straight from the definition. The two calls recompute the
+ * same smaller values over and over: fib(35) makes 29,860,703 calls
+ * (measured), and every step of n multiplies the count by about
+ * φ ≈ 1.618, the golden ratio.
+ *
+ * Time: O(φⁿ). Space: O(n) for the recursion.
  */
-function recursion(k) {
-  if (k < 1) {
-    return 0
 
-  } else if (k === 1 || k === 2) {
-    return 1
-
-  } else {
-    return recursion(k - 1) + recursion(k - 2)
-  }
+export function fib(n) {
+  return n < 2 ? n : fib(n - 1) + fib(n - 2)
 }
 
-
-timer(recursion, 3)
+if (import.meta.main) console.log(fib(30))

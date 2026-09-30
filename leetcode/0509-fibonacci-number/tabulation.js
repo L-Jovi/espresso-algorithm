@@ -1,38 +1,20 @@
-/*
- * 
- * @Description: Using dp table (fibonacci sequence).
- * @Example: 1 1 2 3 5 8 13
- * @Refer: https://labuladong.github.io/algo/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%AF%A6%E8%A7%A3%E8%BF%9B%E9%98%B6.html
- * @FileName: dp.js
- * O(n)
- */
-
-const timer = require('../../libs/timer')
-
 /**
- * Recursive implementation of dynamic programming.
+ * LeetCode 509. Fibonacci Number — https://leetcode.com/problems/fibonacci-number/
+ * Return F(n), where F(0) = 0, F(1) = 1 and F(n) = F(n − 1) + F(n − 2).
  *
- * @param {number} k
- * @returns {number}
+ * Tabulation: memoization turned inside out. Instead of recursing down
+ * from n and remembering answers on the way back, fill table[0 … n] from
+ * the bottom up, each entry the sum of the two before it. No recursion,
+ * so no stack depth to worry about.
+ *
+ * Time: O(n). Space: O(n) for the table.
+ * Learning source: https://labuladong.online/zh/algo/essential-technique/dynamic-programming-framework/
  */
-function dynamicPlan(k) {
-  if (k < 1) {
-    return 0
 
-  } else if (k === 1 || k === 2) {
-    return 1
-
-  } else {
-    const dp = [0]
-    dp[1] = dp[2] = 1
-
-    for (i = 3; i <= k; i++) {
-      dp[i] = dp[i - 1] + dp[i - 2]
-    }
-
-    return dp[k]
-  }
+export function fib(n) {
+  const table = [0, 1]
+  for (let i = 2; i <= n; i++) table[i] = table[i - 1] + table[i - 2]
+  return table[n]
 }
 
-
-timer(dynamicPlan, 100)
+if (import.meta.main) console.log(fib(30))
