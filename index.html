@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Try different algorithms for the same problem, from brute force to optimal. Pure concentration, like an espresso.">
+<meta property="og:title" content="Espresso Algorithm">
+<meta property="og:description" content="Try different algorithms for the same problem, from brute force to optimal. Pure concentration, like an espresso.">
+<meta property="og:image" content="https://l-jovi.github.io/espresso-algorithm/social-preview.png">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<title>Espresso Algorithm</title>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+body{max-width:76rem}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 15rem;gap:2.5rem;align-items:center;padding:1.5rem 0 1rem}
+.hero h1{margin:0 0 .75rem;font-size:3rem;letter-spacing:-.02em}
+.hero .lead{margin:0 0 .5rem;font-size:1.15rem}
+.hook{margin:1rem 0 1.25rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:0}
+.button{display:inline-block;padding:.55rem 1.1rem;border-radius:.6rem;background:var(--esp-accent);color:var(--esp-accent-fg);font-weight:600;text-decoration:none}
+.button.ghost{background:transparent;color:var(--esp-accent);box-shadow:inset 0 0 0 1.5px var(--esp-accent)}
+.stats{margin:1.25rem 0 0;color:var(--esp-muted);font-size:.95rem}
+.cup{width:100%;height:auto;color:var(--esp-fg)}
+.cup text{font:700 19px system-ui,sans-serif;fill:#2a1a10}
+.cup .light{fill:#fff8f0}
+.cup .steam{font:700 40px ui-monospace,Menlo,monospace;fill:var(--esp-muted)}
+.jump{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0 .5rem;padding:0;list-style:none}
+.jump a{display:inline-block;padding:.3rem .8rem;border-radius:999px;background:var(--esp-code);color:var(--esp-fg);text-decoration:none;font-size:.95rem}
+.jump a span{color:var(--esp-muted)}
+section{margin-top:2.5rem}
+section h2{margin:0;font-size:1.5rem}
+section h2 .zh{margin-left:.5rem;font-weight:500;font-size:1.1rem}
+.intro{margin:.25rem 0 1rem;color:var(--esp-muted)}
+.cards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(18rem,1fr));margin:0;padding:0;list-style:none}
+.card{display:flex;flex-direction:column;padding:1rem 1.1rem;border:1px solid var(--esp-line);border-radius:.8rem;background:var(--esp-card);transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgb(42 26 16 / 10%)}
+.card h3{margin:0;font-size:1.05rem;line-height:1.35}
+.card h3 a{color:var(--esp-fg);text-decoration:none}
+.card h3 a:hover{color:var(--esp-accent)}
+.card .zh{margin:.2rem 0 .5rem;font-size:.9rem}
+.card .summary{margin:0 0 .9rem;font-size:.95rem}
+.card-foot{display:flex;gap:.75rem;align-items:center;margin:auto 0 0;font-size:.85rem}
+.read{margin-left:auto}
+.ladder{width:100%;border-collapse:collapse;font-size:.95rem}
+.ladder th,.ladder td{padding:.55rem .5rem;text-align:left;vertical-align:top;border-top:1px solid var(--esp-line)}
+.ladder th{color:var(--esp-muted);font-size:.85rem;font-weight:600}
+.ladder td:first-child{white-space:nowrap}
+.steps{display:flex;flex-wrap:wrap;gap:.25rem .4rem;align-items:center}
+.steps code{white-space:nowrap}
+.steps .to{color:var(--esp-muted)}
+@media (max-width:48rem){.hero{grid-template-columns:1fr}.cup{max-width:11rem}.hero h1{font-size:2.4rem}.ladder td:last-child{display:none}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="./">Espresso Algorithm</a><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm">GitHub</a><a href="https://github.com/L-Jovi/espresso-algorithm/blob/main/README.zh-Hans.md" lang="zh-Hans">中文</a></span></nav>
+<header class="hero">
+<div>
+<h1>Espresso Algorithm</h1>
+<p class="lead">Try different algorithms for the same problem, from brute force to optimal. Pure concentration, like an espresso.</p>
+<p class="lead zh" lang="zh-Hans">同一道题，试试不同的算法：从暴力解一路走到最优解。纯粹浓缩，像一杯 espresso。</p>
+<p class="hook">Every algorithm here is a small file you can read in a few minutes, checked by tests against its neighbours. Watch the sorts move, race brute force against the optimal solution in your own browser, and see how a program finds the words in Chinese.</p>
+<p class="actions"><a class="button" href="visualizer/">Watch the sorts</a><a class="button" href="leetcode/race/">Race the solutions</a><a class="button ghost" href="https://github.com/L-Jovi/espresso-algorithm">View on GitHub</a></p>
+<p class="stats">60 LeetCode problems · 14 sorts, 12 of them animated · no dependencies: Node 22 or later is all you need</p>
+</div>
+<svg class="cup" viewBox="0 0 320 340" role="img" aria-label="An espresso cup: a layer of crema on one shot of espresso"><defs><clipPath id="bowl"><path d="M58 128 L262 128 L250 232 Q244 280 196 284 L124 284 Q76 280 70 232 Z"/></clipPath></defs><g clip-path="url(#bowl)"><rect x="0" y="128" width="320" height="46" fill="#d49a4e"/><rect x="0" y="174" width="320" height="120" fill="#3b2416"/></g><path d="M58 128 L262 128 L250 232 Q244 280 196 284 L124 284 Q76 280 70 232 Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><path d="M258 160 Q306 162 300 206 Q294 244 246 246" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M34 304 Q160 330 286 304" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><text x="160" y="158" text-anchor="middle">crema</text><text class="light" x="160" y="236" text-anchor="middle">one shot</text><text class="steam" x="160" y="84" text-anchor="middle">O(1)</text></svg>
+</header>
+<ul class="jump"><li><a href="#try">Try it in your browser <span>3</span></a></li><li><a href="#read">Read the code <span>6</span></a></li><li><a href="#ladder">From brute force to optimal <span>10</span></a></li></ul>
+
+<section id="try">
+<h2>Try it in your browser<span class="zh" lang="zh-Hans">在浏览器里试试</span></h2>
+<p class="intro">Each page imports the same modules that the tests check; nothing is rewritten for the web.</p>
+<ul class="cards">
+<li class="card"><h3><a href="visualizer/">Watch the sorts</a></h3><p class="zh" lang="zh-Hans">看排序如何进行</p><p class="summary">Twelve sorts replay every read and write they make. Race two on the same numbers and see which needs fewer steps.</p><p class="card-foot"><a class="chip live" href="visualizer/">Live demo</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">README</a></p></li>
+<li class="card"><h3><a href="leetcode/race/">Race the solutions</a></h3><p class="zh" lang="zh-Hans">让解法比赛</p><p class="summary">Fifteen LeetCode problems, several approaches each, timed on the same input in your browser: brute force against the optimal solution.</p><p class="card-foot"><a class="chip live" href="leetcode/race/">Live demo</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">README</a></p></li>
+<li class="card"><h3><a href="nlp/word-segmentation/">Find the words</a></h3><p class="zh" lang="zh-Hans">找出中文里的词</p><p class="summary">Two hand-written segmenters and your browser's own read a Chinese sentence; a graph shows why greedy matching misreads 和尚.</p><p class="card-foot"><a class="chip live" href="nlp/word-segmentation/">Live demo</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">README</a></p></li>
+</ul>
+</section>
+
+<section id="read">
+<h2>Read the code<span class="zh" lang="zh-Hans">读代码</span></h2>
+<p class="intro">Every file starts with a comment that explains the idea and its cost, and runs an example with <code>node</code>.</p>
+<ul class="cards">
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/sorting">Sorting</a></h3><p class="zh" lang="zh-Hans">排序</p><p class="summary">Fourteen sorts from bubble to radix, several with a Python twin, checked against the built-in sort and raced by a bench.</p><p class="card-foot"><a class="chip live" href="visualizer/">Watch</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/sorting">README</a></p></li>
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/searching">Searching</a></h3><p class="zh" lang="zh-Hans">查找</p><p class="summary">Binary search and lower bound in JavaScript and Java, and KMP string search.</p><p class="card-foot"><span class="chip">Read · 阅读</span><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/searching">README</a></p></li>
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/data-structures">Data structures</a></h3><p class="zh" lang="zh-Hans">数据结构</p><p class="summary">Stacks, queues, a binary heap, linked lists, a set, a hash table, trees, a trie and a graph.</p><p class="card-foot"><span class="chip">Read · 阅读</span><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/data-structures">README</a></p></li>
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/problems">Classic problems</a></h3><p class="zh" lang="zh-Hans">经典问题</p><p class="summary">Adding large numbers, removing duplicates three ways, the 0-1 knapsack, the Dutch national flag and more.</p><p class="card-foot"><span class="chip">Read · 阅读</span><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/problems">README</a></p></li>
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">LeetCode</a></h3><p class="zh" lang="zh-Hans">LeetCode 题解</p><p class="summary">Sixty problems, one file per approach, each folder with a test that checks every approach against the others.</p><p class="card-foot"><a class="chip live" href="leetcode/race/">Race</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">README</a></p></li>
+<li class="card"><h3><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">Chinese word segmentation</a></h3><p class="zh" lang="zh-Hans">中文分词</p><p class="summary">Forward maximum matching and jieba's graph with dynamic programming, next to <code>Intl.Segmenter</code>.</p><p class="card-foot"><a class="chip live" href="nlp/word-segmentation/">Try</a><a class="read" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">README</a></p></li>
+</ul>
+</section>
+
+<section id="ladder">
+<h2>From brute force to optimal<span class="zh" lang="zh-Hans">从暴力解到最优解</span></h2>
+<p class="intro">Ten problems whose folders hold a whole sequence of approaches, each faster than the one before. Race any of them to see the gaps on your own device.</p>
+<table class="ladder">
+<thead><tr><th scope="col">Problem</th><th scope="col">The steps</th><th scope="col"><span class="sr-only">Race</span></th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0509-fibonacci-number">509. Fibonacci Number</a></td><td><span class="steps"><code>O(φⁿ)</code><span class="to">→</span><code>O(n)</code><span class="to">→</span><code>O(n), O(1) space</code><span class="to">→</span><code>O(log n)</code></span></td><td><a href="leetcode/race/?problem=0509-fibonacci-number">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0322-coin-change">322. Coin Change</a></td><td><span class="steps"><code>exponential</code><span class="to">→</span><code>O(amount · k)</code> with memoization<span class="to">→</span>the same as a table</span></td><td><a href="leetcode/race/?problem=0322-coin-change">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/1143-longest-common-subsequence">1143. Longest Common Subsequence</a></td><td><span class="steps"><code>O(2^(m + n))</code><span class="to">→</span><code>O(m · n)</code> with memoization<span class="to">→</span>the same as a table</span></td><td><a href="leetcode/race/?problem=1143-longest-common-subsequence">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0256-paint-house">256. Paint House</a></td><td><span class="steps"><code>O(2ⁿ)</code><span class="to">→</span><code>O(n)</code> with memoization<span class="to">→</span>the same as a table</span></td><td><a href="leetcode/race/?problem=0256-paint-house">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0121-best-time-to-buy-and-sell-stock">121. Best Time to Buy and Sell Stock</a></td><td><span class="steps"><code>O(n²)</code><span class="to">→</span><code>O(n)</code> table<span class="to">→</span><code>O(n), O(1) space</code></span></td><td><a href="leetcode/race/?problem=0121-best-time-to-buy-and-sell-stock">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0053-maximum-subarray">53. Maximum Subarray</a></td><td><span class="steps"><code>O(n²)</code><span class="to">→</span><code>O(n)</code> table<span class="to">→</span><code>O(n), O(1) space</code> (Kadane)</span></td><td><a href="leetcode/race/?problem=0053-maximum-subarray">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0005-longest-palindromic-substring">5. Longest Palindromic Substring</a></td><td><span class="steps"><code>O(n²)</code> table<span class="to">→</span><code>O(n²)</code>, but <code>O(1)</code> space and far fewer steps</span></td><td><a href="leetcode/race/?problem=0005-longest-palindromic-substring">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0752-open-the-lock">752. Open the Lock</a></td><td><span class="steps">breadth-first search<span class="to">→</span>from both ends, meeting in the middle</span></td><td><a href="leetcode/race/?problem=0752-open-the-lock">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0026-remove-duplicates-from-sorted-array">26. Remove Duplicates from Sorted Array</a></td><td><span class="steps"><code>O(n²)</code> with <code>splice</code><span class="to">→</span><code>O(n)</code> with two pointers</span></td><td><a href="leetcode/race/?problem=0026-remove-duplicates-from-sorted-array">Race</a></td></tr>
+<tr><td><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode/0215-kth-largest-element-in-an-array">215. Kth Largest Element in an Array</a></td><td><span class="steps"><code>O(n log n)</code> sort<span class="to">→</span><code>O(n)</code> quickselect, in Python</span></td><td><span class="muted">Python</span></td></tr>
+</tbody>
+</table>
+</section>
+
+<footer>
+<p>Part of a coffee-named series: <a href="https://github.com/L-Jovi/latte-web">latte-web</a> (the web), <a href="https://github.com/L-Jovi/roaster-linux">roaster-linux</a> (Linux tools), <a href="https://github.com/L-Jovi/barista-services">barista-services</a> (services), <a href="https://github.com/L-Jovi/cappuccino-ios">cappuccino-ios</a> (iOS apps). An espresso is the concentrated shot the others are made from; algorithms play that part here.</p>
+<p>Original code and documentation are MIT licensed. <a href="https://github.com/L-Jovi/espresso-algorithm">github.com/L-Jovi/espresso-algorithm</a></p>
+</footer>
+</body>
+</html>

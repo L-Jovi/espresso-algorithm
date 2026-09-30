@@ -25,6 +25,10 @@ npm run new -- 322 "Coin Change" brute-force
 
 This creates `leetcode/0322-coin-change/` with `brute-force.js` and a `solution.test.js` whose placeholder case fails until you replace it. Check that the folder name matches the problem's URL. Then write the header (the problem in one sentence of your own, the idea, the time and space complexity) and put LeetCode's examples and the edge cases into the test. When a single approach cannot be checked against another, add a slow but plainly correct reference to the test and compare the two on seeded random inputs, as the existing folders do. Another approach goes into its own file in the same folder and into the same test; if the difference between approaches is worth showing, add the problem to [`leetcode/bench.js`](leetcode/bench.js) and run `npm run bench:leetcode`.
 
+## Changing the site
+
+The site at [l-jovi.github.io/espresso-algorithm](https://l-jovi.github.io/espresso-algorithm/) is built from the repository itself: each page sits next to the code it imports and uses the same modules as the tests. Run `npm run serve` and open http://127.0.0.1:8080/ to try a change. A page imports only relative modules, and when opened with `?selftest` it checks itself and writes `pass` into `<html data-selftest>`; CI opens every page that way in Chrome, Firefox and Safari before the site is published.
+
 ## Documentation
 
 Each folder has an English `README.md` and a Simplified Chinese `README.zh-Hans.md`. Change both in the same pull request and update the date on the mirror's sync line. The [writing guide](docs/writing.md) describes the structure and the words to avoid.

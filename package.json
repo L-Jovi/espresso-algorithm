@@ -22,6 +22,8 @@
     "check": "npm test && npm run test:python && npm run test:java && npm run check:repo",
     "bench": "node sorting/bench.js",
     "bench:leetcode": "node leetcode/bench.js",
-    "new": "node scripts/new-problem.mjs"
+    "new": "node scripts/new-problem.mjs",
+    "serve": "node scripts/serve.mjs",
+    "build:pages": "node scripts/build-pages.mjs"
   }
 }
