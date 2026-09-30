@@ -28,3 +28,16 @@ export function checkApproaches(approaches, cases, options = {}) {
     })
   }
 }
+
+/**
+ * Run a design problem in LeetCode's format: a list of method names and a
+ * list of their arguments, where the first entry constructs the object.
+ * Returns what each call returned, with null for the constructor and for
+ * methods that return nothing, as LeetCode shows it.
+ *
+ * @example runOperations(Trie, ['Trie', 'insert', 'search'], [[], ['a'], ['a']]) // [null, null, true]
+ */
+export function runOperations(Class, operations, args) {
+  const object = new Class(...args[0])
+  return [null, ...operations.slice(1).map((name, i) => object[name](...args[i + 1]) ?? null)]
+}

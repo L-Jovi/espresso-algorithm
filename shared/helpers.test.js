@@ -5,7 +5,7 @@ import { measure } from './measure.js'
 import { createRandom, randomIntegers, randomFloats } from './random.js'
 import { showSort } from './demo.js'
 import { arrayToList, listToArray } from './linked-list.js'
-import { checkApproaches } from './check.js'
+import { checkApproaches, runOperations } from './check.js'
 import { randomTree } from './random-tree.js'
 import { binaryTree2Array } from '../data-structures/tree/binary-tree-array.js'
 
@@ -129,5 +129,17 @@ describe('randomTree', () => {
     const next = createRandom(8)
     const shapes = new Set(Array.from({ length: 50 }, () => String(binaryTree2Array(randomTree(6, next)).map(v => v === null ? 0 : 1))))
     assert.ok(shapes.size > 20, `${shapes.size} shapes`)
+  })
+})
+
+describe('runOperations', () => {
+  it('replays a LeetCode design example, with null for the constructor and for void methods', () => {
+    class Counter {
+      #count
+      constructor(start) { this.#count = start }
+      add(amount) { this.#count += amount }
+      get() { return this.#count }
+    }
+    assert.deepEqual(runOperations(Counter, ['Counter', 'add', 'get', 'add', 'get'], [[5], [2], [], [-7], []]), [null, null, 7, null, 0])
   })
 })
