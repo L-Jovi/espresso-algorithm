@@ -52,5 +52,5 @@ prefix function of "aabaaab":   0 1 0 1 2 2 3
 
 - [`searching.test.js`](searching.test.js) compares binary search and lower bound with a linear scan on 2,000 random sorted arrays with duplicates, and KMP with `indexOf` on 5,000 random texts over a two-letter alphabet, where partial matches are frequent.
 - [`BinarySearch.java`](binary-search/BinarySearch.java) checks itself against a linear scan on 10,000 random arrays when run.
-- The KMP approach is explained, as a state machine, in [labuladong's algorithm notes](https://labuladong.online/algo/); this file uses the equivalent prefix-function form.
+- The first version of the KMP file pointed at labuladong's article that builds KMP as a state machine with dynamic programming. That page now returns 404, and as of 2026-09-30 the notes' new site, [labuladong.online](https://labuladong.online/zh/algo/), has no KMP article; the file here uses the prefix-function form of the same algorithm.
 - MIT license, like the rest of the repository.

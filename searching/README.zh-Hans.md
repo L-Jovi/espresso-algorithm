@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-09-28。英文版更新后本页可能滞后。
+> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
 
 在有序的数据里找一个数，或者在一段文本里找一个词，而不必把每一项都看一遍。
 
@@ -54,5 +54,5 @@ prefix function of "aabaaab":   0 1 0 1 2 2 3
 
 - [`searching.test.js`](searching.test.js) 在 2,000 组含重复值的随机有序数组上，把二分查找和 lower bound 与线性扫描对照；在 5,000 段只含两个字母、部分匹配很常见的随机文本上，把 KMP 与 `indexOf` 对照。
 - [`BinarySearch.java`](binary-search/BinarySearch.java) 运行时会在 10,000 组随机数组上与线性扫描对照自检。
-- KMP 的思路在 [labuladong 的算法笔记](https://labuladong.online/algo/)里以状态机的形式讲解；这个文件用的是与之等价的前缀函数写法。
+- KMP 文件的第一个版本指向 labuladong 的一篇文章，它用动态规划把 KMP 构造成状态机。那个页面现在返回 404；截至 2026-09-30，这份笔记的新站点 [labuladong.online](https://labuladong.online/zh/algo/) 上也没有 KMP 的文章。这里的文件用的是同一算法的前缀函数写法。
 - 与仓库其余部分一样，采用 MIT 许可证。

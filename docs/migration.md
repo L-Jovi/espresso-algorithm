@@ -10,7 +10,7 @@ The rows are added as each folder is converted. Folders not converted yet are li
 
 | Before | Now | Why |
 | --- | --- | --- |
-| [`.travis.yml`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.travis.yml) | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Travis CI no longer runs free builds for open-source projects, and the file targeted Node 12. |
+| [`.travis.yml`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.travis.yml) | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | In November 2020 Travis CI moved public repositories without a paid plan to a free trial with a limited allotment of credits ([Travis CI blog](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)), and the file targeted Node 12. |
 | [`.tern-project`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.tern-project), [`jsconfig.json`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/jsconfig.json) | removed | Editor settings for libraries the code never used and for a `src/` folder that did not exist. |
 | [`yarn.lock`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/yarn.lock) and the dependencies in `package.json` | removed | The repository no longer has dependencies. The lockfile also pointed at a registry mirror that has shut down. |
 | [`libs/swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/swap.js) | [`shared/swap.js`](../shared/swap.js) | Same helper; it now rejects indexes outside the array. |

@@ -12,7 +12,7 @@
 
 | 以前 | 现在 | 原因 |
 | --- | --- | --- |
-| [`.travis.yml`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.travis.yml) | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Travis CI 已不再为开源项目提供免费构建，而且这个文件用的还是 Node 12。 |
+| [`.travis.yml`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.travis.yml) | [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | 2020 年 11 月，Travis CI 把没有付费方案的公开仓库转入额度有限的免费试用（[Travis CI 博客](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)），而且这个文件用的还是 Node 12。 |
 | [`.tern-project`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/.tern-project)、[`jsconfig.json`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/jsconfig.json) | 已删除 | 编辑器配置，指向的是代码从没用过的库，以及一个并不存在的 `src/` 目录。 |
 | [`yarn.lock`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/yarn.lock) 和 `package.json` 里的依赖 | 已删除 | 仓库不再有任何依赖。这个 lockfile 指向的镜像源也已经关闭。 |
 | [`libs/swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/swap.js) | [`shared/swap.js`](../shared/swap.js) | 还是同一个工具函数，现在会拒绝越界的下标。 |
