@@ -1,23 +1,27 @@
 /**
- * @param {number[]} prices
- * @return {number}
- * https://labuladong.github.io/algo/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E5%9B%A2%E7%81%AD%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98.html
- * O(1)
+ * LeetCode 121. Best Time to Buy and Sell Stock —
+ * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+ * Given a stock's price on each day, return the largest profit from buying
+ * on one day and selling on a later day, or 0 if no trade makes money.
+ *
+ * Space-optimized: the table in tabulation.js only ever looks one day back,
+ * so two variables are enough. They start from the state before day 0,
+ * when nobody holds the share (held = −∞), and day 0 is handled by the loop
+ * like every other day. Updating `free` before `held` on the same day is
+ * safe: it could only sell a share bought that same day, for a profit of 0.
+ *
+ * Time: O(n). Space: O(1).
+ * Learning source: https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
  */
-const maxProfit = function(prices) {
-  const n = prices.length
 
-  let dp_i_0 = 0
-  let dp_i_1 = -Infinity
-
-  for (let i = 0; i < n; i++) {
-    dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i])
-    dp_i_1 = Math.max(dp_i_1, -prices[i])
+export function maxProfit(prices) {
+  let free = 0
+  let held = -Infinity
+  for (const price of prices) {
+    free = Math.max(free, held + price)
+    held = Math.max(held, -price)
   }
-
-  return dp_i_0
+  return free
 }
 
-
-const prices = [7, 1, 5, 3, 6, 4]
-console.log(maxProfit(prices))
+if (import.meta.main) console.log(maxProfit([7, 1, 5, 3, 6, 4]))

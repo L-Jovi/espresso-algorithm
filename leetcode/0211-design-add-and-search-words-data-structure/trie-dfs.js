@@ -1,101 +1,55 @@
 /**
+ * LeetCode 211. Design Add and Search Words Data Structure —
+ * https://leetcode.com/problems/design-add-and-search-words-data-structure/
+ * Store words, and tell whether a pattern matches one of them, where "."
+ * matches any single letter.
  *
-  211. 添加与搜索单词 - 数据结构设计
-  请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。
-
-  实现词典类 WordDictionary ：
-
-  WordDictionary() 初始化词典对象
-  void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配
-  bool search(word) 如果数据结构中存在字符串与 word 匹配，则返回 true ；否则，返回  false 。word 中可能包含一些 '.' ，每个 . 都可以表示任何一个字母。
-
-
-  示例：
-
-  输入：
-  ["WordDictionary","addWord","addWord","addWord","search","search","search","search"]
-  [[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]]
-  输出：
-  [null,null,null,null,false,true,true,true]
-
-  解释：
-  WordDictionary wordDictionary = new WordDictionary();
-  wordDictionary.addWord("bad");
-  wordDictionary.addWord("dad");
-  wordDictionary.addWord("mad");
-  wordDictionary.search("pad"); // return False
-  wordDictionary.search("bad"); // return True
-  wordDictionary.search(".ad"); // return True
-  wordDictionary.search("b.."); // return True
-
-
-  提示：
-
-  1 <= word.length <= 500
-  addWord 中的 word 由小写英文字母组成
-  search 中的 word 由 '.' 或小写英文字母组成
-  最多调用 50000 次 addWord 和 search
+ * Trie plus depth-first search: the words are stored letter by letter in a
+ * trie, as in LeetCode 208. A letter in the pattern follows one child, like
+ * an ordinary lookup. A "." has to try every child: the search branches
+ * there, and backtracks to the next child when a branch fails.
  *
- *
- * Initialize your data structure here.
- *
- * https://leetcode-cn.com/problems/design-add-and-search-words-data-structure/solution/jian-dan-yi-dong-de-zi-dian-shu-by-dokom-4zlk/
+ * Time: addWord O(L) for a word of length L. search O(L) without dots; the
+ * dots can make it visit the whole trie in the worst case.
+ * Space: O(total letters) for the trie.
+ * Learning source: https://leetcode.cn/problems/design-add-and-search-words-data-structure/solutions/755906/jian-dan-yi-dong-de-zi-dian-shu-by-dokom-4zlk/
  */
-var WordDictionary = function() {
-  this.root = {}
+
+class Node {
+  children = new Map()
+  isWord = false
 }
 
-/**
- * @param {string} word
- * @return {void}
- */
-WordDictionary.prototype.addWord = function(word) {
-  let cur = this.root
+export class WordDictionary {
+  #root = new Node()
 
-  for (const c of word) {
-    if (!cur[c]) {
-      cur[c] = { isEnd: false }
+  addWord(word) {
+    let node = this.#root
+    for (const letter of word) {
+      if (!node.children.has(letter)) node.children.set(letter, new Node())
+      node = node.children.get(letter)
     }
-    cur = cur[c]
+    node.isWord = true
   }
 
-  cur.isEnd = true
-}
-
-/**
- * @param {string} word
- * @return {boolean}
- */
-WordDictionary.prototype.search = function(word, cur = this.root) {
-  for (let i = 0; i < word.length; i++) {
-    const c = word.charAt(i)
-    if (c === '.') {
-      for (const key in cur) {
-        if (this.search(word.slice(i + 1, word.length), cur[key])) {
-          return true
-        }
+  search(pattern) {
+    const match = (node, i) => {
+      if (i === pattern.length) return node.isWord
+      if (pattern[i] !== '.') {
+        const child = node.children.get(pattern[i])
+        return child !== undefined && match(child, i + 1)
+      }
+      for (const child of node.children.values()) {
+        if (match(child, i + 1)) return true
       }
       return false
-
-    } else if (!cur[c]) {
-      return false
     }
-
-    cur = cur[c]
+    return match(this.#root, 0)
   }
-
-  return cur.isEnd
 }
 
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * var obj = new WordDictionary()
- * obj.addWord(word)
- * var param_2 = obj.search(word)
- */
-const wordDictionary = new WordDictionary()
-wordDictionary.addWord('bad')
-wordDictionary.addWord('dad')
-wordDictionary.addWord('mad')
-console.log(JSON.stringify(wordDictionary.root))
-console.log(wordDictionary.search('bad'))
+if (import.meta.main) {
+  const dictionary = new WordDictionary()
+  for (const word of ['bad', 'dad', 'mad']) dictionary.addWord(word)
+  console.log(['pad', 'bad', '.ad', 'b..'].map(pattern => `${pattern}: ${dictionary.search(pattern)}`).join(', '))
+}

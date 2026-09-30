@@ -1,104 +1,31 @@
 /**
+ * LeetCode 208. Implement Trie (Prefix Tree) — https://leetcode.com/problems/implement-trie-prefix-tree/
+ * Build a trie with insert(word), search(word), which asks whether the word
+ * was inserted, and startsWith(prefix).
  *
-  208. 实现 Trie (前缀树)
-  Trie（发音类似 "try"）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补完和拼写检查。
-
-  请你实现 Trie 类：
-
-  Trie() 初始化前缀树对象。
-  void insert(String word) 向前缀树中插入字符串 word 。
-  boolean search(String word) 如果字符串 word 在前缀树中，返回 true（即，在检索之前已经插入）；否则，返回 false 。
-  boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的前缀之一为 prefix ，返回 true ；否则，返回 false 。
-
-
-  示例：
-
-  输入
-  ["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
-  [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
-  输出
-  [null, null, true, false, true, null, true]
-
-  解释
-  Trie trie = new Trie();
-  trie.insert("apple");
-  trie.search("apple");   // 返回 True
-  trie.search("app");     // 返回 False
-  trie.startsWith("app"); // 返回 True
-  trie.insert("app");
-  trie.search("app");     // 返回 True
-
-
-  提示：
-
-  1 <= word.length, prefix.length <= 2000
-  word 和 prefix 仅由小写英文字母组成
-  insert、search 和 startsWith 调用次数 总计 不超过 3 * 104 次
+ * A trie stores words letter by letter; words with a common prefix share
+ * the nodes of that prefix, so every operation takes one step per letter,
+ * however many words are stored. The implementation lives in
+ * data-structures/tree/trie.js, whose header explains it; this class gives
+ * its methods the names LeetCode calls: add → insert, isWord → search.
  *
- * 参考 211
- *
- * Initialize your data structure here.
+ * Time: O(L) per operation for a word of length L. Space: O(total letters).
  */
-var Trie = function() {
-  this.root = {}
-}
 
-/**
- * Inserts a word into the trie.
- * @param {string} word
- * @return {void}
- */
-Trie.prototype.insert = function(word) {
-  let cur = this.root
+import { Trie as PrefixTree } from '../../data-structures/tree/trie.js'
 
-  for (const c of word) {
-    if (!cur[c]) {
-      cur[c] = { isEnd: false }
-    }
-    cur = cur[c]
+export class Trie extends PrefixTree {
+  insert(word) {
+    this.add(word)
   }
 
-  cur.isEnd = true
-}
-
-/**
- * Returns if the word is in the trie.
- * @param {string} word
- * @return {boolean}
- */
-Trie.prototype.search = function(word, cur = this.root) {
-  for (const c of word) {
-    if (!cur[c]) {
-      return false
-    }
-
-    cur = cur[c]
+  search(word) {
+    return this.isWord(word)
   }
-
-  return cur.isEnd
 }
 
-/**
- * Returns if there is any word in the trie that starts with the given prefix.
- * @param {string} prefix
- * @return {boolean}
- */
-Trie.prototype.startsWith = function(prefix, cur = this.root) {
-  for (const c of prefix) {
-    if (!cur[c]) {
-      return false
-    }
-
-    cur = cur[c]
-  }
-
-  return true
+if (import.meta.main) {
+  const trie = new Trie()
+  trie.insert('apple')
+  console.log(trie.search('apple'), trie.search('app'), trie.startsWith('app'))
 }
-
-/**
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
- */

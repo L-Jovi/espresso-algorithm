@@ -1,48 +1,36 @@
 /**
- * @param {number[]} prices
- * @return {number}
- * https://labuladong.github.io/algo/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E5%9B%A2%E7%81%AD%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98.html
+ * LeetCode 121. Best Time to Buy and Sell Stock —
+ * https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+ * Given a stock's price on each day, return the largest profit from buying
+ * on one day and selling on a later day, or 0 if no trade makes money.
  *
- * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
-                 max(   选择 rest  ,           选择 sell      )
-   解释：今天我没有持有股票，有两种可能：
-   要么是我昨天就没有持有，然后今天选择 rest，所以我今天还是没有持有；
-   要么是我昨天持有股票，但是今天我 sell 了，所以我今天没有持有股票了。
-
-
-   dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
-                 max(   选择 rest  ,           选择 buy         )
-
-   解释：今天我持有着股票，有两种可能：
-   要么我昨天就持有着股票，然后今天选择 rest，所以我今天还持有着股票；
-   要么我昨天本没有持有，但今天我选择 buy，所以今天我就持有股票了。
-
-   本题中，k 可以忽略（只能交易一次 k = 1）
+ * Tabulation over two states: at the end of day i you either hold the
+ * share or you don't.
+ * - free[i], the best profit without the share: you had none yesterday
+ *   either, or you sell today. free[i] = max(free[i − 1], held[i − 1] + price).
+ * - held[i], the best balance while holding it (negative, since you paid):
+ *   you held it yesterday, or you buy today. Only one trade is allowed, so
+ *   a purchase starts from a balance of 0. held[i] = max(held[i − 1], −price).
+ * Day 0 starts the table with free[0] = 0 and held[0] = −prices[0]: buying
+ * on day 0 must be possible. The answer is free on the last day.
+ *
+ * The same two-state table, with more states for more trades or a cooldown,
+ * solves the whole family of stock problems (122, 123, 188, 309, 714).
+ *
+ * Time: O(n). Space: O(n); space-optimized.js keeps only the last day.
+ * Learning source: https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
  */
-const maxProfit = function(prices) {
-  const n = prices.length
-  const dp = Array.from(Array(n), () => Array(2).fill(0))
-  console.log('init : ', dp)
 
-  dp[0][0] = 0
-  dp[0][1] = -Infinity 
-
-  for (let i = 1; i < n; i++) {
-    dp[i][0] = Math.max(
-      dp[i - 1][0],
-      dp[i - 1][1] + prices[i]
-    )
-
-    dp[i][1] = Math.max(
-      dp[i - 1][1],
-      - prices[i]
-    )
+export function maxProfit(prices) {
+  const free = new Array(prices.length)
+  const held = new Array(prices.length)
+  free[0] = 0
+  held[0] = -prices[0]
+  for (let i = 1; i < prices.length; i++) {
+    free[i] = Math.max(free[i - 1], held[i - 1] + prices[i])
+    held[i] = Math.max(held[i - 1], -prices[i])
   }
-
-  console.log('dp : ', dp)
-  return dp[n - 1][0]
+  return free[prices.length - 1]
 }
 
-
-const prices = [7, 1, 5, 3, 6, 4]
-console.log(maxProfit(prices))
+if (import.meta.main) console.log(maxProfit([7, 1, 5, 3, 6, 4]))
