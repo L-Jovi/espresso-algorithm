@@ -1,21 +1,25 @@
 /**
- * @param {number[]} nums
- * @param {number} val
- * @return {number}
+ * LeetCode 27. Remove Element — https://leetcode.com/problems/remove-element/
+ * Remove every occurrence of a value from an array, in place, and return how
+ * many items are left; they must fill the start of the array.
+ *
+ * Two pointers: `fast` reads every item, and `kept` counts the items kept so
+ * far. Each item that is not the value is copied to position `kept`, which
+ * is never ahead of `fast`, so nothing is overwritten before it is read.
+ *
+ * Time: O(n). Space: O(1).
  */
-const removeElement = function(nums, val) {
-  let i = 0
-  for (let j = 0; j < nums.length; j++) {
-    if (nums[j] !== val) {
-      nums[i] = nums[j]
-      i++
-    }
-  }
 
-  return i
+export function removeElement(nums, val) {
+  let kept = 0
+  for (let fast = 0; fast < nums.length; fast++) {
+    if (nums[fast] !== val) nums[kept++] = nums[fast]
+  }
+  return kept
 }
 
-
-const nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
-console.log(removeDuplicates(nums))
-console.log(nums)
+if (import.meta.main) {
+  const nums = [0, 1, 2, 2, 3, 0, 4, 2]
+  const k = removeElement(nums, 2)
+  console.log(k, nums.slice(0, k))
+}

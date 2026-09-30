@@ -1,47 +1,41 @@
 /**
- * Definition for singly-linked list.
+ * LeetCode 25. Reverse Nodes in k-Group — https://leetcode.com/problems/reverse-nodes-in-k-group/
+ * Reverse a linked list k nodes at a time; a last group with fewer than k
+ * nodes keeps its order.
+ *
+ * Recursion: check that the list has at least k nodes; if not, leave it as
+ * it is. Otherwise reverse the first k nodes, and hang the recursively
+ * reversed rest of the list after them: the old head is now the last node
+ * of its group.
+ *
+ * Time: O(n). Space: O(n / k) for the recursion, one call per group.
+ * Learning source: https://labuladong.online/zh/algo/data-structure/reverse-linked-list-recursion/
  */
- function ListNode(val) {
-   this.val = val
-   this.next = null
- }
 
+import { arrayToList, listToArray } from '../../shared/linked-list.js'
 
-/**
- * @param {ListNode} head
- * @param {number} k
- * @return {ListNode}
- * https://labuladong.github.io/algo/%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97/k%E4%B8%AA%E4%B8%80%E7%BB%84%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8.html
- */
-const reverseKGroup = (head, k) => {
-  if (!head) {
-    return null
-  }
-
-  let start = end = head
-
+export function reverseKGroup(head, k) {
+  let end = head
   for (let i = 0; i < k; i++) {
-    if (!end) {
-      return head
-    }
+    if (end === null) return head // fewer than k nodes left
     end = end.next
   }
-
-  const reversedHead = reverse(start, end)
-  start.next = reverseKGroup(end, k)
-  return reversedHead
+  const newHead = reverse(head, end)
+  head.next = reverseKGroup(end, k)
+  return newHead
 }
 
-const reverse = (head, tail) => {
-  let pre = null
+/** Reverse the nodes from `head` up to, but not including, `stop`. */
+function reverse(head, stop) {
+  let previous = null
   let current = head
-
-  while (current !== tail) {
+  while (current !== stop) {
     const next = current.next
-    current.next = pre
-    pre = current
+    current.next = previous
+    previous = current
     current = next
   }
-
-  return pre
+  return previous
 }
+
+if (import.meta.main) console.log(listToArray(reverseKGroup(arrayToList([1, 2, 3, 4, 5]), 2)))

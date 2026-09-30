@@ -1,37 +1,29 @@
 /**
- * Definition for singly-linked list.
+ * LeetCode 23. Merge k Sorted Lists — https://leetcode.com/problems/merge-k-sorted-lists/
+ * Merge k sorted linked lists into one sorted list.
+ *
+ * Brute force: ignore that the lists are sorted. Collect every value into an
+ * array, sort it, and build a new list from the result.
+ *
+ * Time: O(N log N) for N nodes in total. Space: O(N) for the array and the
+ * new nodes. divide-and-conquer.js uses the order that is already there.
  */
- function ListNode(val) {
-   this.val = val
-   this.next = null
- }
 
+import { arrayToList, listNode, listToArray } from '../../shared/linked-list.js'
 
-/**
- * @param {ListNode[]} lists
- * @return {ListNode}
- * Time complexity: O(NlogN)
- * Space complexity: O(N)O(N)
- */
-const mergeKLists = function(lists) {
-  const nodes = []
-
-  // pointer => prepare to create new linked list
-  const head = new ListNode(0)
-  let pointer = head
-
-  for (let l of lists) {
-    while (l) {
-      nodes.push(l.val)
-      l = l.next
-    }
+export function mergeKLists(lists) {
+  const values = []
+  for (let node of lists) {
+    for (; node !== null; node = node.next) values.push(node.val)
   }
-
-  nodes.sort((a, b) => a - b)
-  for (let n of nodes) {
-    pointer.next = new ListNode(n)
-    pointer = pointer.next
+  values.sort((a, b) => a - b)
+  const dummy = listNode(0)
+  let tail = dummy
+  for (const value of values) {
+    tail.next = listNode(value)
+    tail = tail.next
   }
-
-  return head.next
+  return dummy.next
 }
+
+if (import.meta.main) console.log(listToArray(mergeKLists([[1, 4, 5], [1, 3, 4], [2, 6]].map(arrayToList))))
