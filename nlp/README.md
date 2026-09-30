@@ -12,7 +12,7 @@ node nlp/word-segmentation/dag-dp.js                      # the two ambiguous se
 node --test nlp/word-segmentation/segmentation.test.js
 ```
 
-Part of what the comparison prints:
+The [live page](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/) does the same for any sentence you type, and draws the graph of candidate words. Part of what the comparison prints:
 
 ```text
 十五 个葡萄在这周六过期

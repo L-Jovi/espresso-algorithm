@@ -14,7 +14,7 @@ node nlp/word-segmentation/dag-dp.js                      # 正确读出两个�
 node --test nlp/word-segmentation/segmentation.test.js
 ```
 
-对照输出的一部分：
+[在线页面](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/)可以对你输入的任何句子做同样的对照，并画出候选词构成的图。对照输出的一部分：
 
 ```text
 十五 个葡萄在这周六过期
