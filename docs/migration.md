@@ -16,7 +16,7 @@ The rows are added as each folder is converted. Folders not converted yet are li
 | [`libs/swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/swap.js) | [`shared/swap.js`](../shared/swap.js) | Same helper; it now rejects indexes outside the array. |
 | [`libs/timer.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/timer.js) | [`shared/measure.js`](../shared/measure.js) | Uses the high-resolution clock and returns the result instead of printing it. |
 | [`libs/random-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/random-list.js) | [`shared/random.js`](../shared/random.js) | Depended on `mockjs`, which was never installed. The new generator is seeded, so a failing input can be replayed. |
-| [`nlp/parse-text-demo/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo) | retired; a word-segmentation example follows | It printed the output of two libraries without implementing an algorithm, and its lockfile caused every security alert. |
+| [`nlp/parse-text-demo/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo) | [`nlp/word-segmentation/`](../nlp/word-segmentation/) | It printed the output of two libraries without implementing an algorithm, and its lockfile caused every security alert. The new folder writes two segmentation algorithms out and compares them with `Intl.Segmenter`, on the same eleven sentences. |
 
 ## Sorting
 

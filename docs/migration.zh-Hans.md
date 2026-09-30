@@ -18,7 +18,7 @@
 | [`libs/swap.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/swap.js) | [`shared/swap.js`](../shared/swap.js) | 还是同一个工具函数，现在会拒绝越界的下标。 |
 | [`libs/timer.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/timer.js) | [`shared/measure.js`](../shared/measure.js) | 改用高精度时钟，并返回结果，而不是直接打印。 |
 | [`libs/random-list.js`](https://github.com/L-Jovi/espresso-algorithm/blob/c0638300307449152cd9262b9156aa1177103bb8/libs/random-list.js) | [`shared/random.js`](../shared/random.js) | 原来依赖一直没装上的 `mockjs`。新的生成器带种子，出错的输入可以原样重现。 |
-| [`nlp/parse-text-demo/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo) | 已退役；之后会补一个分词算法示例 | 它只是打印两个库的输出，没有实现算法；它的 lockfile 还带来了全部安全告警。 |
+| [`nlp/parse-text-demo/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo) | [`nlp/word-segmentation/`](../nlp/word-segmentation/) | 它只是打印两个库的输出，没有实现算法；它的 lockfile 还带来了全部安全告警。新目录亲手写出两种分词算法，并在同样的十一个句子上与 `Intl.Segmenter` 对照。 |
 
 ## 排序
 
