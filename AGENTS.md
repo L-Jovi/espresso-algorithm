@@ -17,9 +17,16 @@ npm run check        # all four
 npm run bench        # race the sorts (not part of the checks)
 ```
 
+For LeetCode problems:
+
+```sh
+npm run new -- 322 "Coin Change" [technique]   # start leetcode/0322-coin-change/ from templates
+npm run bench:leetcode                         # race the approaches of each problem, about 12 s
+```
+
 ## Conventions
 
-- **Files:** one folder per algorithm or problem, and one file per approach, named after the technique. One test file per folder runs every approach on the same table of cases.
+- **Files:** one folder per algorithm or problem, and one file per approach, named after the technique. One test file per folder runs every approach on the same table of cases, then compares them on seeded random inputs with a slow but plainly correct reference.
 - **JavaScript:** ES modules with named exports; 2 spaces, single quotes, no semicolons. Add a runnable example in an `if (import.meta.main)` block, and keep module import free of output.
 - **Comments:** English, explaining why. A file header gives the idea and the time and space complexity.
 - **Problem statements:** never copy one. Link to the problem and summarize it in your own words.
