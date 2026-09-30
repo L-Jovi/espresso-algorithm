@@ -6,6 +6,8 @@ import { createRandom, randomIntegers, randomFloats } from './random.js'
 import { showSort } from './demo.js'
 import { arrayToList, listToArray } from './linked-list.js'
 import { checkApproaches } from './check.js'
+import { randomTree } from './random-tree.js'
+import { binaryTree2Array } from '../data-structures/tree/binary-tree-array.js'
 
 describe('swap', () => {
   it('swaps two items in place and returns the same array', () => {
@@ -112,4 +114,20 @@ describe('checkApproaches', () => {
     { 'plus': (a, b) => a + b, 'minus the negative': (a, b) => a - -b },
     [{ input: [1, 2], expected: 3 }, { input: [-1, 1], expected: 0, label: 'opposite numbers' }],
   )
+})
+
+describe('randomTree', () => {
+  it('builds trees of every size up to 30 with the values 1 … size, each once', () => {
+    const next = createRandom(7)
+    for (let size = 0; size <= 30; size++) {
+      const values = binaryTree2Array(randomTree(size, next)).filter(value => value !== null)
+      assert.deepEqual(values.toSorted((a, b) => a - b), Array.from({ length: size }, (_, i) => i + 1))
+    }
+  })
+
+  it('makes different shapes', () => {
+    const next = createRandom(8)
+    const shapes = new Set(Array.from({ length: 50 }, () => String(binaryTree2Array(randomTree(6, next)).map(v => v === null ? 0 : 1))))
+    assert.ok(shapes.size > 20, `${shapes.size} shapes`)
+  })
 })
