@@ -9,6 +9,10 @@
  * Remember each answer the first time, and every later call returns at
  * once.
  *
+ * The recursion is still one call deep per house. That is fine for
+ * LeetCode's 100 houses, but 10,000 houses overflow the call stack on
+ * Node 24 (measured); tabulation.js fills the same answers with a loop.
+ *
  * Time: O(n). Space: O(n) for the memo and the recursion.
  * Learning source: https://leetcode.cn/problems/paint-house/solutions/245193/fen-shua-fang-zi-by-leetcode/
  */
