@@ -1,72 +1,30 @@
 /**
+ * LeetCode 811. Subdomain Visit Count — https://leetcode.com/problems/subdomain-visit-count/
+ * Each entry reads "count domain", such as "9001 discuss.leetcode.com". A
+ * visit to a domain also visits every domain it belongs to, here
+ * leetcode.com and com. Return the total visits of every domain in the same
+ * format, in any order.
  *
-  811. 子域名访问计数
-  一个网站域名，如"discuss.leetcode.com"，包含了多个子域名。作为顶级域名，常用的有"com"，下一级则有"leetcode.com"，最低的一级为"discuss.leetcode.com"。当我们访问域名"discuss.leetcode.com"时，也同时访问了其父域名"leetcode.com"以及顶级域名 "com"。
-
-  给定一个带访问次数和域名的组合，要求分别计算每个域名被访问的次数。其格式为访问次数+空格+地址，例如："9001 discuss.leetcode.com"。
-
-  接下来会给出一组访问次数和域名组合的列表cpdomains 。要求解析出所有域名的访问次数，输出格式和输入格式相同，不限定先后顺序。
-
-  示例 1:
-  输入:
-  ["9001 discuss.leetcode.com"]
-  输出:
-  ["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
-  说明:
-  例子中仅包含一个网站域名："discuss.leetcode.com"。按照前文假设，子域名"leetcode.com"和"com"都会被访问，所以它们都被访问了9001次。
-  示例 2
-  输入:
-  ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
-  输出:
-  ["901 mail.com","50 yahoo.com","900 google.mail.com","5 wiki.org","5 org","1 intel.mail.com","951 com"]
-  说明:
-  按照假设，会访问"google.mail.com" 900次，"yahoo.com" 50次，"intel.mail.com" 1次，"wiki.org" 5次。
-  而对于父域名，会访问"mail.com" 900+1 = 901次，"com" 900 + 50 + 1 = 951次，和 "org" 5 次。
-  注意事项：
-
-   cpdomains 的长度小于 100。
-  每个域名的长度小于100。
-  每个域名地址包含一个或两个"."符号。
-  输入中任意一个域名的访问次数都小于10000。
+ * Hash map: for each entry, the domain itself and every suffix after one of
+ * its dots get the entry's visits added. The totals live in a Map. With a
+ * plain object, a domain such as "constructor" found the object's inherited
+ * constructor function and "added" to it, turning the total into text.
  *
- * https://leetcode-cn.com/problems/subdomain-visit-count/solution/zi-yu-ming-fang-wen-ji-shu-by-leetcode/
- *
- * @param {string[]} cpdomains
- * @return {string[]}
+ * Time: O(total characters): a domain has at most two dots. Space: O(number
+ * of different domains).
+ * Learning source: https://leetcode.cn/problems/subdomain-visit-count/solutions/38846/zi-yu-ming-fang-wen-ji-shu-by-leetcode/
  */
-var subdomainVisits = function(cpdomains) {
-  const map = {}
-  const result = []
 
-  for (let item of cpdomains) {
-    let [times, url] = item.split(' ')
-    let tmp = ''
-
-    for (let i = url.length - 1; i >= 0; i--) {
-      if (url[i] === '.') {
-        setTimes(map, tmp, times * 1)
-      }
-      tmp = url[i] + tmp
+export function subdomainVisits(cpdomains) {
+  const visits = new Map()
+  for (const entry of cpdomains) {
+    const [count, domain] = entry.split(' ')
+    for (let suffix = domain; ; suffix = suffix.slice(suffix.indexOf('.') + 1)) {
+      visits.set(suffix, (visits.get(suffix) ?? 0) + Number(count))
+      if (!suffix.includes('.')) break
     }
-    setTimes(map, tmp, times * 1)
   }
-
-  for (let domain in map) {
-    const perTimes = map[domain]
-    result.push(perTimes + ' ' + domain)
-  }
-
-  return result
+  return [...visits].map(([domain, total]) => `${total} ${domain}`)
 }
 
-const setTimes = (map, tmp, times) => {
-  if (map[tmp]) {
-    map[tmp] += times
-  } else {
-    map[tmp] = times
-  }
-}
-
-
-const cpdomains = ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
-console.log(subdomainVisits(cpdomains))
+if (import.meta.main) console.log(subdomainVisits(['900 google.mail.com', '50 yahoo.com', '1 intel.mail.com', '5 wiki.org']))

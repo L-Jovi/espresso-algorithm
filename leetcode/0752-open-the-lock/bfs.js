@@ -1,74 +1,47 @@
 /**
- * @param {string[]} deadends
- * @param {string} target
- * @return {number}
+ * LeetCode 752. Open the Lock — https://leetcode.com/problems/open-the-lock/
+ * A lock has four wheels of digits 0–9 and starts at "0000"; one turn moves
+ * one wheel one step up or down, and 9 wraps around to 0. Return the fewest
+ * turns to reach `target` without ever showing one of the `deadends`, or −1.
+ *
+ * Breadth-first search: every code is a node, and each has eight
+ * neighbors, one turn away. Visiting the codes in order of distance from
+ * "0000", level by level, means the first time the target shows up, it is
+ * reached in the fewest turns. Dead ends are simply never entered.
+ *
+ * Time: O(10⁴ · 8), every code at most once. Space: O(10⁴).
  */
-const openLock = (deadends, target) => {
-  const queue = []
-  const setVisited = new Set()
 
-  const initStr = '0000'
-  queue.push(initStr)
-  setVisited.add(initStr)
-
-  let step = 0
-
-  while (queue.length) {
-    const size = queue.length
-    for (let i = 0; i < size; i++) {
-      const currentStr = queue.shift()
-
-      if (deadends.indexOf(currentStr) !== -1) {
-        continue
-      }
-
-      if (target === currentStr) {
-        return step
-      }
-
-      for (let j = 0; j < 4; j++) {
-        const upStr = up(currentStr, j)
-        if (!setVisited.has(upStr)) {
-          queue.push(upStr)
-          setVisited.add(upStr)
-        }
-
-        const downStr = down(currentStr, j)
-        if (!setVisited.has(downStr)) {
-          queue.push(downStr)
-          setVisited.add(downStr)
-        }
+export function openLock(deadends, target) {
+  const dead = new Set(deadends)
+  if (dead.has('0000')) return -1
+  const seen = new Set(['0000'])
+  let level = ['0000']
+  for (let turns = 0; level.length > 0; turns++) {
+    const next = []
+    for (const code of level) {
+      if (code === target) return turns
+      for (const neighbor of neighbors(code)) {
+        if (seen.has(neighbor) || dead.has(neighbor)) continue
+        seen.add(neighbor)
+        next.push(neighbor)
       }
     }
-
-    step++
+    level = next
   }
-
   return -1
 }
 
-// 0 1 2 3 ... 8 9 0 1 ...
-const up = (currentStr, digit) => {
-  const strArray = currentStr.split('')
-  if (strArray[digit] === '9') {
-    strArray[digit] = '0'
-  } else {
-    strArray[digit] = (parseInt(strArray[digit]) + 1).toString()
+/** The eight codes one turn away from `code`. */
+export function neighbors(code) {
+  const result = []
+  for (let wheel = 0; wheel < 4; wheel++) {
+    for (const step of [1, 9]) { // one up; nine up is one down
+      const digit = (Number(code[wheel]) + step) % 10
+      result.push(code.slice(0, wheel) + digit + code.slice(wheel + 1))
+    }
   }
-  return strArray.join('')
+  return result
 }
 
-const down = (currentStr, digit) => {
-  const strArray = currentStr.split('')
-  if (strArray[digit] === '0') {
-    strArray[digit] = '9'
-  } else {
-    strArray[digit] = (parseInt(strArray[digit]) - 1).toString()
-  }
-  return strArray.join('')
-}
-
-
-const deadends = ['0201', '0101', '0102', '1212', '2002']
-const target = '0202'
-console.log(openLock(deadends, target))
+if (import.meta.main) console.log(openLock(['0201', '0101', '0102', '1212', '2002'], '0202'))
