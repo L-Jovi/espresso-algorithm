@@ -1,23 +1,29 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""LeetCode 20. Valid Parentheses, the same approach as stack.js.
 
-class Solution(object):
-    def isValid(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
+https://leetcode.com/problems/valid-parentheses/
+
+Push every opening bracket; a closing bracket must match the top of the
+stack. The string is valid when every closing bracket matched and nothing
+is left open at the end.
+
+Time: O(n). Space: O(n).
+"""
+
+# Closing bracket -> the opening bracket it closes.
+OPENER = {")": "(", "]": "[", "}": "{"}
+
+
+class Solution:
+    def isValid(self, s: str) -> bool:
         stack = []
-
-        mapping = {")": "(", "}": "{", "]": "["}
-
         for char in s:
-            if char in mapping:
-                top_element = stack.pop() if stack else '#'
-
-                if mapping[char] != top_element:
-                    return False
-            else:
+            if char not in OPENER:
                 stack.append(char)
-
+            elif not stack or stack.pop() != OPENER[char]:
+                return False
         return not stack
+
+
+if __name__ == "__main__":
+    print(Solution().isValid("()[]{}"), Solution().isValid("([)]"))

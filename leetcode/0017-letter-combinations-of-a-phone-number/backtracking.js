@@ -1,47 +1,35 @@
 /**
- * @param {string} digits
- * @return {string[]}
- * [https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/solution/leetcode-17-letter-combinations-of-a-phone-number-/]
+ * LeetCode 17. Letter Combinations of a Phone Number —
+ * https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+ * List every string that the digits 2–9 can spell on a phone keypad, where
+ * 2 stands for "abc", 3 for "def", and so on.
+ *
+ * Backtracking: choose a letter for the first digit, then, recursively, one
+ * for each following digit; when every digit has a letter, record the
+ * string. The calls form a tree whose leaves are the answers. Each call gets
+ * its own prefix string, so there is nothing to undo on the way back.
+ *
+ * Time: O(4ⁿ · n): up to 4 letters per digit, and each answer has n
+ * characters. Space: O(n) for the recursion, besides the answers.
+ * Learning source: https://leetcode.cn/problems/letter-combinations-of-a-phone-number/solutions/13575/leetcode-17-letter-combinations-of-a-phone-number-/
  */
-const letterCombinations = (digits) => {
-  const map = [
-    ' ',     // 0
-    '',      // 1
-    'abc',   // 2
-    'def',   // 3
-    'ghi',   // 4
-    'jkl',   // 5
-    'mno',   // 6
-    'pqrs',  // 7
-    'tuv',   // 8
-    'wxyz',   // 9
-  ]
 
-  const result = []
+const LETTERS = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
 
-  if (digits === '') {
-    return result
-  }
+export function letterCombinations(digits) {
+  if (digits === '') return []
+  const combinations = []
 
-  findCombination(map, digits, 0, result, '')
-
-  return result
-}
-
-
-const findCombination = (map, digits, index, result, strCombo) => {
-  if (index === digits.length) {
-    result.push(strCombo)
-    return
-
-  } else {
-    const strNum = digits[index]
-    const letters = map[strNum - '0']
-
-    for (let i = 0; i < letters.length; i++) {
-      findCombination(map, digits, index + 1, result, strCombo + letters[i])
+  function extend(index, prefix) {
+    if (index === digits.length) {
+      combinations.push(prefix)
+      return
     }
-
-    return
+    for (const letter of LETTERS[Number(digits[index])]) extend(index + 1, prefix + letter)
   }
+
+  extend(0, '')
+  return combinations
 }
+
+if (import.meta.main) console.log(letterCombinations('23'))

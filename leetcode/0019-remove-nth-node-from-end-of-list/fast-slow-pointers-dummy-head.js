@@ -1,44 +1,30 @@
 /**
+ * LeetCode 19. Remove Nth Node From End of List —
+ * https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+ * Remove the n-th node from the end of a linked list, in a single pass.
  *
- * Definition for singly-linked list.
+ * The same two pointers as fast-slow-pointers.js, starting from a dummy
+ * head: a placeholder node in front of the list. `fast` gets a head start of
+ * n + 1 nodes, and both pointers move until `fast` runs off the end; `slow`
+ * is then right before the node to remove. Now even the head has a node
+ * before it, the dummy, so removing the head is no longer a special case.
+ *
+ * Time: O(L) for a list of L nodes. Space: O(1).
  */
- function ListNode(val) {
-     this.val = val;
-     this.next = null;
- }
 
+import { arrayToList, listNode, listToArray } from '../../shared/linked-list.js'
 
-/**
- * @param {ListNode} head
- * @param {number} n
- * @return {ListNode}
- */
-const removeNthFromEnd = function(head, n) {
-  const dummyHead = new ListNode(0)
-  dummyHead.next = head
-
-  p1 = dummyHead  // fast pointer
-  p2 = dummyHead  // slow pointer
-
-  for (let i = 0; i < n + 1; i++) {
-    p1 = p1.next
+export function removeNthFromEnd(head, n) {
+  const dummy = listNode(0, head)
+  let fast = dummy
+  let slow = dummy
+  for (let i = 0; i <= n; i++) fast = fast.next
+  while (fast !== null) {
+    fast = fast.next
+    slow = slow.next
   }
-
-  while (p1) {
-    p1 = p1.next
-    p2 = p2.next
-  }
-
-  p2.next = p2.next.next
-
-  return dummyHead.next
+  slow.next = slow.next.next
+  return dummy.next
 }
 
-
-const head = new ListNode(1)
-head.next = new ListNode(2)
-head.next.next = new ListNode(3)
-head.next.next.next = new ListNode(4)
-head.next.next.next.next = new ListNode(5)
-
-removeNthFromEnd(head, 2)
+if (import.meta.main) console.log(listToArray(removeNthFromEnd(arrayToList([1, 2, 3, 4, 5]), 2)))
