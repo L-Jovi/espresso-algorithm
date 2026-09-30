@@ -137,7 +137,7 @@ These folders hold a whole sequence of approaches. Ten of them have a README tha
 | 1143. Longest Common Subsequence | 2 × 12 letters | brute force, 52 ms | tabulation, 0.03 ms |
 | 1221. Split a String in Balanced Strings | 20,000 letters | regex window, 61 ms | balance counter, 0.48 ms |
 
-Measured with `npm run bench:leetcode` on 2026-09-30: Node 24.20.0, macOS 15.7 on an Apple silicon (arm64) Mac, the fastest of three runs. Your times will differ; the gaps between the rows much less.
+Measured with `npm run bench:leetcode` on 2026-09-30: Node 24.20.0, macOS 15.7 on an Apple silicon (arm64) Mac, the fastest of three runs. Your times will differ, even between two runs on one machine; the large gaps between the rows stay.
 
 ## Then and now
 

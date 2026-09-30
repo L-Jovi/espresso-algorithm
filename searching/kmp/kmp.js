@@ -15,8 +15,10 @@
  *
  * Time: O(n + m) for a text of length n and a pattern of length m.
  * Space: O(m) for the prefix function.
- * Learning source: https://labuladong.online/algo/ (KMP, explained there with a
- * state machine; this file uses the equivalent prefix-function form).
+ * Learning source: labuladong's article that builds KMP as a state machine
+ * with dynamic programming, which the first version of this file linked; it
+ * is no longer online (404 as of 2026-09-30). This file uses the
+ * prefix-function form of the same algorithm.
  */
 
 /**
