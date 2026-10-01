@@ -75,7 +75,7 @@ Most of the code was first written between 2018 and 2022. Since then sorting bec
 
 An espresso is the concentrated shot that most coffee starts from: a latte or a cappuccino is an espresso with milk. Among the author's coffee-named repositories, algorithms play that part, the small concentrated core the rest is built on.
 
-The rest of the series: [latte-web](https://github.com/L-Jovi/latte-web) (the web, the everyday blend), [roaster-linux](https://github.com/L-Jovi/roaster-linux) (Linux tools, where the beans are roasted), [barista-services](https://github.com/L-Jovi/barista-services) (services, the barista) and [cappuccino-ios](https://github.com/L-Jovi/cappuccino-ios) (iOS apps, lighter than a latte).
+The rest of the series: [latte-web](https://github.com/L-Jovi/latte-web) (the web, the everyday blend), [roaster-linux](https://github.com/L-Jovi/roaster-linux) (Linux tools, where the beans are roasted), [barista-services](https://github.com/L-Jovi/barista-services) (services, the barista) and cappuccino-ios (iOS apps, lighter than a latte; retired in 2026).
 
 ## Status
 
