@@ -1,7 +1,7 @@
 // Repository checks that tests cannot express: documentation links, the
-// English/Chinese README pairs, the one-line description shared by the
-// README and package.json, and that every module is reached by a test.
-// It only reports drift; it never rewrites files.
+// English/Chinese README pairs, the LeetCode indexes, the one-line
+// description shared by the README and package.json, and that every module
+// is reached by a test. It only reports drift; it never rewrites files.
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, join, normalize } from 'node:path'
 import { listFiles } from './lib/files.mjs'
@@ -52,6 +52,16 @@ for (const file of markdown.filter(MIRRORED)) {
 }
 for (const file of markdown.filter(file => file.endsWith('.zh-Hans.md'))) {
   if (!existsSync(file.replace(/\.zh-Hans\.md$/, '.md'))) report(file, 'mirror without an English original')
+}
+
+// Both LeetCode indexes list every problem folder; a link to a folder that
+// does not exist is already a broken link above.
+const problemFolders = new Set(files.map(file => file.match(/^leetcode\/(\d{4}-[^/]+)\//)?.[1]).filter(Boolean))
+for (const index of ['leetcode/README.md', 'leetcode/README.zh-Hans.md']) {
+  const text = readFileSync(index, 'utf8')
+  for (const folder of problemFolders) {
+    if (!text.includes(`](${folder}/)`)) report(index, `does not list ${folder}/`)
+  }
 }
 
 // The README's first paragraph is the repository's one-line description.

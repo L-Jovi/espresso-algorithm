@@ -10,6 +10,20 @@ const $ = id => document.getElementById(id)
 const params = new URLSearchParams(location.search)
 const SVG = 'http://www.w3.org/2000/svg'
 
+// The text this script writes, in the site's two languages (see
+// assets/language.js); the page's own text is in index.html.
+const TEXT = {
+  en: {
+    rows: [['Forward maximum matching', 'the longest known word first'], ['Graph + dynamic programming', 'the most likely split'], ['Your browser', 'Intl.Segmenter']],
+    graph: 'The candidate words of the sentence, with the paths that the two hand-written segmenters chose',
+  },
+  zh: {
+    rows: [['正向最大匹配', '先取已知的最长词'], ['建图 + 动态规划', '最可能的切分'], ['你的浏览器', 'Intl.Segmenter']],
+    graph: '这句话的候选词，以及两个手写的分词器选择的路径',
+  },
+}
+const text = () => TEXT[document.documentElement.dataset.language === 'zh' ? 'zh' : 'en']
+
 // The [start, end) character positions that each word of a split covers.
 function spans(words) {
   let at = 0
@@ -79,7 +93,7 @@ function drawGraph(sentence, best, greedy) {
   const style = getComputedStyle(document.documentElement)
   const color = name => style.getPropertyValue(name).trim()
   const baseline = 118
-  const svg = element('svg', { viewBox: `0 0 ${x + 12} 190`, width: x + 12, height: 190, role: 'img', 'aria-label': `The candidate words of ${sentence}, with the path each segmenter chose` })
+  const svg = element('svg', { viewBox: `0 0 ${x + 12} 190`, width: x + 12, height: 190, role: 'img', 'aria-label': text().graph })
   const arc = (from, to, above, stroke, width, dash) => {
     const x1 = left(from) + 3
     const x2 = right(to) - 3
@@ -101,7 +115,7 @@ function drawGraph(sentence, best, greedy) {
   for (const [start, end] of spans(greedy)) arc(start, end, false, color('--esp-write'), 2.5, true)
   cells.forEach(({ char, x: cellX, width }) => {
     svg.append(element('rect', { x: cellX + 2, y: baseline - 30, width: width - 4, height: 40, rx: 7, fill: color('--esp-bg'), stroke: color('--esp-line') }))
-    const label = element('text', { x: cellX + width / 2, y: baseline - 1, 'text-anchor': 'middle' })
+    const label = element('text', { x: cellX + width / 2, y: baseline - 1, 'text-anchor': 'middle', lang: 'zh-Hans' })
     label.textContent = char
     svg.append(label)
   })
@@ -113,13 +127,17 @@ function update() {
   const greedy = forwardMaxMatch(sentence)
   const best = dagDp(sentence)
   const builtIn = intlSegment(sentence)
+  const [greedyRow, bestRow, builtInRow] = text().rows
   $('rows').replaceChildren(
-    row('Forward maximum matching', 'the longest known word first', wordList(greedy, best)),
-    row('Graph + dynamic programming', 'the most likely split', wordList(best, greedy)),
-    row('Your browser', 'Intl.Segmenter', wordList(builtIn, best)),
+    row(...greedyRow, wordList(greedy, best)),
+    row(...bestRow, wordList(best, greedy)),
+    row(...builtInRow, wordList(builtIn, best)),
   )
   $('graph').replaceChildren(sentence ? drawGraph(sentence, best, greedy) : '')
-  history.replaceState(null, '', `?text=${encodeURIComponent(sentence)}`)
+  // The address keeps the sentence, next to any other setting such as lang.
+  const url = new URL(location.href)
+  url.searchParams.set('text', sentence)
+  history.replaceState(null, '', url)
 }
 
 for (const sentence of [...AMBIGUOUS, ...SENTENCES]) {
@@ -137,6 +155,7 @@ for (const sentence of [...AMBIGUOUS, ...SENTENCES]) {
 $('text').value = params.get('text') || AMBIGUOUS[0]
 $('text').addEventListener('input', update)
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', update)
+document.addEventListener('languagechange', update)
 update()
 
 // For the browser tests: `?selftest` checks every example and puts "pass"

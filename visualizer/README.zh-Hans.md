@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
+> 对应英文版：2026-10-01。英文版更新后本页可能滞后。
 
 看 [`sorting/`](../sorting/) 里的十二种排序处理同一组数，一次读或写一步地进行，还能让两种排序并排比赛。
 
@@ -26,7 +26,7 @@ node --test visualizer/visualizer.test.js
 | [`visualizer.js`](visualizer.js) | 页面脚本：生成数字，追踪选中的排序，在画布上回放每一步。 |
 | [`index.html`](index.html) | 页面的结构和控件。 |
 
-可视化是站点三个页面中的一个；另外两个分别让 LeetCode 解法比赛（[`leetcode/race/`](../leetcode/race/)），以及为中文分词（[`nlp/word-segmentation/`](../nlp/word-segmentation/)）。首页是根目录下的 [`index.html`](../index.html)，所有页面共用 [`assets/site.css`](../assets/site.css)。
+可视化是站点三个页面中的一个；另外两个分别让 LeetCode 解法比赛（[`leetcode/race/`](../leetcode/race/)），以及为中文分词（[`nlp/word-segmentation/`](../nlp/word-segmentation/)）。首页是根目录下的 [`index.html`](../index.html)。所有页面共用 [`assets/site.css`](../assets/site.css)，以及 [`assets/language.js`](../assets/language.js)：它让页面就地在英文和中文之间切换。
 
 ## 原理
 

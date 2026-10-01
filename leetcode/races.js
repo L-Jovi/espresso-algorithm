@@ -10,7 +10,8 @@
  * every approach must give the same answer, compared through `answer`
  * where the result is a list, a tree or one of several right answers.
  * `fresh` marks races whose approaches change their input, so the input
- * cannot be reused between calls.
+ * cannot be reused between calls. `titleZh`, `labelZh` and
+ * APPROACH_NAMES_ZH are the Chinese text of the race page.
  */
 import { treeNode } from '../data-structures/tree/binary-tree-array.js'
 import { arrayToList, listToArray } from '../shared/linked-list.js'
@@ -72,34 +73,63 @@ function readByNext(root) {
   return out.join(',')
 }
 
+// The approaches' names on the race page in Chinese, the way the Chinese
+// READMEs call them.
+export const APPROACH_NAMES_ZH = {
+  'balance counter': '计数法',
+  bfs: 'BFS',
+  'bidirectional bfs': '双向 BFS',
+  'binary search': '二分查找',
+  'brute force': '暴力解',
+  'divide and conquer': '分治',
+  'expand around center': '中心扩展',
+  'fast doubling': '快速倍增',
+  'hash map': '哈希表',
+  iteration: '逐层迭代',
+  kmp: 'KMP',
+  memoization: '记忆化',
+  merge: '归并',
+  'pre-order': '前序递归',
+  recursion: '递归',
+  'regex window': '正则窗口',
+  'space-optimized': '空间优化版',
+  splice: 'splice',
+  tabulation: '表格法',
+  'two pointers': '双指针',
+}
+
 export const RACES = [
   {
     id: '0001-two-sum',
     title: '1. Two Sum',
+    titleZh: '1. 两数之和',
     approaches: { 'brute force': twoSumBruteForce, 'hash map': twoSumHashMap },
-    inputs: [{ label: '10,000 numbers', build: () => [[...randomIntegers(9_998, { min: 0, max: 1e6, seed: 1 }), -1, -2], -3] }],
+    inputs: [{ label: '10,000 numbers', labelZh: '10,000 个数', build: () => [[...randomIntegers(9_998, { min: 0, max: 1e6, seed: 1 }), -1, -2], -3] }],
     check: () => [[2, 7, 11, 15], 9],
   },
   {
     id: '0004-median-of-two-sorted-arrays',
     title: '4. Median of Two Sorted Arrays',
+    titleZh: '4. 寻找两个正序数组的中位数',
     approaches: { merge: medianMerge, 'binary search': medianBinarySearch },
-    inputs: [{ label: '2 × 1,000,000 numbers', build: () => [sorted(1e6, 41), sorted(1e6, 42)] }],
+    inputs: [{ label: '2 × 1,000,000 numbers', labelZh: '2 × 1,000,000 个数', build: () => [sorted(1e6, 41), sorted(1e6, 42)] }],
     check: () => [[1, 3], [2]],
   },
   {
     id: '0005-longest-palindromic-substring',
     title: '5. Longest Palindromic Substring',
+    titleZh: '5. 最长回文子串',
     approaches: { tabulation: palindromeTable, 'expand around center': palindromeExpand },
-    inputs: [{ label: '2,000 letters', build: () => [text(2_000, 'ab', 5)] }],
+    inputs: [{ label: '2,000 letters', labelZh: '2,000 个字母', build: () => [text(2_000, 'ab', 5)] }],
     check: () => ['babad'],
     answer: palindrome => palindrome.length, // "bab" and "aba" are both right
   },
   {
     id: '0023-merge-k-sorted-lists',
     title: '23. Merge k Sorted Lists',
+    titleZh: '23. 合并 K 个升序链表',
     approaches: { 'brute force': mergeBruteForce, 'divide and conquer': mergeDivideAndConquer },
-    inputs: [{ label: '1,000 lists × 100 nodes', build: () => [Array.from({ length: 1_000 }, (_, i) => arrayToList(sorted(100, 230 + i)))] }],
+    inputs: [{ label: '1,000 lists × 100 nodes', labelZh: '1,000 个链表 × 100 个结点', build: () => [Array.from({ length: 1_000 }, (_, i) => arrayToList(sorted(100, 230 + i)))] }],
     check: () => [[[1, 4, 5], [1, 3, 4], [2, 6]].map(arrayToList)],
     answer: listToArray,
     fresh: true,
@@ -107,33 +137,37 @@ export const RACES = [
   {
     id: '0026-remove-duplicates-from-sorted-array',
     title: '26. Remove Duplicates from Sorted Array',
+    titleZh: '26. 删除有序数组中的重复项',
     approaches: { splice: dedupeSplice, 'two pointers': dedupeTwoPointers },
-    inputs: [{ label: '20,000 equal numbers', build: () => [new Array(20_000).fill(7)] }],
+    inputs: [{ label: '20,000 equal numbers', labelZh: '20,000 个相同的数', build: () => [new Array(20_000).fill(7)] }],
     check: () => [[0, 0, 1, 1, 1, 2, 2, 3, 3, 4]],
     fresh: true,
   },
   {
     id: '0028-find-the-index-of-the-first-occurrence-in-a-string',
     title: '28. Find the Index of the First Occurrence in a String',
+    titleZh: '28. 找出字符串中第一个匹配项的下标',
     approaches: { 'brute force': searchBruteForce, kmp: searchKmp },
-    inputs: [{ label: '"a…ab" in "a…ab"', build: () => ['a'.repeat(50_000) + 'b', 'a'.repeat(1_000) + 'b'] }],
+    inputs: [{ label: '"a…ab" in "a…ab"', labelZh: '在 "a…ab" 里找 "a…ab"', build: () => ['a'.repeat(50_000) + 'b', 'a'.repeat(1_000) + 'b'] }],
     check: () => ['sadbutsad', 'sad'],
   },
   {
     id: '0053-maximum-subarray',
     title: '53. Maximum Subarray',
+    titleZh: '53. 最大子数组和',
     approaches: { 'brute force': subarrayBruteForce, tabulation: subarrayTabulation, 'space-optimized': subarraySpaceOptimized },
     inputs: [
-      { label: '10,000 numbers', build: () => [randomIntegers(10_000, { seed: 53 })] },
-      { label: '1,000,000 numbers', build: () => [randomIntegers(1e6, { seed: 530 })], slow: ['brute force'] },
+      { label: '10,000 numbers', labelZh: '10,000 个数', build: () => [randomIntegers(10_000, { seed: 53 })] },
+      { label: '1,000,000 numbers', labelZh: '1,000,000 个数', build: () => [randomIntegers(1e6, { seed: 530 })], slow: ['brute force'] },
     ],
     check: () => [[-2, 1, -3, 4, -1, 2, 1, -5, 4]],
   },
   {
     id: '0116-populating-next-right-pointers-in-each-node',
     title: '116. Populating Next Right Pointers in Each Node',
+    titleZh: '116. 填充每个节点的下一个右侧节点指针',
     approaches: { 'pre-order': connectPreOrder, iteration: connectIteration },
-    inputs: [{ label: '65,535 nodes', build: () => [perfectTree(16)] }],
+    inputs: [{ label: '65,535 nodes', labelZh: '65,535 个结点', build: () => [perfectTree(16)] }],
     check: () => [perfectTree(3)],
     answer: readByNext,
     fresh: true,
@@ -141,62 +175,69 @@ export const RACES = [
   {
     id: '0121-best-time-to-buy-and-sell-stock',
     title: '121. Best Time to Buy and Sell Stock',
+    titleZh: '121. 买卖股票的最佳时机',
     approaches: { 'brute force': stockBruteForce, tabulation: stockTabulation, 'space-optimized': stockSpaceOptimized },
     inputs: [
-      { label: '20,000 days', build: () => [randomIntegers(20_000, { min: 0, max: 1e4, seed: 121 })] },
-      { label: '1,000,000 days', build: () => [randomIntegers(1e6, { min: 0, max: 1e4, seed: 1210 })], slow: ['brute force'] },
+      { label: '20,000 days', labelZh: '20,000 天', build: () => [randomIntegers(20_000, { min: 0, max: 1e4, seed: 121 })] },
+      { label: '1,000,000 days', labelZh: '1,000,000 天', build: () => [randomIntegers(1e6, { min: 0, max: 1e4, seed: 1210 })], slow: ['brute force'] },
     ],
     check: () => [[7, 1, 5, 3, 6, 4]],
   },
   {
     id: '0256-paint-house',
     title: '256. Paint House',
+    titleZh: '256. 粉刷房子',
     approaches: { 'brute force': paintBruteForce, memoization: paintMemoization, tabulation: paintTabulation },
     inputs: [
-      { label: '20 houses', build: () => [houses(20, 256)] },
-      { label: '10,000 houses', build: () => [houses(10_000, 2560)], slow: ['brute force', 'memoization'] },
+      { label: '20 houses', labelZh: '20 栋房子', build: () => [houses(20, 256)] },
+      { label: '10,000 houses', labelZh: '10,000 栋房子', build: () => [houses(10_000, 2560)], slow: ['brute force', 'memoization'] },
     ],
     check: () => [[[17, 2, 17], [16, 16, 5], [14, 3, 19]]],
   },
   {
     id: '0322-coin-change',
     title: '322. Coin Change',
+    titleZh: '322. 零钱兑换',
     approaches: { 'brute force': coinsBruteForce, memoization: coinsMemoization, tabulation: coinsTabulation },
     inputs: [
-      { label: 'amount 28', build: () => [[1, 2, 5], 28] },
-      { label: 'amount 10,000', build: () => [[1, 2, 5], 10_000], slow: ['brute force', 'memoization'] },
+      { label: 'amount 28', labelZh: '金额 28', build: () => [[1, 2, 5], 28] },
+      { label: 'amount 10,000', labelZh: '金额 10,000', build: () => [[1, 2, 5], 10_000], slow: ['brute force', 'memoization'] },
     ],
     check: () => [[1, 2, 5], 11],
   },
   {
     id: '0509-fibonacci-number',
     title: '509. Fibonacci Number',
+    titleZh: '509. 斐波那契数',
     approaches: { recursion: fibRecursion, memoization: fibMemoization, tabulation: fibTabulation, 'space-optimized': fibSpaceOptimized, 'fast doubling': fibFastDoubling },
-    inputs: [{ label: 'n = 32', build: () => [32] }],
+    inputs: [{ label: 'n = 32', labelZh: 'n = 32', build: () => [32] }],
     check: () => [20],
   },
   {
     id: '0752-open-the-lock',
     title: '752. Open the Lock',
+    titleZh: '752. 打开转盘锁',
     approaches: { bfs: lockBfs, 'bidirectional bfs': lockBidirectional },
-    inputs: [{ label: '"8888", 8 dead ends', build: () => [['0001', '0010', '0100', '1000', '9999', '8889', '8898', '8988'], '8888'] }],
+    inputs: [{ label: '"8888", 8 dead ends', labelZh: '"8888"，8 个死亡数字', build: () => [['0001', '0010', '0100', '1000', '9999', '8889', '8898', '8988'], '8888'] }],
     check: () => [['0201', '0101', '0102', '1212', '2002'], '0202'],
   },
   {
     id: '1143-longest-common-subsequence',
     title: '1143. Longest Common Subsequence',
+    titleZh: '1143. 最长公共子序列',
     approaches: { 'brute force': lcsBruteForce, memoization: lcsMemoization, tabulation: lcsTabulation },
     inputs: [
-      { label: '2 × 12 letters', build: () => ['abcdefghijkl', 'mnopqrstuvwx'] },
-      { label: '2 × 1,000 letters', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force'] },
+      { label: '2 × 12 letters', labelZh: '2 × 12 个字母', build: () => ['abcdefghijkl', 'mnopqrstuvwx'] },
+      { label: '2 × 1,000 letters', labelZh: '2 × 1,000 个字母', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force'] },
     ],
     check: () => ['abcde', 'ace'],
   },
   {
     id: '1221-split-a-string-in-balanced-strings',
     title: '1221. Split a String in Balanced Strings',
+    titleZh: '1221. 分割平衡字符串',
     approaches: { 'regex window': splitRegex, 'balance counter': splitCounter },
-    inputs: [{ label: '20,000 letters, one piece', build: () => ['L'.repeat(10_000) + 'R'.repeat(10_000)] }],
+    inputs: [{ label: '20,000 letters, one piece', labelZh: '20,000 个字母，只能切成一段', build: () => ['L'.repeat(10_000) + 'R'.repeat(10_000)] }],
     check: () => ['RLRRLLRLRL'],
   },
 ]

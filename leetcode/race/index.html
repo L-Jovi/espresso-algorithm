@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-title-en="Race the solutions · Espresso Algorithm" data-title-zh="让解法比赛 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,9 +7,11 @@
 <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
 <title>Race the solutions · Espresso Algorithm</title>
 <link rel="stylesheet" href="../../assets/site.css">
+<script src="../../assets/language.js"></script>
 <style>
 .picker{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:end;margin:1.25rem 0}
-.picker label{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem;color:var(--esp-muted)}
+.picker label{display:flex;flex-direction:column;gap:.25rem;max-width:100%;font-size:.9rem;color:var(--esp-muted)}
+.picker select{max-width:100%}
 .race h2{margin-top:0}
 .check{margin:.25rem 0 1rem;font-size:.95rem}
 .input{margin:1.25rem 0 .5rem;font-size:1rem}
@@ -28,21 +30,23 @@ td.ratio{width:9rem;color:var(--esp-muted);font-size:.85rem}
 </style>
 </head>
 <body>
-<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb">Race the solutions</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">LeetCode README</a><a href="https://github.com/L-Jovi/espresso-algorithm/blob/main/leetcode/races.js">Source</a></span></nav>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb"><span data-l="en">Race the solutions</span><span data-l="zh">让解法比赛</span></span><span class="esp-links"><a data-l="en" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/leetcode">LeetCode README</a><a data-l="zh" href="https://github.com/L-Jovi/espresso-algorithm/blob/main/leetcode/README.zh-Hans.md">LeetCode README</a><a href="https://github.com/L-Jovi/espresso-algorithm/blob/main/leetcode/races.js"><span data-l="en">Source</span><span data-l="zh">源代码</span></a><button type="button" class="esp-language" data-language-switch hidden>中文</button></span></nav>
 <main>
-<h1>Race the solutions</h1>
-<p class="lead">Fifteen LeetCode problems, each solved several ways. Pick one and race its approaches on the same input, in your browser, with the code the tests check.</p>
-<p class="lead zh" lang="zh-Hans">十五道 LeetCode 题，每道都有几种解法。选一道，让它的各种解法在你的浏览器里、用同一份输入、以测试检查过的同一份代码比赛。</p>
+<h1><span data-l="en">Race the solutions</span><span data-l="zh">让解法比赛</span></h1>
+<p class="lead" data-l="en">Fifteen LeetCode problems, each solved several ways. Pick one and race its approaches on the same input, in your browser, with the code the tests check.</p>
+<p class="lead" data-l="zh">十五道 LeetCode 题，每道都有几种解法。选一道，让它的各种解法在你的浏览器里、用同一份输入、以测试检查过的同一份代码比赛。</p>
 <div class="picker">
-<label>Problem
+<label><span data-l="en">Problem</span><span data-l="zh">题目</span>
 <select id="problem"></select></label>
-<button type="button" id="run">Run the race</button>
+<button type="button" id="run"><span data-l="en">Run the race</span><span data-l="zh">开始比赛</span></button>
 </div>
 <section class="race panel" id="race" aria-live="polite"></section>
-<p class="note">Each time is per call, measured in a background thread of this page: the fastest of three runs for slow approaches, and the average of repeated calls for fast ones, because browsers round their clock. A dash means the approach sits this input out: it would take minutes or overflow the call stack. Your numbers depend on your device and change between runs; the large gaps between the rows stay. <code>npm run bench:leetcode</code> runs the same races in Node.</p>
+<p class="note" data-l="en">Each time is per call, measured in a background thread of this page: the fastest of three runs for slow approaches, and the average of repeated calls for fast ones, because browsers round their clock. A dash means the approach sits this input out: it would take minutes or overflow the call stack. Your numbers depend on your device and change between runs; the large gaps between the rows stay. <code>npm run bench:leetcode</code> runs the same races in Node.</p>
+<p class="note" data-l="zh">每个时间都是单次调用的耗时，在这个页面的后台线程里测量：慢的解法取三次运行中最快的一次，快的解法取多次重复调用的平均值，因为浏览器会把时钟取整。破折号表示该解法不参加这一项：它要跑好几分钟，或者会让调用栈溢出。你测到的数字取决于你的设备，每次运行也会不同；但各行之间的大差距不会变。<code>npm run bench:leetcode</code> 在 Node 里跑同样的比赛。</p>
 </main>
 <footer>
-<p>Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="en">Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="zh">本页属于 <a href="../../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
 <script type="module" src="race.js"></script>
 </body>

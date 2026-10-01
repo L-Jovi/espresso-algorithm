@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-title-en="Watch the sorts · Espresso Algorithm" data-title-zh="看排序如何进行 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
 <title>Watch the sorts · Espresso Algorithm</title>
 <link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/language.js"></script>
 <style>
 .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.75rem 1.25rem;align-items:end;margin:1.25rem 0 1rem}
 .controls label{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem;color:var(--esp-muted)}
@@ -24,46 +25,49 @@
 </style>
 </head>
 <body>
-<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../">Espresso Algorithm</a><span class="esp-crumb">Watch the sorts</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">Source</a><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/sorting">Sorting README</a></span></nav>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../">Espresso Algorithm</a><span class="esp-crumb"><span data-l="en">Watch the sorts</span><span data-l="zh">看排序如何进行</span></span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer"><span data-l="en">Source</span><span data-l="zh">源代码</span></a><a data-l="en" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/sorting">Sorting README</a><a data-l="zh" href="https://github.com/L-Jovi/espresso-algorithm/blob/main/sorting/README.zh-Hans.md">排序 README</a><button type="button" class="esp-language" data-language-switch hidden>中文</button></span></nav>
 <main>
-<h1>Watch the sorts</h1>
-<p class="lead">Twelve sorts from <code>sorting/</code> rearrange the same numbers, replayed one step at a time. Every bar that moves is a write the real code made.</p>
-<p class="lead zh" lang="zh-Hans"><code>sorting/</code> 里的十二种排序处理同一组数，一步一步回放。每一次柱子的变化，都是真实代码做的一次写入。</p>
+<h1><span data-l="en">Watch the sorts</span><span data-l="zh">看排序如何进行</span></h1>
+<p class="lead" data-l="en">Twelve sorts from <code>sorting/</code> rearrange the same numbers, replayed one step at a time. Every bar that moves is a write the real code made.</p>
+<p class="lead" data-l="zh"><code>sorting/</code> 里的十二种排序处理同一组数，一步一步回放。柱子的每一次变化，都是真实代码做的一次写入。</p>
 
 <form class="controls" id="controls" onsubmit="return false">
-<label>Sort
+<label><span data-l="en">Sort</span><span data-l="zh">排序</span>
 <select id="sort"></select></label>
-<label>Race against
-<select id="rival"><option value="">nothing</option></select></label>
-<label>Start from
+<label><span data-l="en">Race against</span><span data-l="zh">比赛对手</span>
+<select id="rival"><option value="" data-text-en="nothing" data-text-zh="无">nothing</option></select></label>
+<label><span data-l="en">Start from</span><span data-l="zh">初始顺序</span>
 <select id="shape">
-<option value="random">random order</option>
-<option value="nearly">nearly sorted</option>
-<option value="reversed">reversed</option>
-<option value="few">only four different values</option>
+<option value="random" data-text-en="random order" data-text-zh="随机顺序">random order</option>
+<option value="nearly" data-text-en="nearly sorted" data-text-zh="基本有序">nearly sorted</option>
+<option value="reversed" data-text-en="reversed" data-text-zh="倒序">reversed</option>
+<option value="few" data-text-en="only four different values" data-text-zh="只有四种不同的值">only four different values</option>
 </select></label>
-<label>Numbers
+<label><span data-l="en">Numbers</span><span data-l="zh">数的个数</span>
 <span class="range"><input id="size" type="range" min="8" max="128" step="8" value="48"><output id="size-out" for="size">48</output></span></label>
-<label>Speed, steps per second
+<label><span data-l="en">Speed, steps per second</span><span data-l="zh">速度（每秒步数）</span>
 <span class="range"><input id="speed" type="range" min="0" max="100" value="55"><output id="speed-out" for="speed"></output></span></label>
 </form>
 <div class="buttons">
-<button type="button" id="play" aria-pressed="false">Play</button>
-<button type="button" id="step" class="ghost">Step</button>
-<button type="button" id="restart" class="ghost">Restart</button>
-<button type="button" id="shuffle" class="ghost">New numbers</button>
+<button type="button" id="play" aria-pressed="false"><span data-l="en">Play</span><span data-l="zh">播放</span></button>
+<button type="button" id="step" class="ghost"><span data-l="en">Step</span><span data-l="zh">单步</span></button>
+<button type="button" id="restart" class="ghost"><span data-l="en">Restart</span><span data-l="zh">重新开始</span></button>
+<button type="button" id="shuffle" class="ghost"><span data-l="en">New numbers</span><span data-l="zh">换一组数</span></button>
 </div>
 
 <div class="stage" id="stage"></div>
-<p class="legend" aria-hidden="true"><span><span class="swatch" style="background:var(--esp-read)"></span>read</span><span><span class="swatch" style="background:var(--esp-write)"></span>write</span><span><span class="swatch" style="background:var(--esp-done)"></span>sorted</span></p>
+<p class="legend" aria-hidden="true"><span><span class="swatch" style="background:var(--esp-read)"></span><span data-l="en">read</span><span data-l="zh">读</span></span><span><span class="swatch" style="background:var(--esp-write)"></span><span data-l="en">write</span><span data-l="zh">写</span></span><span><span class="swatch" style="background:var(--esp-done)"></span><span data-l="en">sorted</span><span data-l="zh">已排好</span></span></p>
 <p class="sr-only" id="status" aria-live="polite"></p>
 
-<h2>How it works</h2>
-<p>Each sort is the same function that the tests check, imported from <code>sorting/</code>. Before you press Play, the page runs it once on a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a> of the numbers, which records every read, write and comparison without changing what the sort does, and then replays that record. Racing two sorts gives both the same number of steps per second, so the one that needs fewer operations finishes first.</p>
-<p>The copying merge sort and the copying quick sort are not here: they build new arrays instead of rearranging the one they are given, so there are no writes to replay. The <a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">visualizer README</a> explains the rest.</p>
+<h2><span data-l="en">How it works</span><span data-l="zh">原理</span></h2>
+<p data-l="en">Each sort is the same function that the tests check, imported from <code>sorting/</code>. Before you press Play, the page runs it once on a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a> of the numbers, which records every read, write and comparison without changing what the sort does, and then replays that record. Racing two sorts gives both the same number of steps per second, so the one that needs fewer operations finishes first.</p>
+<p data-l="zh">每种排序都是测试检查过的同一个函数，从 <code>sorting/</code> 引入。你按下播放之前，页面先在这组数的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxy</a> 上把它运行一遍：Proxy 记下每一次读、写和比较，但不改变排序的行为；播放就是回放这份记录。两种排序比赛时，每秒走同样多的步数，所以需要操作更少的那个先完成。</p>
+<p data-l="en">The copying merge sort and the copying quick sort are not here: they build new arrays instead of rearranging the one they are given, so there are no writes to replay. The <a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/visualizer">visualizer README</a> explains the rest.</p>
+<p data-l="zh">复制式归并排序和复制式快速排序不在这里：它们创建新的数组，而不是重排传入的那个，所以没有写操作可以回放。其余细节见<a href="https://github.com/L-Jovi/espresso-algorithm/blob/main/visualizer/README.zh-Hans.md">可视化的 README</a>。</p>
 </main>
 <footer>
-<p>Part of <a href="../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="en">Part of <a href="../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="zh">本页属于 <a href="../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
 <script type="module" src="visualizer.js"></script>
 </body>

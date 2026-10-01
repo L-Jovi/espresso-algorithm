@@ -54,7 +54,7 @@ function makePanel(entry, values) {
   const figure = document.createElement('figure')
   figure.className = 'panel sorter'
   figure.innerHTML = `<figcaption><strong></strong><a></a></figcaption><canvas role="img"></canvas><p class="counts"></p>`
-  figure.querySelector('strong').textContent = entry.name
+  figure.querySelector('strong').textContent = nameOf(entry)
   const link = figure.querySelector('a')
   link.href = `https://github.com/L-Jovi/espresso-algorithm/blob/main/sorting/${entry.file}`
   link.textContent = entry.file.split('/').at(-1)
@@ -80,6 +80,28 @@ function advance(panel, count) {
 const finished = panel => panel.at === panel.steps.length
 const format = number => number.toLocaleString('en')
 
+// The text this script writes, in the site's two languages (see
+// assets/language.js); the page's own text is in index.html.
+const TEXT = {
+  en: {
+    play: 'Play',
+    pause: 'Pause',
+    label: panel => `${panel.entry.name}: ${finished(panel) ? 'sorted' : `step ${format(panel.at)} of ${format(panel.steps.length)}`}`,
+    counts: panel => `${format(panel.reads)} reads · ${format(panel.writes)} writes · ${format(panel.compares)} comparisons · step ${format(panel.at)} of ${format(panel.steps.length)}`,
+    done: panel => `${panel.entry.name} finished after ${format(panel.steps.length)} steps.`,
+  },
+  zh: {
+    play: '播放',
+    pause: '暂停',
+    label: panel => `${panel.entry.nameZh}：${finished(panel) ? '已排好' : `第 ${format(panel.at)} 步，共 ${format(panel.steps.length)} 步`}`,
+    counts: panel => `读 ${format(panel.reads)} 次 · 写 ${format(panel.writes)} 次 · 比较 ${format(panel.compares)} 次 · 第 ${format(panel.at)} 步，共 ${format(panel.steps.length)} 步`,
+    done: panel => `${panel.entry.nameZh}用 ${format(panel.steps.length)} 步完成。`,
+  },
+}
+const chinese = () => document.documentElement.dataset.language === 'zh'
+const text = () => TEXT[chinese() ? 'zh' : 'en']
+const nameOf = entry => (chinese() ? entry.nameZh : entry.name)
+
 function draw(panel, palette) {
   const canvas = panel.figure.querySelector('canvas')
   const { width, height } = canvas.getBoundingClientRect()
@@ -102,9 +124,8 @@ function draw(panel, palette) {
     const barHeight = (value / max) * (height - 6)
     context.fillRect(i * slot + gap / 2, height - barHeight, Math.max(1, slot - gap), barHeight)
   })
-  canvas.setAttribute('aria-label', `${panel.entry.name}: ${finished(panel) ? 'sorted' : `step ${format(panel.at)} of ${format(panel.steps.length)}`}`)
-  panel.figure.querySelector('.counts').textContent =
-    `${format(panel.reads)} reads · ${format(panel.writes)} writes · ${format(panel.compares)} comparisons · step ${format(panel.at)} of ${format(panel.steps.length)}`
+  canvas.setAttribute('aria-label', text().label(panel))
+  panel.figure.querySelector('.counts').textContent = text().counts(panel)
 }
 
 function render() {
@@ -121,9 +142,14 @@ function rebuild() {
   panels = chosen.map(entry => makePanel(entry, values))
   $('stage').replaceChildren(...panels.map(panel => panel.figure))
   render()
-  const query = new URLSearchParams({ sort: $('sort').value, n, shape: $('shape').value, seed })
-  if ($('rival').value) query.set('rival', $('rival').value)
-  history.replaceState(null, '', `?${query}`)
+  // The address keeps the settings, next to any others such as lang.
+  const url = new URL(location.href)
+  const settings = { sort: $('sort').value, rival: $('rival').value, n, shape: $('shape').value, seed }
+  for (const [key, value] of Object.entries(settings)) {
+    if (value === '') url.searchParams.delete(key)
+    else url.searchParams.set(key, value)
+  }
+  history.replaceState(null, '', url)
 }
 
 let last = 0
@@ -138,7 +164,7 @@ function frame(now) {
   for (const panel of panels) advance(panel, count)
   render()
   panels.forEach((panel, i) => {
-    if (!wasDone[i] && finished(panel)) $('status').textContent = `${panel.entry.name} finished after ${format(panel.steps.length)} steps.`
+    if (!wasDone[i] && finished(panel)) $('status').textContent = text().done(panel)
   })
   if (panels.every(finished)) stop()
   else requestAnimationFrame(frame)
@@ -149,14 +175,14 @@ function play() {
   playing = true
   last = 0
   carry = 0
-  $('play').textContent = 'Pause'
+  $('play').textContent = text().pause
   $('play').setAttribute('aria-pressed', 'true')
   requestAnimationFrame(frame)
 }
 
 function stop() {
   playing = false
-  $('play').textContent = 'Play'
+  $('play').textContent = text().play
   $('play').setAttribute('aria-pressed', 'false')
 }
 
@@ -185,8 +211,8 @@ function selfTest() {
 }
 
 for (const entry of SORTS) {
-  $('sort').add(new Option(entry.name, entry.id))
-  $('rival').add(new Option(entry.name, entry.id))
+  $('sort').add(new Option(nameOf(entry), entry.id))
+  $('rival').add(new Option(nameOf(entry), entry.id))
 }
 $('sort').value = byId.has(params.get('sort')) ? params.get('sort') : 'quick'
 $('rival').value = byId.has(params.get('rival')) ? params.get('rival') : ''
@@ -208,6 +234,15 @@ $('shuffle').addEventListener('click', () => {
   rebuild()
 })
 new ResizeObserver(render).observe($('stage'))
+document.addEventListener('languagechange', () => {
+  for (const select of [$('sort'), $('rival')]) {
+    for (const option of select.options) if (byId.has(option.value)) option.text = nameOf(byId.get(option.value))
+  }
+  for (const panel of panels) panel.figure.querySelector('strong').textContent = nameOf(panel.entry)
+  $('play').textContent = playing ? text().pause : text().play
+  $('status').textContent = ''
+  render()
+})
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render)
 
 addEventListener('error', event => { document.documentElement.dataset.selftest = `fail: ${event.message}` })

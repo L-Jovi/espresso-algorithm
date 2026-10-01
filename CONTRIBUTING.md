@@ -23,11 +23,13 @@ Thank you for helping. This repository is a collection of small algorithm implem
 npm run new -- 322 "Coin Change" brute-force
 ```
 
-This creates `leetcode/0322-coin-change/` with `brute-force.js` and a `solution.test.js` whose placeholder case fails until you replace it. Check that the folder name matches the problem's URL. Then write the header (the problem in one sentence of your own, the idea, the time and space complexity) and put LeetCode's examples and the edge cases into the test. When a single approach cannot be checked against another, add a slow but plainly correct reference to the test and compare the two on seeded random inputs, as the existing folders do. Another approach goes into its own file in the same folder and into the same test; if the difference between approaches is worth showing, add the problem to [`leetcode/bench.js`](leetcode/bench.js) and run `npm run bench:leetcode`.
+This creates `leetcode/0322-coin-change/` with `brute-force.js` and a `solution.test.js` whose placeholder case fails until you replace it. Check that the folder name matches the problem's URL. Then write the header (the problem in one sentence of your own, the idea, the time and space complexity) and put LeetCode's examples and the edge cases into the test. When a single approach cannot be checked against another, add a slow but plainly correct reference to the test and compare the two on seeded random inputs, as the existing folders do. Another approach goes into its own file in the same folder and into the same test; if the difference between approaches is worth showing, add the problem, with its Chinese title and input labels, to [`leetcode/races.js`](leetcode/races.js) and run `npm run bench:leetcode`. Finally, list the problem in both indexes, [`leetcode/README.md`](leetcode/README.md) and [`leetcode/README.zh-Hans.md`](leetcode/README.zh-Hans.md); `npm run check:repo` fails until it is there.
 
 ## Changing the site
 
 The site at [l-jovi.github.io/espresso-algorithm](https://l-jovi.github.io/espresso-algorithm/) is built from the repository itself: each page sits next to the code it imports and uses the same modules as the tests. Run `npm run serve` and open http://127.0.0.1:8080/ to try a change. A page imports only relative modules, and when opened with `?selftest` it checks itself and writes `pass` into `<html data-selftest>`; CI opens every page that way in Chrome, Firefox and Safari before the site is published.
+
+Every page opens in English and has a button that switches it to Chinese in place; [`assets/language.js`](assets/language.js) does the switching. Write each piece of text twice, in a pair of elements marked `data-l="en"` and `data-l="zh"`, and keep the text a page script writes in its `en`/`zh` table. CI fails a page that shows any text in the other language.
 
 ## Documentation
 

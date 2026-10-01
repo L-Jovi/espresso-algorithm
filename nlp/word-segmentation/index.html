@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-title-en="Find the words · Espresso Algorithm" data-title-zh="找出中文里的词 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
 <title>Find the words · Espresso Algorithm</title>
 <link rel="stylesheet" href="../../assets/site.css">
+<script src="../../assets/language.js"></script>
 <style>
 textarea{display:block;width:100%;box-sizing:border-box;min-height:4.5rem;font-size:1.3rem;line-height:1.5}
 .examples{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0 1.25rem}
@@ -25,24 +26,26 @@ textarea{display:block;width:100%;box-sizing:border-box;min-height:4.5rem;font-s
 </style>
 </head>
 <body>
-<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb">Find the words</span><span class="esp-links"><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">Segmentation README</a><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp/word-segmentation">Source</a></span></nav>
+<nav class="esp-bar" aria-label="Espresso Algorithm"><a class="esp-home" href="../../">Espresso Algorithm</a><span class="esp-crumb"><span data-l="en">Find the words</span><span data-l="zh">找出中文里的词</span></span><span class="esp-links"><a data-l="en" href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp">Segmentation README</a><a data-l="zh" href="https://github.com/L-Jovi/espresso-algorithm/blob/main/nlp/README.zh-Hans.md">分词 README</a><a href="https://github.com/L-Jovi/espresso-algorithm/tree/main/nlp/word-segmentation"><span data-l="en">Source</span><span data-l="zh">源代码</span></a><button type="button" class="esp-language" data-language-switch hidden>中文</button></span></nav>
 <main>
-<h1>Find the words</h1>
-<p class="lead">Chinese is written without spaces. Type a sentence and watch two hand-written segmenters, and the one built into your browser, decide where each word begins and ends.</p>
-<p class="lead zh" lang="zh-Hans">中文书写时词与词之间没有空格。输入一句话，看两个手写的分词器，以及你的浏览器内置的分词器，如何判断每个词从哪里开始、到哪里结束。</p>
-<label for="text" class="muted">Sentence</label>
+<h1><span data-l="en">Find the words</span><span data-l="zh">找出中文里的词</span></h1>
+<p class="lead" data-l="en">Chinese is written without spaces. Type a sentence and watch two hand-written segmenters, and the one built into your browser, decide where each word begins and ends.</p>
+<p class="lead" data-l="zh">中文书写时词与词之间没有空格。输入一句话，看两个手写的分词器，以及你的浏览器内置的分词器，如何判断每个词从哪里开始、到哪里结束。</p>
+<label for="text" class="muted"><span data-l="en">Sentence</span><span data-l="zh">句子</span></label>
 <textarea id="text" lang="zh-Hans" spellcheck="false"></textarea>
-<div class="examples" id="examples" aria-label="Example sentences"></div>
+<div class="examples" id="examples" role="group" aria-label="Example sentences" data-label-en="Example sentences" data-label-zh="例句"></div>
 <section class="panel">
 <div class="rows" id="rows" aria-live="polite"></div>
 <div class="graph" id="graph"></div>
-<p class="legend" aria-hidden="true"><span><span class="swatch" style="border-color:var(--esp-line)"></span>a word in the list</span><span><span class="swatch" style="border-color:var(--esp-done)"></span>the most likely path (graph + DP)</span><span><span class="swatch" style="border-color:var(--esp-write);border-top-style:dashed"></span>forward maximum matching</span></p>
+<p class="legend" aria-hidden="true"><span><span class="swatch" style="border-color:var(--esp-line)"></span><span data-l="en">a word in the list</span><span data-l="zh">词表里的词</span></span><span><span class="swatch" style="border-color:var(--esp-done)"></span><span data-l="en">the most likely path (graph + DP)</span><span data-l="zh">最可能的路径（建图 + 动态规划）</span></span><span><span class="swatch" style="border-color:var(--esp-write);border-top-style:dashed"></span><span data-l="en">forward maximum matching</span><span data-l="zh">正向最大匹配</span></span></p>
 </section>
-<h2>How it works</h2>
-<p><strong>Forward maximum matching</strong> reads from the left and always takes the longest word it knows, so in 结婚的和尚未结婚的 it takes 和尚 (monk) and misreads the rest. <strong>The graph</strong> above shows every word of the list that could start at each character; dynamic programming picks the path whose words are most likely together, the method of the <a href="https://github.com/fxsjy/jieba">jieba</a> segmenter. The word list is small, with made-up frequencies, so the hand-written segmenters know only the words of the examples and a few more. <strong>Your browser's</strong> <code>Intl.Segmenter</code> uses the dictionary of its ICU library, which knows far more words but cannot be taught new ones.</p>
+<h2><span data-l="en">How it works</span><span data-l="zh">原理</span></h2>
+<p data-l="en"><strong>Forward maximum matching</strong> reads from the left and always takes the longest word it knows, so in <span lang="zh-Hans">结婚的和尚未结婚的</span> it takes <span lang="zh-Hans">和尚</span> (monk) and misreads the rest. <strong>The graph</strong> above shows every word of the list that could start at each character; dynamic programming picks the path whose words are most likely together, the method of the <a href="https://github.com/fxsjy/jieba">jieba</a> segmenter. The word list is small, with made-up frequencies, so the hand-written segmenters know only the words of the examples and a few more. <strong>Your browser's</strong> <code>Intl.Segmenter</code> uses the dictionary of its ICU library, which knows far more words but cannot be taught new ones.</p>
+<p data-l="zh"><strong>正向最大匹配</strong>从左往右读，每次都取它认识的最长的词，所以在“结婚的和尚未结婚的”里，它取了“和尚”，后面就全读错了。上面的<strong>图</strong>画出了从每个字开始、词表里所有可能的词；动态规划从中选出一条路径，让路径上的词连在一起的可能性最大，这正是 <a href="https://github.com/fxsjy/jieba">jieba</a> 分词器的方法。词表很小，词频是虚构的，所以手写的分词器只认识例句里的词和另外几个词。<strong>你的浏览器</strong>里的 <code>Intl.Segmenter</code> 用的是它的 ICU 库自带的词典，认识的词多得多，但没法教它新词。</p>
 </main>
 <footer>
-<p>Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="en">Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
+<p data-l="zh">本页属于 <a href="../../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
 <script type="module" src="page.js"></script>
 </body>
