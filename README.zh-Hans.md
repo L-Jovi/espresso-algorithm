@@ -11,7 +11,7 @@
 
 这里的每个算法都是一个小文件，一次就能读完；它旁边放着解同一道题的其他方法，还有一个让它们互相对照的测试。运行一个，让它和邻居比一比，再读一读更快的那个为什么更快。
 
-**[打开在线站点 →](https://espresso.jovipro.com/)**
+**[打开在线站点 →](https://l-jovi.github.io/espresso-algorithm/)**
 
 ## 里面有什么
 
@@ -28,7 +28,7 @@
 
 ## 试一试
 
-**在浏览器里：** 打开[在线站点](https://espresso.jovipro.com/)：[看排序如何进行](https://espresso.jovipro.com/visualizer/)、[让解法比赛](https://espresso.jovipro.com/leetcode/race/)，或者[找出一个中文句子里的词](https://espresso.jovipro.com/nlp/word-segmentation/)。
+**在浏览器里：** 打开[在线站点](https://l-jovi.github.io/espresso-algorithm/)：[看排序如何进行](https://l-jovi.github.io/espresso-algorithm/visualizer/)、[让解法比赛](https://l-jovi.github.io/espresso-algorithm/leetcode/race/)，或者[找出一个中文句子里的词](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/)。
 
 **在你的电脑上：**
 

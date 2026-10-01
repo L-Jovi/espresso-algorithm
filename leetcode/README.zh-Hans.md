@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-10-01。英文版更新后本页可能滞后。
+> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
 
 六十道 LeetCode 题，每题一个目录，每种解法一个文件，再用一个测试文件让所有解法互相对照。
 
@@ -14,7 +14,7 @@ node --test leetcode/0509-fibonacci-number/solution.test.js     # 五种解法�
 npm run bench:leetcode                                          # 让各种解法比赛，约 12 秒
 ```
 
-同样的比赛也能在你的浏览器里进行，见[比赛页面](https://espresso.jovipro.com/leetcode/race/)。在 Node 里，比赛会为每道题打印一张表，最慢的解法在最上面。第 509 题是这样的：
+同样的比赛也能在你的浏览器里进行，见[比赛页面](https://l-jovi.github.io/espresso-algorithm/leetcode/race/)。在 Node 里，比赛会为每道题打印一张表，最慢的解法在最上面。第 509 题是这样的：
 
 ```text
 509. Fibonacci Number

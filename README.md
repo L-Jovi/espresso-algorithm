@@ -9,7 +9,7 @@ Try different algorithms for the same problem, from brute force to optimal. Pure
 
 Every algorithm here is a small file you can read in one sitting, next to the other ways of solving the same problem and a test that checks them against each other. Run one, race it against its neighbours, then read why the faster one is faster.
 
-**[Open the live site →](https://espresso.jovipro.com/)**
+**[Open the live site →](https://l-jovi.github.io/espresso-algorithm/)**
 
 ## What's inside
 
@@ -26,7 +26,7 @@ The collection also holds data structures from a stack to a trie, binary search 
 
 ## Try it
 
-**In your browser:** open the [live site](https://espresso.jovipro.com/): [watch the sorts](https://espresso.jovipro.com/visualizer/), [race the solutions](https://espresso.jovipro.com/leetcode/race/) or [find the words](https://espresso.jovipro.com/nlp/word-segmentation/) in a Chinese sentence.
+**In your browser:** open the [live site](https://l-jovi.github.io/espresso-algorithm/): [watch the sorts](https://l-jovi.github.io/espresso-algorithm/visualizer/), [race the solutions](https://l-jovi.github.io/espresso-algorithm/leetcode/race/) or [find the words](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/) in a Chinese sentence.
 
 **On your computer:**
 
