@@ -6,14 +6,14 @@ Watch twelve sorts from [`sorting/`](../sorting/) rearrange the same numbers, on
 
 ## Try it
 
-Open [l-jovi.github.io/espresso-algorithm/visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/), or serve the repository yourself:
+Open [espresso.jovipro.com/visualizer](https://espresso.jovipro.com/visualizer/), or serve the repository yourself:
 
 ```sh
 npm run serve                            # then open http://127.0.0.1:8080/visualizer/
 node --test visualizer/visualizer.test.js
 ```
 
-Race bubble sort against quick sort on 64 numbers, [this exact race](https://l-jovi.github.io/espresso-algorithm/visualizer/?sort=bubble&rival=quick&n=64&shape=random&seed=7): quick sort finishes after 2,100 steps, while bubble sort needs 10,680.
+Race bubble sort against quick sort on 64 numbers, [this exact race](https://espresso.jovipro.com/visualizer/?sort=bubble&rival=quick&n=64&shape=random&seed=7): quick sort finishes after 2,100 steps, while bubble sort needs 10,680.
 
 ## What's inside
 

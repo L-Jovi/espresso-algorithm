@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
+> 对应英文版：2026-10-01。英文版更新后本页可能滞后。
 
 中文书写时词与词之间没有空格，所以程序要先找出每个词从哪里开始、到哪里结束，才能去统计、检索或翻译。这里有两个用词表手写的分词器，并与 JavaScript 内置的分词器对照。
 
@@ -14,7 +14,7 @@ node nlp/word-segmentation/dag-dp.js                      # 正确读出两个�
 node --test nlp/word-segmentation/segmentation.test.js
 ```
 
-[在线页面](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/)可以对你输入的任何句子做同样的对照，并画出候选词构成的图。对照输出的一部分：
+[在线页面](https://espresso.jovipro.com/nlp/word-segmentation/)可以对你输入的任何句子做同样的对照，并画出候选词构成的图。对照输出的一部分：
 
 ```text
 十五 个葡萄在这周六过期
