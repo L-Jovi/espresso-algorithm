@@ -27,7 +27,7 @@ This creates `leetcode/0322-coin-change/` with `brute-force.js` and a `solution.
 
 ## Changing the site
 
-The site at [l-jovi.github.io/espresso-algorithm](https://l-jovi.github.io/espresso-algorithm/) is built from the repository itself: each page sits next to the code it imports and uses the same modules as the tests. Run `npm run serve` and open http://127.0.0.1:8080/ to try a change. A page imports only relative modules, and when opened with `?selftest` it checks itself and writes `pass` into `<html data-selftest>`; CI opens every page that way in Chrome, Firefox and Safari before the site is published.
+The site at [espresso.jovipro.com](https://espresso.jovipro.com/) is built from the repository itself: each page sits next to the code it imports and uses the same modules as the tests. Run `npm run serve` and open http://127.0.0.1:8080/ to try a change. A page imports only relative modules, and when opened with `?selftest` it checks itself and writes `pass` into `<html data-selftest>`; CI opens every page that way in Chrome, Firefox and Safari before the site is published.
 
 Every page opens in English and has a button that switches it to Chinese in place; [`assets/language.js`](assets/language.js) does the switching. Write each piece of text twice, in a pair of elements marked `data-l="en"` and `data-l="zh"`, and keep the text a page script writes in its `en`/`zh` table. CI fails a page that shows any text in the other language.
 

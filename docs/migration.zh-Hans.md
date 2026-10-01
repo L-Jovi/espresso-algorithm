@@ -2,7 +2,7 @@
 
 [English](migration.md) | 简体中文
 
-> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
+> 对应英文版：2026-10-01。英文版更新后本页可能滞后。
 
 2026 年 9 月，这个仓库从一堆脚本重新整理成一组有测试、有文档的分区。本页列出每个旧路径的新位置。指向旧文件的链接都对应 [`c063830`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8)，也就是整理开始前的最后一个提交。
 
@@ -173,6 +173,6 @@
 
 | 之前 | 现在 | 原因 |
 | --- | --- | --- |
-| [`algorithm-canvas/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/algorithm-canvas) | [`visualizer/`](../visualizer/)，发布在 [l-jovi.github.io/espresso-algorithm/visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/) | 它是 norahiko 的 sort-visualize 的拷贝，没有附上许可声明，动画演示的是它自带的排序代码，而不是本仓库里的实现。它的“Restart”控件是一个 `<span>`，键盘无法操作；固定为 450 × 380 的画布在高分屏上会发虚。新的可视化通过 `Proxy` 回放真正的 `sorting/` 模块；[NOTICE.md](../NOTICE.md) 致谢了原作。 |
+| [`algorithm-canvas/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/algorithm-canvas) | [`visualizer/`](../visualizer/)，发布在 [espresso.jovipro.com/visualizer](https://espresso.jovipro.com/visualizer/) | 它是 norahiko 的 sort-visualize 的拷贝，没有附上许可声明，动画演示的是它自带的排序代码，而不是本仓库里的实现。它的“Restart”控件是一个 `<span>`，键盘无法操作；固定为 450 × 380 的画布在高分屏上会发虚。新的可视化通过 `Proxy` 回放真正的 `sorting/` 模块；[NOTICE.md](../NOTICE.md) 致谢了原作。 |
 
 所有目录都已换成新的结构。

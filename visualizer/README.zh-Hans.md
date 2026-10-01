@@ -8,14 +8,14 @@
 
 ## 试一试
 
-打开 [l-jovi.github.io/espresso-algorithm/visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/)，或者自己启动一个本地服务：
+打开 [espresso.jovipro.com/visualizer](https://espresso.jovipro.com/visualizer/)，或者自己启动一个本地服务：
 
 ```sh
 npm run serve                            # 然后打开 http://127.0.0.1:8080/visualizer/
 node --test visualizer/visualizer.test.js
 ```
 
-让冒泡排序和快速排序在 64 个数上比赛，[正是这一场](https://l-jovi.github.io/espresso-algorithm/visualizer/?sort=bubble&rival=quick&n=64&shape=random&seed=7)：快速排序 2,100 步就完成了，冒泡排序则需要 10,680 步。
+让冒泡排序和快速排序在 64 个数上比赛，[正是这一场](https://espresso.jovipro.com/visualizer/?sort=bubble&rival=quick&n=64&shape=random&seed=7)：快速排序 2,100 步就完成了，冒泡排序则需要 10,680 步。
 
 ## 里面有什么
 
