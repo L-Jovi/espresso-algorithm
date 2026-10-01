@@ -97,10 +97,7 @@ jobs:
           sleep 3
       - run: node scripts/test-pages.mjs http://127.0.0.1:8080/ chrome=http://127.0.0.1:9515 firefox=http://127.0.0.1:4444
       # The card for the repository's social preview, uploaded by hand in the
-      # repository settings. It has a line of Chinese, and the runner image has
-      # no Chinese font.
-      - name: Install a Chinese font for the social preview card
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+      # repository settings.
       - name: Render the social preview card
         run: google-chrome --headless=new --hide-scrollbars --window-size=1280,640 --screenshot="$PWD/_site/social-preview.png" http://127.0.0.1:8080/assets/social-preview.html
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

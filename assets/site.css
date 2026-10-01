@@ -154,10 +154,6 @@
     outline-offset: 2px;
   }
 
-  .zh {
-    color: var(--esp-muted);
-  }
-
   .lead {
     margin-top: -0.25rem;
     font-size: 1.05rem;
@@ -209,6 +205,14 @@
   }
 }
 
+/* One language at a time: language.js sets data-language on <html>, and the
+ * other language's elements disappear. Only hiding is needed, so every
+ * element keeps the display its page gives it. */
+:root:not([data-language='zh']) [data-l='zh'],
+:root[data-language='zh'] [data-l='en'] {
+  display: none !important;
+}
+
 /* The page frame and the top bar are unlayered, so no page reset can move
  * them; a page's own body rules still win, because they come later. */
 body {
@@ -258,6 +262,23 @@ body {
 
 .esp-bar .esp-links {
   display: flex;
+  align-items: center;
   gap: 1rem;
   margin-left: auto;
+}
+
+/* The language switch looks like the links next to it. */
+.esp-bar .esp-language {
+  padding: 0.1rem 0.55rem;
+  border: 1px solid var(--esp-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--esp-accent);
+  font: inherit;
+  cursor: pointer;
+}
+
+.esp-bar .esp-language:hover {
+  border-color: var(--esp-accent);
+  filter: none;
 }

@@ -24,7 +24,7 @@ Race bubble sort against quick sort on 64 numbers, [this exact race](https://l-j
 | [`visualizer.js`](visualizer.js) | The page: builds the numbers, traces the chosen sorts, and replays the steps on a canvas. |
 | [`index.html`](index.html) | The page's markup and controls. |
 
-The visualizer is one of three pages of the site; the others race LeetCode solutions ([`leetcode/race/`](../leetcode/race/)) and segment Chinese text ([`nlp/word-segmentation/`](../nlp/word-segmentation/)). The home page is [`index.html`](../index.html) at the root, and all of them share [`assets/site.css`](../assets/site.css).
+The visualizer is one of three pages of the site; the others race LeetCode solutions ([`leetcode/race/`](../leetcode/race/)) and segment Chinese text ([`nlp/word-segmentation/`](../nlp/word-segmentation/)). The home page is [`index.html`](../index.html) at the root. All of them share [`assets/site.css`](../assets/site.css), and [`assets/language.js`](../assets/language.js), which switches a page between English and Chinese in place.
 
 ## How it works
 

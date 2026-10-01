@@ -45,8 +45,9 @@ describe('every sort the visualizer lists', () => {
     })
   }
 
-  it('lists twelve sorts with unique ids', () => {
+  it('lists twelve sorts with unique ids, named in English and in Chinese', () => {
     assert.equal(SORTS.length, 12)
     assert.equal(new Set(SORTS.map(entry => entry.id)).size, 12)
+    for (const entry of SORTS) assert.match(entry.nameZh, /\p{Script=Han}/u, entry.name)
   })
 })
