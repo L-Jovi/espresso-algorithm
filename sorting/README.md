@@ -19,7 +19,7 @@ input:  -98 -88 96 40 4 -19 -7 -52 11 46 -49 -69
 sorted: -98 -88 -69 -52 -49 -19 -7 4 11 40 46 96
 ```
 
-To watch twelve of these sorts move, one read or write at a time, open the [sort visualizer](https://espresso.jovipro.com/visualizer/).
+To watch twelve of these sorts move, one read or write at a time, open the [sort visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/).
 
 ## What's inside
 

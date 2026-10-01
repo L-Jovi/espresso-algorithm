@@ -171,6 +171,6 @@ These were removed from every commit on 2026-09-28, so there is nothing to link 
 
 | Before | Now | Why |
 | --- | --- | --- |
-| [`algorithm-canvas/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/algorithm-canvas) | [`visualizer/`](../visualizer/), published at [espresso.jovipro.com/visualizer](https://espresso.jovipro.com/visualizer/) | A copy of norahiko's sort-visualize without its license notice, animating its own copies of the sorts rather than the ones in this repository. Its Restart control was a `<span>` that the keyboard could not reach, and its fixed 450 × 380 canvas was blurry on high-density screens. The new visualizer replays the real `sorting/` modules through a `Proxy`; [NOTICE.md](../NOTICE.md) credits the original. |
+| [`algorithm-canvas/`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/algorithm-canvas) | [`visualizer/`](../visualizer/), published at [l-jovi.github.io/espresso-algorithm/visualizer](https://l-jovi.github.io/espresso-algorithm/visualizer/) | A copy of norahiko's sort-visualize without its license notice, animating its own copies of the sorts rather than the ones in this repository. Its Restart control was a `<span>` that the keyboard could not reach, and its fixed 450 × 380 canvas was blurry on high-density screens. The new visualizer replays the real `sorting/` modules through a `Proxy`; [NOTICE.md](../NOTICE.md) credits the original. |
 
 Every folder now has the new layout.
