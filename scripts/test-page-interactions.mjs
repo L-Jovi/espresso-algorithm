@@ -1,5 +1,5 @@
 // Controls are operated through WebDriver clicks and keys. DOM scripts
-// only observe the resulting state, URL, accessibility text and layout.
+// observe the resulting state, URL, accessibility text, layout and errors.
 import assert from 'node:assert/strict'
 import { siteFixture } from './lib/site-fixture.mjs'
 
@@ -18,7 +18,8 @@ export async function testInteractions(browser, site, log) {
     assert.equal(await run("return document.querySelector('#race').dataset.state"), expected, await run(`return [
       document.querySelector('#problem').value,
       document.querySelector('#race-status').textContent,
-      document.querySelector('#race').innerText
+      document.querySelector('#race').innerText,
+      JSON.stringify(window.raceWorkerErrors ?? [])
     ].join(' / ')`))
   }
   const currentIs = async id => assert.equal(await run(`return document.querySelector('#problem').value === arguments[0] &&
@@ -27,6 +28,19 @@ export async function testInteractions(browser, site, log) {
 
   await goto(new URL(`${RACE}?lang=en&problem=${MEDIAN}`, site).href)
   await ready()
+  // Keep the worker's original error reply for CI diagnostics without
+  // changing its messages or the page's handling of the failure.
+  await run(`window.raceWorkerErrors = []
+    const NativeWorker = window.Worker
+    window.Worker = class extends NativeWorker {
+      constructor(...args) {
+        super(...args)
+        this.addEventListener('message', ({ data }) => {
+          if (data.type === 'error') window.raceWorkerErrors.push(data)
+        })
+        this.addEventListener('error', event => window.raceWorkerErrors.push({ message: event.message }))
+      }
+    }`)
   await click('#run')
   await choose('problem', FIB)
   await state('idle')
