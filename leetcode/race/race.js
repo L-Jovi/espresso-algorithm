@@ -113,6 +113,7 @@ function render(race, results = {}, status = 'idle', error = null) {
       if (input.slow?.includes(name)) cells[1] = '–'
       else if (ms === 'running') cells[1] = status === 'cancelled' ? T.cancelledCell : status === 'failed' ? T.failed : T.running
       else if (typeof ms === 'number') cells[1] = formatMs(ms)
+      else if (ms?.failed !== undefined) cells[1] = T.failed
       row.innerHTML = '<td class="name"></td><td class="time"></td><td><div class="bar"></div></td><td class="ratio"></td>'
       row.children[0].textContent = cells[0]
       row.children[1].textContent = cells[1]
@@ -126,6 +127,11 @@ function render(race, results = {}, status = 'idle', error = null) {
         if (input.slow?.includes(name)) {
           row.children[2].className = 'left-out'
           row.children[2].textContent = T.sitsOut
+        } else if (ms?.failed !== undefined) {
+          // The browser's own error message, which is in English.
+          row.children[2].className = 'left-out'
+          row.children[2].lang = 'en'
+          row.children[2].textContent = ms.failed
         }
       }
       body.append(row)
@@ -154,16 +160,24 @@ async function run(race) {
         if (input.slow?.includes(name)) continue
         results[`${index}:${name}`] = 'running'
         render(race, results, 'running')
-        const reply = await task.client.ask({ type: 'time', race: race.id, input: index, approach: name })
+        try {
+          const reply = await task.client.ask({ type: 'time', race: race.id, input: index, approach: name })
+          if (!Number.isFinite(reply.ms) || reply.ms < 0) throw new Error('Invalid timing')
+          results[`${index}:${name}`] = reply.ms
+        } catch (error) {
+          if (error.code !== 'reply') throw error
+          // The approach threw on this input, such as a stack overflow. The
+          // worker caught it, so the other approaches are still timed.
+          results[`${index}:${name}`] = { failed: error.message }
+        }
         if (active !== task) return
-        if (!Number.isFinite(reply.ms) || reply.ms < 0) throw new Error('Invalid timing')
-        results[`${index}:${name}`] = reply.ms
       }
     }
     render(race, results, 'complete')
     return results
   } catch (error) {
-    if (active === task) render(race, results, 'failed', error.code ?? 'worker')
+    // A throw during the example check is a check failure, not a worker failure.
+    if (active === task) render(race, results, 'failed', error.code === 'reply' ? 'check' : (error.code ?? 'worker'))
   } finally {
     task.client?.terminate()
     // A cancelled task can finish unwinding after a new run has started.

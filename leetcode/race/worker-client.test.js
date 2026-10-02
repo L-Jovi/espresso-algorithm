@@ -34,6 +34,20 @@ describe('a race worker session', () => {
     assert.equal(worker.stopped, true)
   })
 
+  it('rejects only the request a worker error answers, and keeps the worker', async () => {
+    const { client, worker, messages, reply } = setup()
+    const timing = client.ask({ type: 'time', approach: 'recursion' })
+    reply(messages[0], { type: 'error', approach: 'recursion', message: 'Maximum call stack size exceeded' })
+    await assert.rejects(timing, { code: 'reply', approach: 'recursion', message: 'Maximum call stack size exceeded' })
+    assert.equal(client.closed, undefined)
+    assert.notEqual(worker.stopped, true)
+    assert.equal(client.pending.size, 0)
+    const next = client.ask({ type: 'time', approach: 'tabulation' })
+    reply(messages[1], { ms: 1.5 })
+    assert.equal((await next).ms, 1.5)
+    client.terminate()
+  })
+
   for (const failure of ['cancelled', 'error', 'messageerror', 'protocol', 'postMessage', 'timeout']) {
     it(`rejects pending work and releases the worker on ${failure}`, async () => {
       const { client, worker, messages, reply } = setup({ timeout: failure === 'timeout' ? 10 : 30_000 })

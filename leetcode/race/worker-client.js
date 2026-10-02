@@ -1,5 +1,7 @@
 // One worker belongs to one run. Replies must identify both that run and
 // the request, so a late or duplicate reply cannot settle another request.
+// An error reply answers one request only: the worker caught the exception,
+// such as a stack overflow in one approach, and stays usable for the next.
 export class RaceWorkerClient {
   constructor(runId, {
     createWorker = () => new Worker(new URL('race-worker.js', import.meta.url), { type: 'module' }),
@@ -14,13 +16,14 @@ export class RaceWorkerClient {
       if (data?.runId !== this.runId) return
       const request = this.pending.get(data.requestId)
       if (!request) return
-      if (data.type === 'error' || data.type !== request.replyType) {
+      if (data.type !== 'error' && data.type !== request.replyType) {
         this.terminate('worker')
         return
       }
       clearTimeout(request.timer)
       this.pending.delete(data.requestId)
-      request.resolve(data)
+      if (data.type === 'error') request.reject(Object.assign(new Error(data.message), { code: 'reply', approach: data.approach }))
+      else request.resolve(data)
     }
     this.worker.onerror = event => {
       event.preventDefault()
