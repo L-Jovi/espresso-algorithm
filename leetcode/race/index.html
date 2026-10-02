@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<noscript><style>[data-demo-loading]{display:none}</style></noscript>
 <meta name="description" content="Race brute force against the optimal solution of fifteen LeetCode problems, live in your browser, with the same code the tests of espresso-algorithm check.">
 <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
 <title>Race the solutions · Espresso Algorithm</title>
@@ -35,17 +36,17 @@ td.ratio{width:9rem;color:var(--esp-muted);font-size:.85rem}
 <h1><span data-l="en">Race the solutions</span><span data-l="zh">让解法比赛</span></h1>
 <p class="lead" data-l="en">Fifteen LeetCode problems, each solved several ways. Pick one and race its approaches on the same input, in your browser, with the code the tests check.</p>
 <p class="lead" data-l="zh">十五道 LeetCode 题，每道都有几种解法。选一道，让它的各种解法在你的浏览器里、用同一份输入、以测试检查过的同一份代码比赛。</p>
-<div id="demo-status" class="panel" role="status">
-<p data-demo-loading><span data-l="en">Loading the demo… If this takes too long, reload the page.</span><span data-l="zh">正在加载演示…如果等待过久，请重新加载页面。</span></p>
-<p data-demo-failed hidden><span data-l="en">The demo could not load. Check your connection and reload to try again.</span><span data-l="zh">演示加载失败。请检查网络连接，然后重新加载重试。</span></p>
-<a href="" id="demo-reload"><span data-l="en">Reload the page</span><span data-l="zh">重新加载页面</span></a>
-<noscript><style>[data-demo-loading]{display:none}</style><p><span data-l="en">This demo needs JavaScript. You can still read the explanation and source links on this page.</span><span data-l="zh">此演示需要 JavaScript。你仍然可以阅读本页的说明及源代码链接。</span></p></noscript>
-</div>
 <div class="picker">
 <label><span data-l="en">Problem</span><span data-l="zh">题目</span>
 <select id="problem" disabled data-demo-control><option value="" data-demo-placeholder data-text-en="Loading…" data-text-zh="正在加载…">Loading…</option></select></label>
 <button type="button" id="run" disabled data-demo-control><span data-l="en">Run the race</span><span data-l="zh">开始比赛</span></button>
 <button type="button" id="cancel" class="ghost" hidden disabled><span data-l="en">Cancel</span><span data-l="zh">取消</span></button>
+</div>
+<div id="demo-status" class="panel" role="status">
+<p data-demo-loading><span data-l="en">Loading the demo… If this takes too long, reload the page.</span><span data-l="zh">正在加载演示…如果等待过久，请重新加载页面。</span></p>
+<p data-demo-failed hidden><span data-l="en">The demo could not load. Reload the page to try again. Details:</span><span data-l="zh">演示加载失败。请重新加载页面重试。详细信息：</span> <code data-demo-error lang="en"></code></p>
+<a href="" id="demo-reload"><span data-l="en">Reload the page</span><span data-l="zh">重新加载页面</span></a>
+<noscript><p><span data-l="en">This demo needs JavaScript. You can still read the explanation and source links on this page.</span><span data-l="zh">此演示需要 JavaScript。你仍然可以阅读本页的说明及源代码链接。</span></p></noscript>
 </div>
 <p id="race-status" role="status" aria-live="polite"></p>
 <section class="race panel" id="race" data-demo-output></section>
