@@ -14,13 +14,13 @@ node --test leetcode/1143-longest-common-subsequence/solution.test.js
 
 ## Approaches, slowest first
 
-| File | Time | Space | What changes | 2 × 12 letters | 2 × 1,000 letters |
-| --- | --- | --- | --- | --- | --- |
-| [`brute-force.js`](brute-force.js) | O(2^(m + n)) | O(m + n) | Two 10-letter strings without a common letter take 369,511 calls. | 52 ms | – |
-| [`memoization.js`](memoization.js) | O(m · n) | O(m · n) | Remembers each pair of prefixes: the same strings take 201 calls. | 0.05 ms | 31 ms |
-| [`tabulation.js`](tabulation.js) | O(m · n) | O(m · n) | Fills the same answers row by row, without recursion. | 0.03 ms | 12 ms |
+| File | Time | Space | What changes | 2 × 12 letters | 2 × 200 letters | 2 × 1,000 letters |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`brute-force.js`](brute-force.js) | O(2^(m + n)) | O(m + n) | Two 10-letter strings without a common letter take 369,511 calls. | 15 ms | – | – |
+| [`memoization.js`](memoization.js) | O(m · n) | O(m · n) | Remembers each pair of prefixes: the same strings take 201 calls. | 0.02 ms | 0.71 ms | – |
+| [`tabulation.js`](tabulation.js) | O(m · n) | O(m · n) | Fills the same answers row by row, without recursion. | < 0.01 ms | 0.27 ms | 3.87 ms |
 
-The 12-letter strings share no letter, the worst case for brute force; the 1,000-letter ones are random. A dash means brute force was left out. Times: `npm run bench:leetcode` on 2026-09-30, Node 24.20.0, macOS 15.7 on an Apple silicon (arm64) Mac, the fastest of three runs. Compare the rows; the numbers themselves depend on the machine.
+The 12-letter strings share no letter, the worst case for brute force; the 200- and 1,000-letter ones are random. A dash means the approach was left out: brute force would take minutes, and memoization overflows Safari's worker stack on the 1,000-letter strings (see Limits). Times: `npm run bench:leetcode` on 2026-10-02, Node 24.20.0, macOS 15.7.7 on an Apple silicon (arm64) Mac, the fastest of three runs. Compare the rows; the numbers themselves depend on the machine.
 
 ## How it works
 
@@ -35,7 +35,7 @@ Unlike [718](../0718-maximum-length-of-repeated-subarray/), which asks for a com
 ## Limits
 
 - The answer is the length. Walking back through the table from its last cell would recover the subsequence itself.
-- The memoized recursion is up to m + n calls deep, 2,000 at LeetCode's limits. The Node tests still compare both efficient approaches on 1,000-letter inputs. Safari 26.6.1's worker overflowed its call stack on the race's 1,000-letter input ([CI evidence](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849), 2026-10-02). The shared race now compares memoization and tabulation on 200-letter strings, and leaves memoization out of the 1,000-letter input. The table above records the earlier Node measurements.
+- The memoized recursion is up to m + n calls deep, 2,000 at LeetCode's limits. Node handles that, and the tests compare memoization with the table on two 1,000-letter strings. Safari 26.6.1's worker overflowed its call stack there on 2026-10-02 ([CI run](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849)), so the race compares the two on 200 letters and memoization sits the 1,000-letter input out.
 
 ## Checks and credits
 

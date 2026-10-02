@@ -33,6 +33,8 @@ prefix function of "aabaaab":   0 1 0 1 2 2 3
 
 **Binary search** keeps a range `[lo, hi]` that must contain the target if the target is present, and halves it at every step: an array of a million items needs at most 20 comparisons. `lowerBound` answers "where would it go?", which is what you need when the target may be missing, for example to insert a value while keeping an array sorted.
 
+The JavaScript version computes the middle as `lo + Math.floor((hi - lo) / 2)`. A bitwise shift such as `>> 1` first truncates to a signed 32-bit integer, so it would give a negative middle once the index span reaches 2³¹; the test checks those indexes with a virtual sorted array, without allocating billions of values.
+
 **KMP** first computes the prefix function of the pattern: for every prefix, the length of the longest proper prefix that is also a suffix. For `"aabaaab"` that is `0 1 0 1 2 2 3`. When a character of the text does not match, the prefix function says how much of the pattern still matches the characters just read, so the search shifts the pattern and never moves backwards in the text. [LeetCode 28](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) asks exactly this question.
 
 ## Then and now
@@ -42,8 +44,6 @@ prefix function of "aabaaab":   0 1 0 1 2 2 3
 - **This folder's history.** The first binary search in this repository was a verbatim copy of `BinarySearch.java` from the textbook *Algorithms, 4th Edition* (GPL-3.0), together with the textbook's library jar. Both were removed from the history; the book and [its website](https://algs4.cs.princeton.edu/11model/) remain an excellent place to learn this. The KMP file was an empty function with example calls; it is now complete.
 
 ## Limits
-
-JavaScript uses `lo + Math.floor((hi - lo) / 2)`. A bitwise shift such as `>> 1` first truncates to a signed 32-bit integer and can produce a negative midpoint when the index span reaches 2³¹. The regression test uses a virtual sorted array with those indexes, without allocating billions of values.
 
 - Binary search needs input sorted by the same comparator it is given; on unsorted input the answer is meaningless.
 - When the target appears several times, `binarySearch` returns one of the positions, not necessarily the first; `lowerBound` gives the first.

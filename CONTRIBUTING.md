@@ -31,9 +31,9 @@ The site at [l-jovi.github.io/espresso-algorithm](https://l-jovi.github.io/espre
 
 Every page opens in English and has a button that switches it to Chinese in place; [`assets/language.js`](assets/language.js) does the switching. Write each piece of text twice, in a pair of elements marked `data-l="en"` and `data-l="zh"`, and keep the text a page script writes in its `en`/`zh` table. CI fails a page that shows any text in the other language.
 
-Interactive pages start with disabled controls and a static loading/reload message. [`assets/demo.js`](assets/demo.js) loads the page's `data-demo-module` and makes import failures visible. Keep page entries in `PAGE_SCRIPTS`; the build and repository checks follow their relative imports. A new race needs an explicit normalized `expected` answer in `races.js`.
+Interactive pages start with disabled controls and a loading message. [`assets/demo.js`](assets/demo.js) loads the module named in the page's `data-demo-module`; when it has loaded, it enables the controls marked `data-demo-control` and shows the panels marked `data-demo-output`, and when it has not, it shows the browser's error and a reload link. List the module in `PAGE_SCRIPTS`, which the repository checks follow through its relative imports. A new race needs an `expected` answer in `races.js`: what every approach must return for the race's small example, after the race's `answer` function, if it has one, has reduced the result to what can be compared.
 
-For a UI change, keep the page's self-test and add the relevant real-control case to [`scripts/test-page-interactions.mjs`](scripts/test-page-interactions.mjs). The [verification guide](docs/verification.md) lists the browser command, fault cases and desktop limitations. Run the checks against the built output; a page's self-test is not interaction acceptance.
+For a UI change, keep the page's self-test and add the relevant real-control case to [`scripts/test-page-interactions.mjs`](scripts/test-page-interactions.mjs). The [verification guide](docs/verification.md) lists the browser command, fault cases and desktop limitations. Run the checks against the built output; a page's self-test does not press its controls.
 
 ## Documentation
 

@@ -16,13 +16,13 @@ node --test leetcode/1143-longest-common-subsequence/solution.test.js
 
 ## 解法，从慢到快
 
-| 文件 | 时间 | 空间 | 变化在哪里 | 2 × 12 个字母 | 2 × 1,000 个字母 |
-| --- | --- | --- | --- | --- | --- |
-| [`brute-force.js`](brute-force.js) | O(2^(m + n)) | O(m + n) | 两个没有公共字母的 10 字母字符串要调用 369,511 次。 | 52 ms | – |
-| [`memoization.js`](memoization.js) | O(m · n) | O(m · n) | 记下每一对前缀的答案：同样的字符串只调用 201 次。 | 0.05 ms | 31 ms |
-| [`tabulation.js`](tabulation.js) | O(m · n) | O(m · n) | 逐行填写同样的答案，不用递归。 | 0.03 ms | 12 ms |
+| 文件 | 时间 | 空间 | 变化在哪里 | 2 × 12 个字母 | 2 × 200 个字母 | 2 × 1,000 个字母 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`brute-force.js`](brute-force.js) | O(2^(m + n)) | O(m + n) | 两个没有公共字母的 10 字母字符串要调用 369,511 次。 | 15 ms | – | – |
+| [`memoization.js`](memoization.js) | O(m · n) | O(m · n) | 记下每一对前缀的答案：同样的字符串只调用 201 次。 | 0.02 ms | 0.71 ms | – |
+| [`tabulation.js`](tabulation.js) | O(m · n) | O(m · n) | 逐行填写同样的答案，不用递归。 | < 0.01 ms | 0.27 ms | 3.87 ms |
 
-12 个字母的两个字符串没有公共字母，这是暴力解最坏的情况；1,000 个字母的是随机生成的。破折号表示暴力解没有参加。时间：2026-09-30 用 `npm run bench:leetcode` 测得，Node 24.20.0，macOS 15.7，Apple 芯片（arm64）的 Mac，取三次运行中最快的一次。请比较各行之间的差别；具体数字取决于机器。
+12 个字母的两个字符串没有公共字母，这是暴力解最坏的情况；200 和 1,000 个字母的是随机生成的。破折号表示该解法没有参加：暴力解要跑好几分钟，记忆化在 1,000 个字母上会让 Safari 的 Worker 调用栈溢出（见“刻意省略”）。时间：2026-10-02 用 `npm run bench:leetcode` 测得，Node 24.20.0，macOS 15.7.7，Apple 芯片（arm64）的 Mac，取三次运行中最快的一次。请比较各行之间的差别；具体数字取决于机器。
 
 ## 原理
 
@@ -37,7 +37,7 @@ node --test leetcode/1143-longest-common-subsequence/solution.test.js
 ## 刻意省略
 
 - 答案只是长度。从表格的最后一格往回走，就能还原出子序列本身。
-- 记忆化递归最深 m + n 层，在 LeetCode 的限制下是 2,000 层。Node 测试仍在 1,000 字母的输入上对照两种高效解法。Safari 26.6.1 的 Worker 在比赛的 1,000 字母输入上发生了调用栈溢出（[CI 记录](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849)，2026-10-02）。共用的比赛配置现用 200 字母的字符串对比记忆化和表格法，1,000 字母的一项不再运行记忆化。上表保留的是此前 Node 的测量结果。
+- 记忆化递归最深 m + n 层，在 LeetCode 的限制下是 2,000 层。Node 承受得住，测试也在两个 1,000 字母的字符串上对照记忆化和表格法。Safari 26.6.1 的 Worker 在 2026-10-02 于这一输入上发生了调用栈溢出（[CI 记录](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849)），所以比赛改在 200 个字母上对比两者，记忆化不参加 1,000 字母的一项。
 
 ## 验证与来源
 

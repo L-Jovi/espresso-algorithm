@@ -28,7 +28,7 @@ The visualizer is one of three pages of the site; the others race LeetCode solut
 
 ## How it works
 
-Controls become available when the demo has loaded. If loading fails, use the reload link. Restart returns the same numbers to their initial order; New numbers chooses another input. Both clear the previous completion announcement.
+Restart returns the same numbers to their initial order; New numbers chooses another input. Both clear the line that screen readers hear when a sort finishes, so an old announcement does not linger.
 
 A sort does not know it is being watched. It receives a [`Proxy`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) of the numbers, an object that stands in front of the array. Its `get` and `set` traps see each access by index, write it down, and pass it on unchanged; a counting comparator records the comparisons. Before you press Play, the page has already run the sort once this way. Playing replays the record: a read lights up a bar, and a write changes its height.
 
