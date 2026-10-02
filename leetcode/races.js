@@ -241,7 +241,9 @@ export const RACES = [
     approaches: { 'brute force': lcsBruteForce, memoization: lcsMemoization, tabulation: lcsTabulation },
     inputs: [
       { label: '2 × 12 letters', labelZh: '2 × 12 个字母', build: () => ['abcdefghijkl', 'mnopqrstuvwx'] },
-      { label: '2 × 1,000 letters', labelZh: '2 × 1,000 个字母', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force'] },
+      { label: '2 × 200 letters', labelZh: '2 × 200 个字母', build: () => [text(200, 'abcd', 1143), text(200, 'abcd', 11430)], slow: ['brute force'] },
+      // Safari's worker stack overflows in memoization on the larger input.
+      { label: '2 × 1,000 letters', labelZh: '2 × 1,000 个字母', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force', 'memoization'] },
     ],
     check: () => ['abcde', 'ace'],
     expected: 3,

@@ -35,7 +35,7 @@ Unlike [718](../0718-maximum-length-of-repeated-subarray/), which asks for a com
 ## Limits
 
 - The answer is the length. Walking back through the table from its last cell would recover the subsequence itself.
-- The memoized recursion is up to m + n calls deep, 2,000 at LeetCode's limits, which Node handles.
+- The memoized recursion is up to m + n calls deep, 2,000 at LeetCode's limits. The Node tests still compare both efficient approaches on 1,000-letter inputs. Safari 26.6.1's worker overflowed its call stack on the race's 1,000-letter input ([CI evidence](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849), 2026-10-02). The shared race now compares memoization and tabulation on 200-letter strings, and leaves memoization out of the 1,000-letter input. The table above records the earlier Node measurements.
 
 ## Checks and credits
 

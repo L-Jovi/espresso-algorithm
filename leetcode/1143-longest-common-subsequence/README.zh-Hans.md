@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-09-30。英文版更新后本页可能滞后。
+> 对应英文版：2026-10-02。英文版更新后本页可能滞后。
 
 两个字符串按相同顺序共有的最长字符序列：暴力解、记忆化和表格法。[力扣上的题目。](https://leetcode.cn/problems/longest-common-subsequence/)
 
@@ -37,7 +37,7 @@ node --test leetcode/1143-longest-common-subsequence/solution.test.js
 ## 刻意省略
 
 - 答案只是长度。从表格的最后一格往回走，就能还原出子序列本身。
-- 记忆化递归最深 m + n 层，在 LeetCode 的限制下是 2,000 层，Node 可以承受。
+- 记忆化递归最深 m + n 层，在 LeetCode 的限制下是 2,000 层。Node 测试仍在 1,000 字母的输入上对照两种高效解法。Safari 26.6.1 的 Worker 在比赛的 1,000 字母输入上发生了调用栈溢出（[CI 记录](https://github.com/L-Jovi/espresso-algorithm/actions/runs/36994200335/job/110797053849)，2026-10-02）。共用的比赛配置现用 200 字母的字符串对比记忆化和表格法，1,000 字母的一项不再运行记忆化。上表保留的是此前 Node 的测量结果。
 
 ## 验证与来源
 
