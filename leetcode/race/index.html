@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en" data-title-en="Race the solutions · Espresso Algorithm" data-title-zh="让解法比赛 · Espresso Algorithm">
+<html lang="en" data-demo-state="loading" data-title-en="Race the solutions · Espresso Algorithm" data-title-zh="让解法比赛 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<noscript><style>[data-demo-loading]{display:none}</style></noscript>
 <meta name="description" content="Race brute force against the optimal solution of fifteen LeetCode problems, live in your browser, with the same code the tests of espresso-algorithm check.">
 <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
 <title>Race the solutions · Espresso Algorithm</title>
@@ -37,10 +38,18 @@ td.ratio{width:9rem;color:var(--esp-muted);font-size:.85rem}
 <p class="lead" data-l="zh">十五道 LeetCode 题，每道都有几种解法。选一道，让它的各种解法在你的浏览器里、用同一份输入、以测试检查过的同一份代码比赛。</p>
 <div class="picker">
 <label><span data-l="en">Problem</span><span data-l="zh">题目</span>
-<select id="problem"></select></label>
-<button type="button" id="run"><span data-l="en">Run the race</span><span data-l="zh">开始比赛</span></button>
+<select id="problem" disabled data-demo-control><option value="" data-demo-placeholder data-text-en="Loading…" data-text-zh="正在加载…">Loading…</option></select></label>
+<button type="button" id="run" disabled data-demo-control><span data-l="en">Run the race</span><span data-l="zh">开始比赛</span></button>
+<button type="button" id="cancel" class="ghost" hidden disabled><span data-l="en">Cancel</span><span data-l="zh">取消</span></button>
 </div>
-<section class="race panel" id="race" aria-live="polite"></section>
+<div id="demo-status" class="panel" role="status">
+<p data-demo-loading><span data-l="en">Loading the demo… If this takes too long, reload the page.</span><span data-l="zh">正在加载演示…如果等待过久，请重新加载页面。</span></p>
+<p data-demo-failed hidden><span data-l="en">The demo could not load. Reload the page to try again. Details:</span><span data-l="zh">演示加载失败。请重新加载页面重试。详细信息：</span> <code data-demo-error lang="en"></code></p>
+<a href="" id="demo-reload"><span data-l="en">Reload the page</span><span data-l="zh">重新加载页面</span></a>
+<noscript><p><span data-l="en">This demo needs JavaScript. You can still read the explanation and source links on this page.</span><span data-l="zh">此演示需要 JavaScript。你仍然可以阅读本页的说明及源代码链接。</span></p></noscript>
+</div>
+<p id="race-status" role="status" aria-live="polite"></p>
+<section class="race panel" id="race" data-demo-output></section>
 <p class="note" data-l="en">Each time is per call, measured in a background thread of this page: the fastest of three runs for slow approaches, and the average of repeated calls for fast ones, because browsers round their clock. A dash means the approach sits this input out: it would take minutes or overflow the call stack. Your numbers depend on your device and change between runs; the large gaps between the rows stay. <code>npm run bench:leetcode</code> runs the same races in Node.</p>
 <p class="note" data-l="zh">每个时间都是单次调用的耗时，在这个页面的后台线程里测量：慢的解法取三次运行中最快的一次，快的解法取多次重复调用的平均值，因为浏览器会把时钟取整。破折号表示该解法不参加这一项：它要跑好几分钟，或者会让调用栈溢出。你测到的数字取决于你的设备，每次运行也会不同；但各行之间的大差距不会变。<code>npm run bench:leetcode</code> 在 Node 里跑同样的比赛。</p>
 </main>
@@ -48,6 +57,6 @@ td.ratio{width:9rem;color:var(--esp-muted);font-size:.85rem}
 <p data-l="en">Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
 <p data-l="zh">本页属于 <a href="../../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
-<script type="module" src="race.js"></script>
+<script src="../../assets/demo.js" data-demo-module="./race.js"></script>
 </body>
 </html>

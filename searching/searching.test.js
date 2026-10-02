@@ -5,6 +5,24 @@ import { binarySearch, lowerBound } from './binary-search/binary-search.js'
 import { prefixFunction, strStr } from './kmp/kmp.js'
 
 describe('binarySearch', () => {
+  it('keeps indexes above 2^31 positive without allocating a giant array', () => {
+    const length = 2 ** 31 + 1
+    const sorted = new Proxy(new Array(length), {
+      get: (array, key) => {
+        if (key === 'length') return length
+        const index = Number(key)
+        assert.ok(Number.isInteger(index) && index >= 0 && index < length, `invalid index: ${key}`)
+        return index
+      },
+    })
+    for (const target of [0, 2 ** 30, length - 1]) {
+      assert.equal(binarySearch(sorted, target), target)
+      assert.equal(lowerBound(sorted, target), target)
+    }
+    assert.equal(binarySearch(sorted, length), -1)
+    assert.equal(lowerBound(sorted, length), length)
+  })
+
   it('finds the example values', () => {
     const sorted = [10, 11, 12, 16, 18, 23, 29, 33, 48, 54, 57, 68, 77, 84, 98]
     assert.equal(binarySearch(sorted, 23), 5)

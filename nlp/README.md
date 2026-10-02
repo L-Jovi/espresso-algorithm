@@ -44,6 +44,8 @@ n is the length of the text and L the length of the longest word in the list. [`
 
 **Numbers.** Digits and Latin letters are split off before segmenting, so 2023 stays whole. A run of Chinese numerals such as 二零二三 becomes one extra candidate word, since no word list can hold every number; it is only a candidate, so a word such as 一直 (always) still wins where it fits.
 
+The hand-written segmenters keep each Unicode code point whole, including supplementary Han such as 𠮷 and 𠀀. Candidate positions remain UTF-16 offsets, as used by `String.slice`; the drawing maps both units of a supplementary character to one cell. Spaces are omitted. Empty or whitespace-only input clears the previous graph and shows a prompt to type or choose an example.
+
 ## Then and now
 
 - **The first version of this folder**, [`nlp/parse-text-demo`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8/nlp/parse-text-demo), called two libraries: `nodejieba`, a native Node module around [jieba](https://github.com/fxsjy/jieba), and Microsoft's Recognizers-Text, for numbers and dates. It implemented no algorithm, its dependencies were never installed, and its lockfile set off the repository's security alerts. This folder writes the algorithm out instead.
@@ -60,4 +62,5 @@ n is the length of the text and L the length of the longest word in the list. [`
 
 - [`segmentation.test.js`](word-segmentation/segmentation.test.js) checks the exact splits of both hand-written segmenters on every example sentence and where forward maximum matching goes wrong. It also checks that 圣女果 and 一直 stay whole. On random text it checks three things: the pieces join back together; the graph's split scores as high as the best of every possible split, on 500 random runs; and forward maximum matching never scores higher.
 - The graph and path come from [jieba](https://github.com/fxsjy/jieba) (MIT), whose README describes the same three steps. The code here is written from that description, not copied.
+- [Browser interaction checks](../scripts/test-page-interactions.mjs) type supplementary Han, emoji, spaces and empty text, select an example, and check the rendered words and graph. Keeping code points whole does not imply that a multi-code-point emoji is one word.
 - MIT license, like the rest of the repository.

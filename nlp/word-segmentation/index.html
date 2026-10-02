@@ -1,8 +1,9 @@
 <!doctype html>
-<html lang="en" data-title-en="Find the words · Espresso Algorithm" data-title-zh="找出中文里的词 · Espresso Algorithm">
+<html lang="en" data-demo-state="loading" data-title-en="Find the words · Espresso Algorithm" data-title-zh="找出中文里的词 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<noscript><style>[data-demo-loading]{display:none}</style></noscript>
 <meta name="description" content="Type a Chinese sentence and watch two hand-written segmenters and your browser's Intl.Segmenter decide where the words are.">
 <link rel="icon" href="../../assets/icon.svg" type="image/svg+xml">
 <title>Find the words · Espresso Algorithm</title>
@@ -32,9 +33,15 @@ textarea{display:block;width:100%;box-sizing:border-box;min-height:4.5rem;font-s
 <p class="lead" data-l="en">Chinese is written without spaces. Type a sentence and watch two hand-written segmenters, and the one built into your browser, decide where each word begins and ends.</p>
 <p class="lead" data-l="zh">中文书写时词与词之间没有空格。输入一句话，看两个手写的分词器，以及你的浏览器内置的分词器，如何判断每个词从哪里开始、到哪里结束。</p>
 <label for="text" class="muted"><span data-l="en">Sentence</span><span data-l="zh">句子</span></label>
-<textarea id="text" lang="zh-Hans" spellcheck="false"></textarea>
+<textarea id="text" lang="zh-Hans" spellcheck="false" disabled data-demo-control></textarea>
 <div class="examples" id="examples" role="group" aria-label="Example sentences" data-label-en="Example sentences" data-label-zh="例句"></div>
-<section class="panel">
+<div id="demo-status" class="panel" role="status">
+<p data-demo-loading><span data-l="en">Loading the demo… If this takes too long, reload the page.</span><span data-l="zh">正在加载演示…如果等待过久，请重新加载页面。</span></p>
+<p data-demo-failed hidden><span data-l="en">The demo could not load. Reload the page to try again. Details:</span><span data-l="zh">演示加载失败。请重新加载页面重试。详细信息：</span> <code data-demo-error lang="en"></code></p>
+<a href="" id="demo-reload"><span data-l="en">Reload the page</span><span data-l="zh">重新加载页面</span></a>
+<noscript><p><span data-l="en">This demo needs JavaScript. You can still read the explanation and source links on this page.</span><span data-l="zh">此演示需要 JavaScript。你仍然可以阅读本页的说明及源代码链接。</span></p></noscript>
+</div>
+<section class="panel" data-demo-output>
 <div class="rows" id="rows" aria-live="polite"></div>
 <div class="graph" id="graph"></div>
 <p class="legend" aria-hidden="true"><span><span class="swatch" style="border-color:var(--esp-line)"></span><span data-l="en">a word in the list</span><span data-l="zh">词表里的词</span></span><span><span class="swatch" style="border-color:var(--esp-done)"></span><span data-l="en">the most likely path (graph + DP)</span><span data-l="zh">最可能的路径（建图 + 动态规划）</span></span><span><span class="swatch" style="border-color:var(--esp-write);border-top-style:dashed"></span><span data-l="en">forward maximum matching</span><span data-l="zh">正向最大匹配</span></span></p>
@@ -47,6 +54,6 @@ textarea{display:block;width:100%;box-sizing:border-box;min-height:4.5rem;font-s
 <p data-l="en">Part of <a href="../../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
 <p data-l="zh">本页属于 <a href="../../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
-<script type="module" src="page.js"></script>
+<script src="../../assets/demo.js" data-demo-module="./page.js"></script>
 </body>
 </html>

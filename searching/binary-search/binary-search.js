@@ -6,8 +6,8 @@
  * to its right; if larger, only to its left. Each step halves the range, so an
  * array of a million items needs at most 20 steps.
  *
- * The middle is computed as lo + ((hi - lo) >> 1) rather than (lo + hi) / 2:
- * in languages with fixed-size integers, such as Java, lo + hi can overflow.
+ * Take half the distance with Math.floor, not a bitwise shift: JavaScript
+ * bitwise operators truncate indexes to signed 32-bit integers.
  *
  * `lowerBound` answers a slightly different question, useful when the target
  * may be missing: the first position whose item is not smaller than the
@@ -29,7 +29,7 @@ export function binarySearch(sorted, target, compare = ascending) {
   let lo = 0
   let hi = sorted.length - 1
   while (lo <= hi) {
-    const mid = lo + ((hi - lo) >> 1)
+    const mid = lo + Math.floor((hi - lo) / 2)
     const order = compare(sorted[mid], target)
     if (order < 0) lo = mid + 1
     else if (order > 0) hi = mid - 1
@@ -49,7 +49,7 @@ export function lowerBound(sorted, target, compare = ascending) {
   let lo = 0
   let hi = sorted.length // the answer is in [lo, hi]
   while (lo < hi) {
-    const mid = lo + ((hi - lo) >> 1)
+    const mid = lo + Math.floor((hi - lo) / 2)
     if (compare(sorted[mid], target) < 0) lo = mid + 1
     else hi = mid
   }

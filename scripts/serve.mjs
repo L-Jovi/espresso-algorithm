@@ -26,12 +26,12 @@ export function serve(folder = '.', port = 8080) {
       return
     }
     try {
-      const { pathname } = new URL(request.url, 'http://localhost')
+      const { pathname, search } = new URL(request.url, 'http://localhost')
       let path = resolve(root, `.${decodeURIComponent(pathname)}`)
       if (path !== root && !path.startsWith(root + sep)) throw new Error('outside the folder')
       if ((await stat(path)).isDirectory()) {
         if (!pathname.endsWith('/')) {
-          response.writeHead(301, { location: `${pathname}/` }).end()
+          response.writeHead(301, { location: `${pathname}/${search}` }).end()
           return
         }
         path = join(path, 'index.html')

@@ -6,8 +6,8 @@
  * Each input builds fresh arguments on every call, sized so that the
  * slowest approach still finishes in about a second; `slow` lists the
  * approaches that sit out an input because they would take minutes or
- * overflow the call stack. `check` builds LeetCode's example, on which
- * every approach must give the same answer, compared through `answer`
+ * overflow the call stack. `check` builds a small example, on which
+ * every approach must match `expected`, normalized through `answer`
  * where the result is a list, a tree or one of several right answers.
  * `fresh` marks races whose approaches change their input, so the input
  * cannot be reused between calls. `titleZh`, `labelZh` and
@@ -106,6 +106,7 @@ export const RACES = [
     approaches: { 'brute force': twoSumBruteForce, 'hash map': twoSumHashMap },
     inputs: [{ label: '10,000 numbers', labelZh: '10,000 个数', build: () => [[...randomIntegers(9_998, { min: 0, max: 1e6, seed: 1 }), -1, -2], -3] }],
     check: () => [[2, 7, 11, 15], 9],
+    expected: [0, 1],
   },
   {
     id: '0004-median-of-two-sorted-arrays',
@@ -114,6 +115,7 @@ export const RACES = [
     approaches: { merge: medianMerge, 'binary search': medianBinarySearch },
     inputs: [{ label: '2 × 1,000,000 numbers', labelZh: '2 × 1,000,000 个数', build: () => [sorted(1e6, 41), sorted(1e6, 42)] }],
     check: () => [[1, 3], [2]],
+    expected: 2,
   },
   {
     id: '0005-longest-palindromic-substring',
@@ -122,6 +124,7 @@ export const RACES = [
     approaches: { tabulation: palindromeTable, 'expand around center': palindromeExpand },
     inputs: [{ label: '2,000 letters', labelZh: '2,000 个字母', build: () => [text(2_000, 'ab', 5)] }],
     check: () => ['babad'],
+    expected: 3,
     answer: palindrome => palindrome.length, // "bab" and "aba" are both right
   },
   {
@@ -131,6 +134,7 @@ export const RACES = [
     approaches: { 'brute force': mergeBruteForce, 'divide and conquer': mergeDivideAndConquer },
     inputs: [{ label: '1,000 lists × 100 nodes', labelZh: '1,000 个链表 × 100 个结点', build: () => [Array.from({ length: 1_000 }, (_, i) => arrayToList(sorted(100, 230 + i)))] }],
     check: () => [[[1, 4, 5], [1, 3, 4], [2, 6]].map(arrayToList)],
+    expected: [1, 1, 2, 3, 4, 4, 5, 6],
     answer: listToArray,
     fresh: true,
   },
@@ -141,6 +145,7 @@ export const RACES = [
     approaches: { splice: dedupeSplice, 'two pointers': dedupeTwoPointers },
     inputs: [{ label: '20,000 equal numbers', labelZh: '20,000 个相同的数', build: () => [new Array(20_000).fill(7)] }],
     check: () => [[0, 0, 1, 1, 1, 2, 2, 3, 3, 4]],
+    expected: 5,
     fresh: true,
   },
   {
@@ -150,6 +155,7 @@ export const RACES = [
     approaches: { 'brute force': searchBruteForce, kmp: searchKmp },
     inputs: [{ label: '"a…ab" in "a…ab"', labelZh: '在 "a…ab" 里找 "a…ab"', build: () => ['a'.repeat(50_000) + 'b', 'a'.repeat(1_000) + 'b'] }],
     check: () => ['sadbutsad', 'sad'],
+    expected: 0,
   },
   {
     id: '0053-maximum-subarray',
@@ -161,6 +167,7 @@ export const RACES = [
       { label: '1,000,000 numbers', labelZh: '1,000,000 个数', build: () => [randomIntegers(1e6, { seed: 530 })], slow: ['brute force'] },
     ],
     check: () => [[-2, 1, -3, 4, -1, 2, 1, -5, 4]],
+    expected: 6,
   },
   {
     id: '0116-populating-next-right-pointers-in-each-node',
@@ -169,6 +176,7 @@ export const RACES = [
     approaches: { 'pre-order': connectPreOrder, iteration: connectIteration },
     inputs: [{ label: '65,535 nodes', labelZh: '65,535 个结点', build: () => [perfectTree(16)] }],
     check: () => [perfectTree(3)],
+    expected: '0,#,0,0,#,0,0,0,0,#',
     answer: readByNext,
     fresh: true,
   },
@@ -182,6 +190,7 @@ export const RACES = [
       { label: '1,000,000 days', labelZh: '1,000,000 天', build: () => [randomIntegers(1e6, { min: 0, max: 1e4, seed: 1210 })], slow: ['brute force'] },
     ],
     check: () => [[7, 1, 5, 3, 6, 4]],
+    expected: 5,
   },
   {
     id: '0256-paint-house',
@@ -193,6 +202,7 @@ export const RACES = [
       { label: '10,000 houses', labelZh: '10,000 栋房子', build: () => [houses(10_000, 2560)], slow: ['brute force', 'memoization'] },
     ],
     check: () => [[[17, 2, 17], [16, 16, 5], [14, 3, 19]]],
+    expected: 10,
   },
   {
     id: '0322-coin-change',
@@ -204,6 +214,7 @@ export const RACES = [
       { label: 'amount 10,000', labelZh: '金额 10,000', build: () => [[1, 2, 5], 10_000], slow: ['brute force', 'memoization'] },
     ],
     check: () => [[1, 2, 5], 11],
+    expected: 3,
   },
   {
     id: '0509-fibonacci-number',
@@ -212,6 +223,7 @@ export const RACES = [
     approaches: { recursion: fibRecursion, memoization: fibMemoization, tabulation: fibTabulation, 'space-optimized': fibSpaceOptimized, 'fast doubling': fibFastDoubling },
     inputs: [{ label: 'n = 32', labelZh: 'n = 32', build: () => [32] }],
     check: () => [20],
+    expected: 6765,
   },
   {
     id: '0752-open-the-lock',
@@ -220,6 +232,7 @@ export const RACES = [
     approaches: { bfs: lockBfs, 'bidirectional bfs': lockBidirectional },
     inputs: [{ label: '"8888", 8 dead ends', labelZh: '"8888"，8 个死亡数字', build: () => [['0001', '0010', '0100', '1000', '9999', '8889', '8898', '8988'], '8888'] }],
     check: () => [['0201', '0101', '0102', '1212', '2002'], '0202'],
+    expected: 6,
   },
   {
     id: '1143-longest-common-subsequence',
@@ -228,9 +241,12 @@ export const RACES = [
     approaches: { 'brute force': lcsBruteForce, memoization: lcsMemoization, tabulation: lcsTabulation },
     inputs: [
       { label: '2 × 12 letters', labelZh: '2 × 12 个字母', build: () => ['abcdefghijkl', 'mnopqrstuvwx'] },
-      { label: '2 × 1,000 letters', labelZh: '2 × 1,000 个字母', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force'] },
+      { label: '2 × 200 letters', labelZh: '2 × 200 个字母', build: () => [text(200, 'abcd', 1143), text(200, 'abcd', 11430)], slow: ['brute force'] },
+      // Safari's worker stack overflows in memoization on the larger input.
+      { label: '2 × 1,000 letters', labelZh: '2 × 1,000 个字母', build: () => [text(1_000, 'abcd', 1143), text(1_000, 'abcd', 11430)], slow: ['brute force', 'memoization'] },
     ],
     check: () => ['abcde', 'ace'],
+    expected: 3,
   },
   {
     id: '1221-split-a-string-in-balanced-strings',
@@ -239,5 +255,17 @@ export const RACES = [
     approaches: { 'regex window': splitRegex, 'balance counter': splitCounter },
     inputs: [{ label: '20,000 letters, one piece', labelZh: '20,000 个字母，只能切成一段', build: () => ['L'.repeat(10_000) + 'R'.repeat(10_000)] }],
     check: () => ['RLRRLLRLRL'],
+    expected: 4,
   },
 ]
+
+// This is an example check, not a proof for every input. In particular,
+// normalization can intentionally discard detail, such as which palindrome.
+export function checkRace(race) {
+  const answers = Object.values(race.approaches).map(solve => (race.answer ?? (x => x))(solve(...race.check())))
+  return {
+    passed: answers.length > 0 && answers.every(answer => JSON.stringify(answer) === JSON.stringify(race.expected)),
+    answer: answers[0],
+    expected: race.expected,
+  }
+}

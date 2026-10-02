@@ -2,7 +2,7 @@
 
 [English](README.md) | 简体中文
 
-> 对应英文版：2026-10-01。英文版更新后本页可能滞后。
+> 对应英文版：2026-10-02。英文版更新后本页可能滞后。
 
 看 [`sorting/`](../sorting/) 里的十二种排序处理同一组数，一次读或写一步地进行，还能让两种排序并排比赛。
 
@@ -30,6 +30,8 @@ node --test visualizer/visualizer.test.js
 
 ## 原理
 
+“重新开始”把同一组数恢复到初始顺序，“换一组数”生成另一组输入。两者都会清除排序完成时读屏软件会读出的那行文字，不让旧的播报留下来。
+
 排序并不知道自己正被观察。它拿到的是这组数的 [`Proxy`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)，一个挡在数组前面的对象。它的 `get` 和 `set` 拦截器看到每一次按下标的访问，记下来，再原样转交；一个会计数的比较函数则记下每一次比较。在你按下 Play 之前，页面已经用这种方式把排序运行过一遍。播放就是回放这份记录：读一次，一根柱子亮起；写一次，柱子的高度改变。
 
 让两种排序比赛时，两者每秒走同样多的步数，所以需要操作更少的那个先完成。一步就是一次读、一次写或一次比较。
@@ -51,4 +53,5 @@ node --test visualizer/visualizer.test.js
 
 - [`visualizer.test.js`](visualizer.test.js) 检查 `trace` 按下标记录读和写，并检查十二种排序中的每一种在 300 组随机输入上，只回放写操作就能重建出排好序的数组。
 - CI 会在 Chrome、Firefox 和 Safari 中用 `?selftest` 打开这个页面，由页面在浏览器里对四种初始顺序回放全部十二种排序。
+- 单独的[交互检查](../scripts/test-page-interactions.mjs)会实际操作播放、暂停、单步、重新开始、输入控件和语言切换，并检查加载失败后的恢复。
 - 感谢 norahiko 的 sort-visualize（MIT）提供了这个想法。与仓库其余部分一样，采用 MIT 许可证。

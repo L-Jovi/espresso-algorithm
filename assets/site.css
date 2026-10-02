@@ -213,6 +213,11 @@
   display: none !important;
 }
 
+/* Empty result panels have no meaning until their demo has initialized. */
+:root:not([data-demo-state='ready']) [data-demo-output] {
+  display: none;
+}
+
 /* The page frame and the top bar are unlayered, so no page reset can move
  * them; a page's own body rules still win, because they come later. */
 body {

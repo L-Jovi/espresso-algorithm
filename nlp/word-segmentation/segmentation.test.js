@@ -2,7 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { createRandom } from '../../shared/random.js'
 import { dagDp } from './dag-dp.js'
-import { candidateEnds, FREQUENCIES, frequency, TOTAL } from './dictionary.js'
+import { candidateEnds, characterOffsets, FREQUENCIES, frequency, TOTAL } from './dictionary.js'
 import { forwardMaxMatch } from './forward-max-match.js'
 import { intlSegment } from './intl-segmenter.js'
 import { AMBIGUOUS, SENTENCES } from './sentences.js'
@@ -53,6 +53,19 @@ describe('forward maximum matching', () => {
 describe('both hand-written segmenters', () => {
   const segmenters = { 'forward maximum matching': forwardMaxMatch, 'graph + dynamic programming': dagDp }
 
+  it('keeps supplementary Han and emoji whole, and accepts empty or spaced text', () => {
+    for (const sentence of ['', '   ', '𠮷野家', '𠀀你好', '你好👋世界', '𠮷 𠀀 ABC 2023 👨‍👩‍👧‍👦']) {
+      for (const segment of [...Object.values(segmenters), intlSegment]) {
+        const words = segment(sentence)
+        assert.equal(words.join(''), withoutSpaces(sentence))
+        assert.ok(words.every(word => word.isWellFormed()), sentence)
+      }
+    }
+    assert.deepEqual(characterOffsets('𠮷野家'), [0, 2, 3, 4])
+    assert.deepEqual(candidateEnds('𠮷野家', 0), [2])
+    assert.deepEqual(dagDp('𠀀你好'), ['𠀀', '你', '好'])
+  })
+
   it('keep 圣女果 whole, the word the first version added to jieba by hand', () => {
     for (const segment of Object.values(segmenters)) assert.ok(segment(SENTENCES[9]).includes('圣女果'))
   })
@@ -81,7 +94,7 @@ function bestScoreOfAllSplits(text, start = 0) {
 const score = words => words.reduce((sum, word) => sum + Math.log(frequency(word)) - Math.log(TOTAL), 0)
 
 it('the graph finds the most likely split, checked against every split of 500 random runs', () => {
-  const characters = [...new Set([...FREQUENCIES.keys()].join(''))]
+  const characters = [...new Set([...FREQUENCIES.keys(), '𠮷𠀀'].join(''))]
   const next = createRandom(2027)
   for (let round = 0; round < 500; round++) {
     const text = Array.from({ length: 1 + Math.floor(next() * 8) }, () => characters[Math.floor(next() * characters.length)]).join('')

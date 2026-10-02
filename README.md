@@ -16,7 +16,7 @@ Every algorithm here is a small file you can read in one sitting, next to the ot
 | Highlight | In short |
 | --- | --- |
 | **Watch the sorts** | Twelve sorts replay every read and write the real code makes, captured with a `Proxy`. Race two on the same numbers. |
-| **Race the solutions** | Fifteen LeetCode problems race their approaches in your browser, after a check that every approach gives LeetCode's answer. |
+| **Race the solutions** | Fifteen LeetCode problems race their approaches in your browser, after a check that every approach gives the expected answer to a small example. |
 | **Sixty LeetCode problems** | One file per approach. Each folder's test runs every approach on the same cases, then against a slow but plainly correct reference on random inputs. |
 | **From brute force to optimal** | `fib(35)` takes 29,860,703 calls by plain recursion and 69 with memoization; coin change, paint house and the longest common subsequence take the same steps. |
 | **Reading Chinese** | Forward maximum matching and jieba's graph with dynamic programming, written out and compared with your browser's `Intl.Segmenter`. |

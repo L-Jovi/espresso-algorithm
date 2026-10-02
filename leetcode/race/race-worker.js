@@ -1,6 +1,6 @@
 // Times the approaches of a race away from the page's main thread, so the
 // page stays responsive while brute force takes its time.
-import { RACES } from '../races.js'
+import { checkRace, RACES } from '../races.js'
 
 const byId = new Map(RACES.map(race => [race.id, race]))
 
@@ -30,15 +30,17 @@ function timePerCall(race, solve, build) {
 
 onmessage = ({ data }) => {
   const race = byId.get(data.race)
+  const reply = message => postMessage({ ...message, runId: data.runId, requestId: data.requestId })
   try {
-    if (data.type === 'check') {
-      const answers = Object.values(race.approaches).map(solve => (race.answer ?? (x => x))(solve(...race.check())))
-      postMessage({ type: 'check', race: race.id, agree: answers.every(answer => JSON.stringify(answer) === JSON.stringify(answers[0])), answer: answers[0] })
-    } else {
+    if (data.type === 'init') {
+      reply({ type: 'ready' })
+    } else if (data.type === 'check') {
+      reply({ type: 'check', race: race.id, ...checkRace(race) })
+    } else if (data.type === 'time') {
       const input = race.inputs[data.input]
-      postMessage({ type: 'time', race: race.id, input: data.input, approach: data.approach, ms: timePerCall(race, race.approaches[data.approach], input.build) })
-    }
+      reply({ type: 'time', race: race.id, input: data.input, approach: data.approach, ms: timePerCall(race, race.approaches[data.approach], input.build) })
+    } else throw new Error('Unknown request')
   } catch (error) {
-    postMessage({ type: 'error', race: race?.id, approach: data.approach, message: String(error?.message ?? error) })
+    reply({ type: 'error', race: race?.id, approach: data.approach, message: String(error?.message ?? error) })
   }
 }
