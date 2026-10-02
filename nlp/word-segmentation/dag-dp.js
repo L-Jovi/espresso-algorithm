@@ -23,7 +23,7 @@
  * that are not in its dictionary, which this file leaves out.
  */
 
-import { candidateEnds, frequency, splitScripts, TOTAL } from './dictionary.js'
+import { candidateEnds, characterOffsets, frequency, splitScripts, TOTAL } from './dictionary.js'
 import { AMBIGUOUS } from './sentences.js'
 
 export function dagDp(sentence) {
@@ -40,7 +40,7 @@ function bestSplit(text) {
   const best = new Array(text.length + 1).fill(-Infinity)
   const next = new Array(text.length) // where the best word starting at i ends
   best[text.length] = 0
-  for (let i = text.length - 1; i >= 0; i--) {
+  for (const i of characterOffsets(text).slice(0, -1).reverse()) {
     for (const j of candidateEnds(text, i)) {
       const score = Math.log(frequency(text.slice(i, j))) - logTotal + best[j]
       if (score > best[i]) {

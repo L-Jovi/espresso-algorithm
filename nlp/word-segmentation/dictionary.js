@@ -36,16 +36,25 @@ const MAX_WORD_LENGTH = Math.max(...[...FREQUENCIES.keys()].map(word => word.len
 export const NUMBER_FREQUENCY = 1000
 const NUMERAL = /[零〇一二两三四五六七八九十百千万]/
 
+/** Code-point boundaries expressed as UTF-16 offsets, like String.slice. */
+export function characterOffsets(text) {
+  const offsets = [0]
+  for (const character of text) offsets.push(offsets.at(-1) + character.length)
+  return offsets
+}
+
 /**
  * The end positions (exclusive) of every candidate word that starts at
  * `start` in a run of Chinese characters, shortest first: the single
  * character, which is always allowed so that unknown characters still
  * form a word, every dictionary word found there, and the run of numerals
- * starting there.
+ * starting there. Positions are UTF-16 offsets; start must be a code-point
+ * boundary, and no candidate splits a surrogate pair.
  */
 export function candidateEnds(text, start) {
-  const ends = new Set([start + 1])
-  for (let end = start + 2; end <= Math.min(text.length, start + MAX_WORD_LENGTH); end++) {
+  const firstEnd = start + (text.codePointAt(start) > 0xffff ? 2 : 1)
+  const ends = new Set([firstEnd])
+  for (let end = firstEnd; end <= Math.min(text.length, start + MAX_WORD_LENGTH); end += text.codePointAt(end) > 0xffff ? 2 : 1) {
     if (FREQUENCIES.has(text.slice(start, end))) ends.add(end)
   }
   let numeralsEnd = start

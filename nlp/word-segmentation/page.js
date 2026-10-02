@@ -1,7 +1,7 @@
 // The page script of the segmentation demo: it segments the sentence three
 // ways and draws the graph of candidate words with the two chosen paths.
 import { dagDp } from './dag-dp.js'
-import { candidateEnds, splitScripts } from './dictionary.js'
+import { candidateEnds, characterOffsets, splitScripts } from './dictionary.js'
 import { forwardMaxMatch } from './forward-max-match.js'
 import { intlSegment } from './intl-segmenter.js'
 import { AMBIGUOUS, SENTENCES } from './sentences.js'
@@ -16,10 +16,12 @@ const TEXT = {
   en: {
     rows: [['Forward maximum matching', 'the longest known word first'], ['Graph + dynamic programming', 'the most likely split'], ['Your browser', 'Intl.Segmenter']],
     graph: 'The candidate words of the sentence, with the paths that the two hand-written segmenters chose',
+    empty: 'Type a sentence or choose an example below the input.',
   },
   zh: {
     rows: [['正向最大匹配', '先取已知的最长词'], ['建图 + 动态规划', '最可能的切分'], ['你的浏览器', 'Intl.Segmenter']],
     graph: '这句话的候选词，以及两个手写的分词器选择的路径',
+    empty: '输入一句话，或选择输入框下方的例句。',
   },
 }
 const text = () => TEXT[document.documentElement.dataset.language === 'zh' ? 'zh' : 'en']
@@ -69,25 +71,23 @@ function drawGraph(sentence, best, greedy) {
   const pieces = splitScripts(sentence)
   const cell = 42
   const cells = []
+  const cellAt = []
   let x = 12
   for (const { text: pieceText, han } of pieces) {
     if (han) {
       for (const char of pieceText) {
+        for (let i = 0; i < char.length; i++) cellAt.push(cells.length)
         cells.push({ char, x, width: cell })
         x += cell
       }
     } else {
       const width = Math.max(cell, 14 * pieceText.length + 16)
+      for (let i = 0; i < pieceText.length; i++) cellAt.push(cells.length)
       cells.push({ char: pieceText, x, width })
       x += width
     }
   }
-  // A cell index for every character position of `text`.
-  const cellAt = []
-  pieces.forEach(({ text: pieceText, han }) => {
-    const first = cellAt.length === 0 ? 0 : cellAt.at(-1) + 1
-    for (let i = 0; i < pieceText.length; i++) cellAt.push(han ? first + i : first)
-  })
+  // Both UTF-16 units of an astral character point at the same drawn cell.
   const left = position => cells[cellAt[position]].x
   const right = position => cells[cellAt[position - 1]].x + cells[cellAt[position - 1]].width
   const style = getComputedStyle(document.documentElement)
@@ -105,8 +105,8 @@ function drawGraph(sentence, best, greedy) {
   let offset = 0
   for (const { text: pieceText, han } of pieces) {
     if (han) {
-      for (let i = 0; i < pieceText.length; i++) {
-        for (const end of candidateEnds(pieceText, i)) if (end - i > 1) arc(offset + i, offset + end, true, color('--esp-line'), 2)
+      for (const i of characterOffsets(pieceText).slice(0, -1)) {
+        for (const end of candidateEnds(pieceText, i)) if ([...pieceText.slice(i, end)].length > 1) arc(offset + i, offset + end, true, color('--esp-line'), 2)
       }
     }
     offset += pieceText.length
@@ -134,6 +134,11 @@ function update() {
     row(...builtInRow, wordList(builtIn, best)),
   )
   $('graph').replaceChildren(sentence ? drawGraph(sentence, best, greedy) : '')
+  if (!sentence) {
+    const prompt = document.createElement('p')
+    prompt.textContent = text().empty
+    $('rows').replaceChildren(prompt)
+  }
   // The address keeps the sentence, next to any other setting such as lang.
   const url = new URL(location.href)
   url.searchParams.set('text', sentence)
@@ -145,6 +150,8 @@ for (const sentence of [...AMBIGUOUS, ...SENTENCES]) {
   button.type = 'button'
   button.className = 'ghost'
   button.lang = 'zh-Hans'
+  button.dataset.demoControl = ''
+  button.disabled = true
   button.textContent = sentence
   button.addEventListener('click', () => {
     $('text').value = sentence
@@ -152,7 +159,7 @@ for (const sentence of [...AMBIGUOUS, ...SENTENCES]) {
   })
   $('examples').append(button)
 }
-$('text').value = params.get('text') || AMBIGUOUS[0]
+$('text').value = params.get('text') ?? AMBIGUOUS[0]
 $('text').addEventListener('input', update)
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', update)
 document.addEventListener('languagechange', update)

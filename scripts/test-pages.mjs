@@ -9,6 +9,7 @@
 // use, and writes "pass" or its first failure into <html data-selftest>.
 // Every page must then show only the language asked for, and only the other
 // one after a press of its language switch. Exits with 1 on any failure.
+import { testInteractions } from './test-page-interactions.mjs'
 
 export const PAGES = ['', 'visualizer/', 'leetcode/race/', 'nlp/word-segmentation/']
 export const SELF_TESTED = ['visualizer/', 'leetcode/race/', 'nlp/word-segmentation/']
@@ -76,10 +77,65 @@ async function webdriver(driver, method, path, body) {
   return value
 }
 
-async function testPages(browser, driver, site) {
+export async function testPages(browser, driver, site) {
   const failures = []
-  const { sessionId } = await webdriver(driver, 'POST', 'session', { capabilities: { alwaysMatch: CAPABILITIES[browser] } })
+  const { sessionId, capabilities } = await webdriver(driver, 'POST', 'session', { capabilities: { alwaysMatch: CAPABILITIES[browser] } })
+  console.log(`${browser.padEnd(8)} version: ${capabilities.browserVersion}`)
   const run = (script, ...args) => webdriver(driver, 'POST', `session/${sessionId}/execute/sync`, { script, args })
+  const command = (path, body) => webdriver(driver, 'POST', `session/${sessionId}/${path}`, body)
+  const element = async selector => (await command('element', { using: 'css selector', value: selector }))['element-6066-11e4-a52e-4f735466cecf']
+  const click = async selector => command(`element/${await element(selector)}/click`, {})
+  const keys = async text => {
+    await command('actions', { actions: [{ type: 'key', id: 'keyboard', actions: [...text].flatMap(value => [{ type: 'keyDown', value }, { type: 'keyUp', value }]) }] })
+  }
+  let frameSize = null
+  const controls = {
+    run, click,
+    goto: async url => {
+      if (!frameSize) return command('url', { url })
+      // Desktop drivers clamp small windows to 500 px. A test-only parent
+      // gives the unchanged page an exact CSS viewport in every browser.
+      await command('frame', { id: null })
+      await command('url', { url: site })
+      const frame = await command('execute/async', {
+        script: `const [url, width, height, done] = arguments
+          const frame = document.createElement('iframe')
+          frame.width = width
+          frame.height = height
+          frame.style.border = '0'
+          frame.onload = () => done(frame)
+          frame.src = url
+          document.body.replaceChildren(frame)`,
+        args: [url, frameSize.width, frameSize.height],
+      })
+      await command('frame', { id: frame })
+      const loaded = new URL(await run('return location.href'))
+      const expected = new URL(url)
+      if (loaded.origin !== expected.origin || loaded.pathname !== expected.pathname) throw new Error(`The viewport frame did not load ${url}`)
+    },
+    viewport: async (width, height) => {
+      frameSize = { width, height }
+      await command('frame', { id: null })
+      await command('window/rect', { width: Math.max(800, width + 40), height: height + 100 })
+    },
+    key: async (selector, value) => command(`element/${await element(selector)}/value`, { text: value }),
+    type: async (selector, text) => {
+      const id = await element(selector)
+      await command(`element/${id}/clear`, {})
+      await click(selector)
+      // A space followed by Backspace also emits input for an empty value.
+      await keys(text || ' ')
+      if (!text) await keys('\uE003')
+    },
+    wait: async (expression, timeout = 15_000) => {
+      const deadline = Date.now() + timeout
+      while (Date.now() < deadline) {
+        if (await run(`return Boolean(${expression})`)) return
+        await new Promise(resolve => setTimeout(resolve, 100))
+      }
+      throw new Error(`Timed out: ${expression}`)
+    },
+  }
   try {
     for (const page of PAGES) {
       for (const [language, other] of [['en', 'zh'], ['zh', 'en']]) {
@@ -96,11 +152,16 @@ async function testPages(browser, driver, site) {
           if (result !== 'pass') failures.push(`${name}: self-test ${result ?? 'gave no answer within 90 s'}`)
         }
         const before = await run(`return (${wrongLanguage})(arguments[0])`, language)
-        await run(`document.querySelector('[data-language-switch]').click()`)
+        await click('[data-language-switch]')
         const after = await run(`return (${wrongLanguage})(arguments[0])`, other)
         console.log(`${name}  only ${language}: ${before.length === 0 ? 'yes' : 'no'}, only ${other} after the switch: ${after.length === 0 ? 'yes' : 'no'}`)
         failures.push(...before.map(problem => `${name}: ${problem}`), ...after.map(problem => `${name} → ${other}: ${problem}`))
       }
+    }
+    try {
+      await testInteractions(controls, site, message => console.log(`${browser.padEnd(8)} ${message}`))
+    } catch (error) {
+      failures.push(`${browser}: ${error.stack}`)
     }
   } finally {
     await webdriver(driver, 'DELETE', `session/${sessionId}`)
@@ -110,6 +171,7 @@ async function testPages(browser, driver, site) {
 
 if (import.meta.main) {
   const [site, ...drivers] = process.argv.slice(2)
+  if (!site || drivers.length === 0) throw new Error('Usage: node scripts/test-pages.mjs <site URL> <browser>=<WebDriver URL> ...')
   const failures = await checkLinks(site)
   console.log(`links    ${PAGES.length} pages checked, ${failures.length} broken`)
   for (const pair of drivers) {

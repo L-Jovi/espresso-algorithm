@@ -17,6 +17,7 @@ export const PROGRAMS = ['leetcode/bench.js', 'nlp/word-segmentation/compare.js'
  * module they import can load in a browser.
  */
 export const PAGE_SCRIPTS = [
+  'assets/demo.js',
   'leetcode/race/race-worker.js',
   'leetcode/race/race.js',
   'nlp/word-segmentation/page.js',

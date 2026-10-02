@@ -1,15 +1,19 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { existsSync } from 'node:fs'
-import { APPROACH_NAMES_ZH, RACES } from './races.js'
+import { APPROACH_NAMES_ZH, checkRace, RACES } from './races.js'
 
 describe('the races of the bench and the race page', () => {
   for (const race of RACES) {
-    it(`${race.title}: every approach gives the same answer to LeetCode's example`, () => {
-      const answers = Object.values(race.approaches).map(solve => (race.answer ?? (x => x))(solve(...race.check())))
-      for (const answer of answers) assert.deepEqual(answer, answers[0])
+    it(`${race.title}: every approach matches the expected example answer`, () => {
+      assert.equal(checkRace(race).passed, true)
     })
   }
+
+  it('rejects agreement on a wrong answer', () => {
+    const race = { check: () => [], approaches: { first: () => 3, second: () => 3 }, expected: 4 }
+    assert.equal(checkRace(race).passed, false)
+  })
 
   it('have Chinese text for the race page: titles, inputs and every approach', () => {
     const han = /\p{Script=Han}/u

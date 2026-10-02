@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-title-en="Watch the sorts · Espresso Algorithm" data-title-zh="看排序如何进行 · Espresso Algorithm">
+<html lang="en" data-demo-state="loading" data-title-en="Watch the sorts · Espresso Algorithm" data-title-zh="看排序如何进行 · Espresso Algorithm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,31 +31,37 @@
 <p class="lead" data-l="en">Twelve sorts from <code>sorting/</code> rearrange the same numbers, replayed one step at a time. Every bar that moves is a write the real code made.</p>
 <p class="lead" data-l="zh"><code>sorting/</code> 里的十二种排序处理同一组数，一步一步回放。柱子的每一次变化，都是真实代码做的一次写入。</p>
 
+<div id="demo-status" class="panel" role="status">
+<p data-demo-loading><span data-l="en">Loading the demo… If this takes too long, reload the page.</span><span data-l="zh">正在加载演示…如果等待过久，请重新加载页面。</span></p>
+<p data-demo-failed hidden><span data-l="en">The demo could not load. Check your connection and reload to try again.</span><span data-l="zh">演示加载失败。请检查网络连接，然后重新加载重试。</span></p>
+<a href="" id="demo-reload"><span data-l="en">Reload the page</span><span data-l="zh">重新加载页面</span></a>
+<noscript><style>[data-demo-loading]{display:none}</style><p><span data-l="en">This demo needs JavaScript. You can still read the explanation and source links on this page.</span><span data-l="zh">此演示需要 JavaScript。你仍然可以阅读本页的说明及源代码链接。</span></p></noscript>
+</div>
 <form class="controls" id="controls" onsubmit="return false">
 <label><span data-l="en">Sort</span><span data-l="zh">排序</span>
-<select id="sort"></select></label>
+<select id="sort" disabled data-demo-control><option value="" data-demo-placeholder data-text-en="Loading…" data-text-zh="正在加载…">Loading…</option></select></label>
 <label><span data-l="en">Race against</span><span data-l="zh">比赛对手</span>
-<select id="rival"><option value="" data-text-en="nothing" data-text-zh="无">nothing</option></select></label>
+<select id="rival" disabled data-demo-control><option value="" data-text-en="nothing" data-text-zh="无">nothing</option></select></label>
 <label><span data-l="en">Start from</span><span data-l="zh">初始顺序</span>
-<select id="shape">
+<select id="shape" disabled data-demo-control>
 <option value="random" data-text-en="random order" data-text-zh="随机顺序">random order</option>
 <option value="nearly" data-text-en="nearly sorted" data-text-zh="基本有序">nearly sorted</option>
 <option value="reversed" data-text-en="reversed" data-text-zh="倒序">reversed</option>
 <option value="few" data-text-en="only four different values" data-text-zh="只有四种不同的值">only four different values</option>
 </select></label>
 <label><span data-l="en">Numbers</span><span data-l="zh">数的个数</span>
-<span class="range"><input id="size" type="range" min="8" max="128" step="8" value="48"><output id="size-out" for="size">48</output></span></label>
+<span class="range"><input id="size" type="range" min="8" max="128" step="8" value="48" disabled data-demo-control><output id="size-out" for="size">48</output></span></label>
 <label><span data-l="en">Speed, steps per second</span><span data-l="zh">速度（每秒步数）</span>
-<span class="range"><input id="speed" type="range" min="0" max="100" value="55"><output id="speed-out" for="speed"></output></span></label>
+<span class="range"><input id="speed" type="range" min="0" max="100" value="55" disabled data-demo-control><output id="speed-out" for="speed"></output></span></label>
 </form>
 <div class="buttons">
-<button type="button" id="play" aria-pressed="false"><span data-l="en">Play</span><span data-l="zh">播放</span></button>
-<button type="button" id="step" class="ghost"><span data-l="en">Step</span><span data-l="zh">单步</span></button>
-<button type="button" id="restart" class="ghost"><span data-l="en">Restart</span><span data-l="zh">重新开始</span></button>
-<button type="button" id="shuffle" class="ghost"><span data-l="en">New numbers</span><span data-l="zh">换一组数</span></button>
+<button type="button" id="play" aria-pressed="false" disabled data-demo-control><span data-l="en">Play</span><span data-l="zh">播放</span></button>
+<button type="button" id="step" class="ghost" disabled data-demo-control><span data-l="en">Step</span><span data-l="zh">单步</span></button>
+<button type="button" id="restart" class="ghost" disabled data-demo-control><span data-l="en">Restart</span><span data-l="zh">重新开始</span></button>
+<button type="button" id="shuffle" class="ghost" disabled data-demo-control><span data-l="en">New numbers</span><span data-l="zh">换一组数</span></button>
 </div>
 
-<div class="stage" id="stage"></div>
+<div class="stage" id="stage" data-demo-output></div>
 <p class="legend" aria-hidden="true"><span><span class="swatch" style="background:var(--esp-read)"></span><span data-l="en">read</span><span data-l="zh">读</span></span><span><span class="swatch" style="background:var(--esp-write)"></span><span data-l="en">write</span><span data-l="zh">写</span></span><span><span class="swatch" style="background:var(--esp-done)"></span><span data-l="en">sorted</span><span data-l="zh">已排好</span></span></p>
 <p class="sr-only" id="status" aria-live="polite"></p>
 
@@ -69,6 +75,6 @@
 <p data-l="en">Part of <a href="../">Espresso Algorithm</a>: try different algorithms for the same problem, from brute force to optimal. MIT licensed.</p>
 <p data-l="zh">本页属于 <a href="../">Espresso Algorithm</a>：同一道题，试试不同的算法，从暴力解一路走到最优解。采用 MIT 许可证。</p>
 </footer>
-<script type="module" src="visualizer.js"></script>
+<script src="../assets/demo.js" data-demo-module="./visualizer.js"></script>
 </body>
 </html>

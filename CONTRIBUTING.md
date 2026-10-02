@@ -31,6 +31,10 @@ The site at [l-jovi.github.io/espresso-algorithm](https://l-jovi.github.io/espre
 
 Every page opens in English and has a button that switches it to Chinese in place; [`assets/language.js`](assets/language.js) does the switching. Write each piece of text twice, in a pair of elements marked `data-l="en"` and `data-l="zh"`, and keep the text a page script writes in its `en`/`zh` table. CI fails a page that shows any text in the other language.
 
+Interactive pages start with disabled controls and a static loading/reload message. [`assets/demo.js`](assets/demo.js) loads the page's `data-demo-module` and makes import failures visible. Keep page entries in `PAGE_SCRIPTS`; the build and repository checks follow their relative imports. A new race needs an explicit normalized `expected` answer in `races.js`.
+
+For a UI change, keep the page's self-test and add the relevant real-control case to [`scripts/test-page-interactions.mjs`](scripts/test-page-interactions.mjs). The [verification guide](docs/verification.md) lists the browser command, fault cases and desktop limitations. Run the checks against the built output; a page's self-test is not interaction acceptance.
+
 ## Documentation
 
 Each folder has an English `README.md` and a Simplified Chinese `README.zh-Hans.md`. Change both in the same pull request and update the date on the mirror's sync line. The [writing guide](docs/writing.md) describes the structure and the words to avoid.

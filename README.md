@@ -16,7 +16,7 @@ Every algorithm here is a small file you can read in one sitting, next to the ot
 | Highlight | In short |
 | --- | --- |
 | **Watch the sorts** | Twelve sorts replay every read and write the real code makes, captured with a `Proxy`. Race two on the same numbers. |
-| **Race the solutions** | Fifteen LeetCode problems race their approaches in your browser, after a check that every approach gives LeetCode's answer. |
+| **Race the solutions** | Fifteen LeetCode problems race their approaches in your browser, after each normalized example result matches an explicit expected answer. |
 | **Sixty LeetCode problems** | One file per approach. Each folder's test runs every approach on the same cases, then against a slow but plainly correct reference on random inputs. |
 | **From brute force to optimal** | `fib(35)` takes 29,860,703 calls by plain recursion and 69 with memoization; coin change, paint house and the longest common subsequence take the same steps. |
 | **Reading Chinese** | Forward maximum matching and jieba's graph with dynamic programming, written out and compared with your browser's `Intl.Segmenter`. |
@@ -27,6 +27,8 @@ The collection also holds data structures from a stack to a trie, binary search 
 ## Try it
 
 **In your browser:** open the [live site](https://l-jovi.github.io/espresso-algorithm/): [watch the sorts](https://l-jovi.github.io/espresso-algorithm/visualizer/), [race the solutions](https://l-jovi.github.io/espresso-algorithm/leetcode/race/) or [find the words](https://l-jovi.github.io/espresso-algorithm/nlp/word-segmentation/) in a Chinese sentence.
+
+The demos show their loading state and offer a reload link if loading fails. A running race can be cancelled; choosing another problem stops the old run. A calculation that takes more than 30 seconds stops with a retry message.
 
 **On your computer:**
 

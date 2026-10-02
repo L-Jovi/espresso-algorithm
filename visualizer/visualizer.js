@@ -6,6 +6,7 @@ import { SORTS } from './sorts.js'
 import { replay, trace } from './trace.js'
 
 const $ = id => document.getElementById(id)
+$('sort').replaceChildren()
 const params = new URLSearchParams(location.search)
 const byId = new Map(SORTS.map(entry => [entry.id, entry]))
 
@@ -135,6 +136,7 @@ function render() {
 
 function rebuild() {
   stop()
+  $('status').textContent = ''
   const n = Number($('size').value)
   $('size-out').value = n
   const values = SHAPES[$('shape').value](n, createRandom(seed))
@@ -188,6 +190,7 @@ function stop() {
 
 function restart() {
   stop()
+  $('status').textContent = ''
   for (const panel of panels) Object.assign(panel, { values: [...panel.start], at: 0, reads: 0, writes: 0, compares: 0, lastRead: -1, lastWrite: -1 })
   render()
 }
@@ -220,7 +223,8 @@ if (SHAPES[params.get('shape')]) $('shape').value = params.get('shape')
 if (Number(params.get('n')) >= 8 && Number(params.get('n')) <= 128) $('size').value = params.get('n')
 $('speed-out').value = format(stepsPerSecond())
 
-for (const id of ['sort', 'rival', 'shape', 'size']) $(id).addEventListener('input', rebuild)
+for (const id of ['sort', 'rival', 'shape']) $(id).addEventListener('change', rebuild)
+$('size').addEventListener('input', rebuild)
 $('speed').addEventListener('input', () => { $('speed-out').value = format(stepsPerSecond()) })
 $('play').addEventListener('click', () => (playing ? stop() : play()))
 $('step').addEventListener('click', () => {

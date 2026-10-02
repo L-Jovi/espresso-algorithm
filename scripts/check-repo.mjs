@@ -113,7 +113,10 @@ while (toLoad.length > 0) {
 
 // The local links and assets of the site's pages point at files that exist.
 for (const file of files.filter(file => file.endsWith('.html') && !isLegacy(file))) {
-  for (const [, target] of readFileSync(file, 'utf8').matchAll(/\b(?:href|src)="([^"#?]+)/g)) {
+  for (const [, target] of readFileSync(file, 'utf8').matchAll(/\bdata-demo-module="([^"]+)"/g)) {
+    if (!PAGE_SCRIPTS.includes(normalize(join(dirname(file), target)))) report(file, `demo module ${target} is missing from PAGE_SCRIPTS`)
+  }
+  for (const [, target] of readFileSync(file, 'utf8').matchAll(/\b(?:href|src|data-demo-module)="([^"#?]+)/g)) {
     if (/^[a-z]+:/i.test(target)) continue
     const path = normalize(join(dirname(file), target))
     if (!tracked.has(target.endsWith('/') ? join(path, 'index.html') : path)) report(file, `links to ${target}, which does not exist`)

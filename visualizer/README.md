@@ -28,6 +28,8 @@ The visualizer is one of three pages of the site; the others race LeetCode solut
 
 ## How it works
 
+Controls become available when the demo has loaded. If loading fails, use the reload link. Restart returns the same numbers to their initial order; New numbers chooses another input. Both clear the previous completion announcement.
+
 A sort does not know it is being watched. It receives a [`Proxy`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) of the numbers, an object that stands in front of the array. Its `get` and `set` traps see each access by index, write it down, and pass it on unchanged; a counting comparator records the comparisons. Before you press Play, the page has already run the sort once this way. Playing replays the record: a read lights up a bar, and a write changes its height.
 
 Racing two sorts gives both the same number of steps per second, so the one that needs fewer operations wins. A step is one read, one write or one comparison.
@@ -49,4 +51,5 @@ Only sorts that rearrange the array they are given can be traced. The copying me
 
 - [`visualizer.test.js`](visualizer.test.js) checks that `trace` records reads and writes by index, and that for every one of the twelve sorts, replaying the writes rebuilds the sorted array on 300 random inputs.
 - CI opens the page with `?selftest` in Chrome, Firefox and Safari, where it replays all twelve sorts on all four starting orders in the browser itself.
+- The separate [interaction checks](../scripts/test-page-interactions.mjs) operate Play, Pause, Step, Restart, the input controls and the language switch, and check loading failure and recovery.
 - Thanks to norahiko's sort-visualize (MIT) for the idea. MIT license, like the rest of the repository.

@@ -43,6 +43,8 @@ prefix function of "aabaaab":   0 1 0 1 2 2 3
 
 ## Limits
 
+JavaScript uses `lo + Math.floor((hi - lo) / 2)`. A bitwise shift such as `>> 1` first truncates to a signed 32-bit integer and can produce a negative midpoint when the index span reaches 2³¹. The regression test uses a virtual sorted array with those indexes, without allocating billions of values.
+
 - Binary search needs input sorted by the same comparator it is given; on unsorted input the answer is meaningless.
 - When the target appears several times, `binarySearch` returns one of the positions, not necessarily the first; `lowerBound` gives the first.
 - KMP compares UTF-16 code units, like `indexOf`, not user-perceived characters.
