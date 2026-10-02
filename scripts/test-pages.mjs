@@ -8,7 +8,9 @@
 // with ?selftest. Such a page checks itself with the same modules the tests
 // use, and writes "pass" or its first failure into <html data-selftest>.
 // Every page must then show only the language asked for, and only the other
-// one after a press of its language switch. Exits with 1 on any failure.
+// one after a press of its language switch. Real clicks and keys then operate
+// each demo, with failures injected by a test-only proxy
+// (test-page-interactions.mjs). Exits with 1 on any failure.
 import { testInteractions } from './test-page-interactions.mjs'
 
 export const PAGES = ['', 'visualizer/', 'leetcode/race/', 'nlp/word-segmentation/']
@@ -114,9 +116,10 @@ export async function testPages(browser, driver, site) {
       if (loaded.origin !== expected.origin || loaded.pathname !== expected.pathname) throw new Error(`The viewport frame did not load ${url}`)
     },
     viewport: async (width, height) => {
-      frameSize = { width, height }
+      // Without a size, the following pages load at the top level again.
+      frameSize = width === undefined ? null : { width, height }
       await command('frame', { id: null })
-      await command('window/rect', { width: Math.max(800, width + 40), height: height + 100 })
+      await command('window/rect', { width: Math.max(800, (width ?? 1280) + 40), height: (height ?? 900) + 100 })
     },
     key: async (selector, value) => command(`element/${await element(selector)}/value`, { text: value }),
     type: async (selector, text) => {

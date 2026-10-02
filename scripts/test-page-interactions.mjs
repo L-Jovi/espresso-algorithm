@@ -161,7 +161,7 @@ export async function testInteractions(browser, site, log) {
       }
     }
   }
-  await viewport(1280, 900)
+  await viewport()
   log('layout: both languages at 320, 375 and 1280; all 9 learning-path race links visible')
 
   const fixture = await siteFixture(site)
@@ -199,6 +199,21 @@ export async function testInteractions(browser, site, log) {
       await currentIs(FIB)
     }
     log('worker: loading error, runtime error, real 30-second timeout and retry recovery')
+
+    // One approach throws on the timed input: its row says so and shows the
+    // browser's message, while the other approaches are still timed.
+    fixture.faults.set('leetcode/0509-fibonacci-number/recursion.js', { body: 'export function fib(n) { if (n > 25) throw new RangeError("Maximum call stack size exceeded"); return n < 2 ? n : fib(n - 1) + fib(n - 2) }' })
+    await goto(new URL(`${RACE}?lang=en&problem=${FIB}`, fixture.url).href)
+    await ready()
+    await click('#run')
+    await state('complete')
+    const rows = await run("return [...document.querySelectorAll('#race tbody tr')].map(row => [...row.children].map(cell => cell.textContent))")
+    assert.equal(rows.length, 5, JSON.stringify(rows))
+    assert.equal(rows[0][1], 'failed', JSON.stringify(rows))
+    assert.match(rows[0][2], /Maximum call stack/)
+    assert.equal(rows.slice(1).every(cells => /[0-9µ]/.test(cells[1])), true, JSON.stringify(rows))
+    fixture.faults.clear()
+    log('worker: a throwing approach is shown in its row while the others are timed')
   } finally {
     await fixture.close()
   }
