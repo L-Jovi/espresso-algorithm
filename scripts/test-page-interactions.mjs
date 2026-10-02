@@ -15,7 +15,11 @@ export async function testInteractions(browser, site, log) {
   const choose = (id, value) => click(`#${id} option[value="${value}"]`)
   const state = async expected => {
     await wait(`['${expected}', 'failed'].includes(document.querySelector('#race').dataset.state)`, expected === 'complete' || expected === 'failed' ? 90_000 : 15_000)
-    assert.equal(await run("return document.querySelector('#race').dataset.state"), expected, await run("return document.querySelector('#race-status').textContent"))
+    assert.equal(await run("return document.querySelector('#race').dataset.state"), expected, await run(`return [
+      document.querySelector('#problem').value,
+      document.querySelector('#race-status').textContent,
+      document.querySelector('#race').innerText
+    ].join(' / ')`))
   }
   const currentIs = async id => assert.equal(await run(`return document.querySelector('#problem').value === arguments[0] &&
     document.querySelector('#race').dataset.problem === arguments[0] &&
