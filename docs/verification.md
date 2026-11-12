@@ -4,16 +4,20 @@ For maintainers and reviewers: what `npm run check` and CI run, what each check 
 
 ## The checks
 
-| Check | Command | What it proves |
-| --- | --- | --- |
-| JavaScript tests | `npm test` | Every `*.test.js` passes on Node 22.18.0, 22, 24 and 26. The runner fails if no test ran. |
-| Python tests | `npm run test:python` | Every `test_*.py` passes on Python 3.11 and 3.14. Files are loaded by path, because `unittest discover` skips folders with hyphens and would report success after running nothing; the runner fails if a file holds no tests. |
-| Java checks | `npm run test:java` | Every `.java` file runs with `java File.java` on JDK 21 and 25, and its `main` checks its own answers. |
-| Repository checks | `npm run check:repo` | Links in Markdown and in the site's HTML resolve; every English README has a Chinese mirror with a sync date; both LeetCode indexes list every problem folder; the README's first paragraph equals `package.json`'s description; every module is imported by a test; the site's scripts use only relative imports, with the exact case of each file name, and no `node:` modules; no file contains a home directory path. |
-| Page self-tests | `scripts/test-pages.mjs` in CI | The built `_site/` answers 200 for local links and assets. Each demo's `?selftest` checks its algorithms and drawing in Chrome and Firefox (Ubuntu) and Safari (macOS). These self-tests alone do not exercise the controls. |
-| Browser interactions | The same script, through W3C WebDriver | Real clicks and key input exercise races, cancellation, switching problems and languages, sort playback and input changes, and text segmentation. A test-only HTTP proxy injects module failures, worker failures, a stalled worker and an approach that throws, then checks recovery. Both languages are checked at 320, 375 and 1280 pixels, including the nine learning-path race links. |
+Run `npm run check` from the repository root to run four checks in order using your installed runtimes. A failure stops the sequence. A local pass covers those versions. On pull requests and pushes to `main`, continuous integration (CI) also repeats the language checks across the versions below and exercises the built site in browsers.
 
-`npm run check` runs the first four in a row. CI runs everything on every pull request and every push to `main`, and the single required check, `verify`, passes only when every job did.
+| Local command | What a successful run tells you | Versions in CI |
+| --- | --- | --- |
+| `npm test` | Node ran the discovered `*.test.js` files and their assertions passed. The runner fails if no test ran. | Node 22.18.0, 22, 24 and 26 |
+| `npm run test:python` | The runner loaded each `test_*.py` by path and its tests passed. Loading by path reaches hyphenated folders that `unittest discover` can skip. A file with zero tests fails the run. | Python 3.11 and 3.14 |
+| `npm run test:java` | The runner found Java source files in the algorithm sections and ran each with `java File.java`. Each program checks its own answers in `main`. An empty file list fails the run. | JDK 21 and 25 |
+| `npm run check:repo` | The repository checks described below passed against files in the checkout. | Node 24 |
+
+The repository check resolves local Markdown and HTML **file paths**. It skips external URLs and does not check Markdown heading fragments. It also checks the English/Chinese document pairs and sync lines, both LeetCode indexes, and the root README introduction against the package description. In the algorithm sections, JavaScript modules must be reachable from a test through imports. Standalone example programs and browser entry points are checked separately. Browser modules use relative imports whose letter case matches the files. The checker also scans supported text files for absolute home paths.
+
+The browser jobs serve the built `_site/` and request local links and assets, expecting HTTP 200. They open each demo with `?selftest` to check its algorithms and drawing. Separate W3C WebDriver cases use real clicks and key input to exercise races, cancellation, problem and language changes, sort playback and text segmentation. A test-only HTTP proxy injects module and worker failures, a stalled worker and an approach that throws. The cases cover both languages at 320, 375 and 1280 CSS pixels, including the nine learning-path race links.
+
+CI runs these browser checks in Chrome and Firefox on Ubuntu and Safari on macOS. The required `verify` job depends on the JavaScript, Python, Java, repository and two browser jobs. Deployment on `main` is a later job.
 
 Every page is opened in both languages and switched in place. A text check flags Chinese outside elements marked as Chinese data on the English page, and three English words in a row outside code on the Chinese page. This detects mixed-language output, not translation quality.
 
