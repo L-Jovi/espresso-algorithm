@@ -1,5 +1,7 @@
 # Then and now
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](then-and-now.zh-Hans.md)
 
 The code here was first written between 2018 and 2022. This page follows what has changed since then in the languages, the tools and the sites the solutions came from, and why the older versions are still worth reading. Each section README has a short "Then and now" of its own; this is the whole story in one place.

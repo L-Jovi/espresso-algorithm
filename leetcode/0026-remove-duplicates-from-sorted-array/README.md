@@ -1,5 +1,7 @@
 # 26. Remove Duplicates from Sorted Array
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](README.zh-Hans.md)
 
 Keep each value of a sorted array once, in place: first by deleting the repeats, then by copying the kept values forward. [The problem on LeetCode.](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)

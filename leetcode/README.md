@@ -1,5 +1,7 @@
 # LeetCode solutions
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](README.zh-Hans.md)
 
 Sixty LeetCode problems, each in its own folder with one file per approach, and one test file that checks every approach against the others.

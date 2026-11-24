@@ -55,7 +55,7 @@ The Chinese mirror uses 试一试, 里面有什么, 原理, 过去与现在, 刻
 7. **Only give numbers you have measured**, such as call counts, timings or test counts. Say how they were measured, and update them when the code changes.
 8. **Link an official source** for history and version claims: release notes, MDN, the language's own documentation or blog.
 9. **Keep code in English and formatted as code**: commands, file names, APIs and identifiers.
-10. **Chinese mirrors carry the same facts in natural Chinese**, add nothing new, and start with the sync line `> 对应英文版：YYYY-MM-DD。英文版更新后本页可能滞后。`
+10. **Chinese mirrors carry the same facts in natural Chinese**, add nothing new, and start with the sync line `> 对应英文版：YYYY-MM-DD（Asia/Singapore，UTC+08:00）。英文版更新后本页可能滞后。`
 
 ## Rules for algorithm code
 

@@ -1,5 +1,7 @@
 # 256. Paint House
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](README.zh-Hans.md)
 
 Paint a row of houses in three colors at the lowest cost, with no two neighbors alike: brute force, memoization and tabulation of one recursion. [The problem on LeetCode](https://leetcode.com/problems/paint-house/) is Premium, but the code here runs without a subscription.

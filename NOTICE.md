@@ -1,5 +1,7 @@
 # Notices
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 The [MIT license](LICENSE) covers the code and documentation written for this repository.
 
 No file in the repository comes from elsewhere at the moment.

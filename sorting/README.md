@@ -1,5 +1,7 @@
 # Sorting
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](README.zh-Hans.md)
 
 Fourteen ways to put numbers in order, from bubble sort to radix sort, all checked against the built-in sort on the same inputs.

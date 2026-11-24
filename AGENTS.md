@@ -51,3 +51,14 @@ CI tests the built site in Chrome, Firefox and Safari with `scripts/test-pages.m
 
 - Branches named `archive/*` are local-only records; never push them.
 - Do not add dependencies, generated files, credentials or third-party code without its license notice (`NOTICE.md`).
+
+## Document dates and language
+
+Keep an existing document's language and declared timezone. New calendar dates
+must have an explicit `date_timezone` or a clear local scope; preserve day-only
+precision instead of inventing midnight. Precise timestamps need a UTC offset
+or `Z`. The team's UTC+08:00 region name is `Asia/Singapore`; a new document may
+use another explicit suitable zone. Conversation or host timezone changes do
+not migrate documents or existing schedules. Preserve source-specific dates,
+native schemas and sealed bytes; record legacy interpretations outside an
+immutable artifact.
