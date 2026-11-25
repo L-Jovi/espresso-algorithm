@@ -1,5 +1,7 @@
 # What the checks cover, and what they don't
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 For maintainers and reviewers: what `npm run check` and CI run, what each check proves, and where their reach ends. Readers who only want to run the code need the [README](../README.md).
 
 ## The checks

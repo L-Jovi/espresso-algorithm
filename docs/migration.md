@@ -1,5 +1,7 @@
 # Where did it go?
 
+> Date convention: unqualified dates and local times in this document's own records use `Asia/Singapore` (SGT, UTC+08:00). Explicit source zones and timestamp offsets take precedence; a date alone does not establish a clock time.
+
 English | [简体中文](migration.zh-Hans.md)
 
 In September 2026 this repository was reorganized from a folder of scripts into a set of tested, documented sections. This page maps every old path to its new home. Links to old files point at [`c063830`](https://github.com/L-Jovi/espresso-algorithm/tree/c0638300307449152cd9262b9156aa1177103bb8), the last commit before the reorganization.
