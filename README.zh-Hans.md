@@ -78,7 +78,7 @@ npm run serve                                      # 站点，位于 http://127.
 
 浓缩咖啡是大多数咖啡的起点：拿铁和卡布奇诺都是加了奶的浓缩咖啡。在作者以咖啡命名的几个仓库里，算法扮演的正是这个角色：其余一切赖以建立的、小而浓缩的核心。
 
-这个系列的其他仓库：[latte-web](https://github.com/L-Jovi/latte-web)（Web，最日常的调配）、[roaster-linux](https://github.com/L-Jovi/roaster-linux)（Linux 工具，烘焙咖啡豆的地方）、[barista-services](https://github.com/L-Jovi/barista-services)（服务，咖啡师）和 cappuccino-ios（iOS 应用，比拿铁更轻；2026 年已退役）。
+这个系列的其他仓库：[latte-web](https://github.com/L-Jovi/latte-web)（Web，最日常的调配）、[roaster-linux](https://github.com/L-Jovi/roaster-linux)（Linux 工具，烘焙咖啡豆的地方）、barista-services（服务，咖啡师；2026 年已退役）和 cappuccino-ios（iOS 应用，比拿铁更轻；2026 年已退役）。
 
 ## 项目状态
 
